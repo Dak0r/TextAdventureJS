@@ -1,0 +1,73 @@
+{
+  "general": {
+    "title": "Textbased Template",
+    "author": "Daniel Korgel",
+    "version": "0.1",
+    "request": "<br />What do you do?",
+    "start_room": "bedroom"
+  },
+  "actions": {
+    "pickup": {
+      "name": "pickup",
+      "failed": "Sorry you can't see that.",
+      "words": [
+        "pick",
+        "lift",
+        "take",
+        "get"
+      ]
+    }
+  },
+  "objects": {
+    "template_object": {
+      "currentState": "default",
+      "words": [
+        "desk",
+        "desktop",
+        "workingplace"
+      ],
+      "states": {
+        "default": {
+          "name": "PILLOW",
+          "actions": {
+            "pickup": {
+              "text": "okay got it",
+              "inventory": "add template_object"
+            },
+            "look": {
+              "text": "soft and comfy"
+            }
+          },
+          "useableObjects": {
+            "bedroom_desk": {
+              "text": "soft and comfy"
+            },
+            "test": {
+              "text": "works"
+            }
+          }
+        }
+      }
+    }
+  },
+  "locations": {
+    "bedroom": {
+      "currentState": "default",
+      "states": {
+        "default": {
+          "title": "A default room",
+          "text": "A monotone room with black and white checkered wallpaper.",
+          "exits": [
+            {
+              "names": [
+                "room"
+              ],
+              "gotoId": "bedroom"
+            }
+          ],
+          "objects": []
+        }
+      }
+    }
+  }
+}

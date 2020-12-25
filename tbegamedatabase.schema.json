@@ -1,0 +1,176 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/product.schema.json",
+  "title": "TBAE Gamedatabase",
+  "description": "A game database for the text based adventure engine",
+  "definitions": {
+    "action_definition": {
+      "description": "Defines what happens if an action is used (with this object / in this location)",
+      "type": "object",
+      "required": ["text", "inventory", "action"],
+      "properties": {
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "inventory": { "type": "string" },
+        "action": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "type": "object",
+  "properties": {
+    "general": {
+      "description": "General Information about this tbe database",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "request": {
+          "type": "string"
+        },
+        "start": {
+          "$ref": "#/definitions/action_definition"
+        }
+      },
+      "required": ["title", "author", "version", "request", "start"]
+    },
+    "ignored_words" : {
+      "description": "Words that will be ignored when parsing an user input. This prevent that they get interpreted as verbs or objects (Note: Thus objects and names can't have this as on of their 'words')",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "actions": {
+      "description": "List of actions that are available throughout the game",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "failed", "words"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "failed": {
+            "type": "string"
+          },
+          "words": {
+            "description": "Alternative words that the player may use",
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "objects": {
+      "description": "List of objecs that are available throughout the game",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["currentState", "states"],
+        "properties": {
+          "currentState": {
+            "type": "string"
+          },
+          "states": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": [
+                "name",
+                "words",
+                "locationDescription",
+                "actions",
+                "useableObjects"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "words": {
+                  "description": "Alternative words that the player may use",
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "locationDescription": {
+                  "type": "string"
+                },
+                "actions": {
+                  "description": "List of possible actions for this object",
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/definitions/action_definition"
+                  }
+                },
+                "useableObjects": {
+                  "description": "List of possible combinations",
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/definitions/action_definition"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "locations": {
+      "description": "List of locations that are available throughout the game",
+      "type": "object",
+      "additionalProperties": {
+        "minProperties": 1,
+        "type": "object",
+        "required": ["name", "objects"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "objects": {
+            "description": "List of objects in this location",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    }
+  },
+  "required": ["general", "ignored_words", "actions", "objects", "locations"]
+}

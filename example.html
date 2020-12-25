@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="textAdventure.js"></script>
+        <script  type="application/javascript">
+            $( document ).ready(function() {
+                
+                var textAdv = new textAdventureEngine(witeLine, clearArea);
+                textAdv.loadDatabaseFromPath("./lonesurvivor.tbegamedatabase.json");
+
+                function witeLine(output){
+                    
+                    output = output.replace(/<br ?\/?>/g, "\n");
+                    
+                    //$("#outputArea").append(output); 
+                    $("#outputArea").val($("#outputArea").val()+output+"\n"); 
+                    $("#inputButton").prop("disabled",false);
+                    $("#inputText").prop('readonly', false);
+        
+                }
+                function clearArea(){
+                   $("#outputArea").val("");         
+                }
+
+                function userInput(){
+                    $("#inputButton").prop("disabled",true);
+                    $("#inputText").prop('readonly', true);
+
+                    textAdv.input($("#inputText").val());
+                    $("#inputText").val("");
+        
+                }
+                $("#inputButton").click(function(){
+                    userInput();
+                });
+                
+                
+                //FOR OLD BROWSERS
+                /*if (typeof Object.keys !== "function") {
+                    (function() {
+                        Object.keys = Object_keys;
+                        function Object_keys(obj) {
+                            var keys = [], name;
+                            for (name in obj) {
+                                if (obj.hasOwnProperty(name)) {
+                                    keys.push(name);
+                                }
+                            }
+                            return keys;
+                        }
+                    })();
+                }*/
+    
+                console.log( "ready!" );
+
+            });
+        </script>
+    </head>
+    <body>
+        <textarea id="outputArea" readonly="readonly" style="width: 600px; height: 400px;">Loading</textarea> <br />
+        <input id="inputText" type="text"  style="width: 500px;"/><input id="inputButton" type="button" value="Send"/>
+    </body>
+</html>
