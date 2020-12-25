@@ -1,3 +1,8 @@
+/*
+ * Note: As of 25th of December 2020 private fields are not yet universally supported:
+ * --> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields
+ * Because of this, this class uses an "internal_"-prefix for fields that shold actually be private.
+*/
 class textAdventureEngine {
 	
 	TBA_DEBUG = false;
