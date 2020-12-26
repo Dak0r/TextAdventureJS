@@ -166,21 +166,21 @@ class textAdventureEngine {
 	
 				if(result != undefined){
 					//
-					let actionState = currentObjectState.verbs[verb.name];
-					this.outputAddLines(actionState.text);
+					let objectStateVerbDefinition = currentObjectState.verbs[verb.name];
+					this.outputAddLines(objectStateVerbDefinition.text);
 					//TODO: REFACTOR THIS AND LINE FOR USE CURRENT ITEM!!! 
-					if(actionState.action!=undefined){
-						if($.isArray(actionState.action) && actionState.action.length > 0) {
-							for(var i=0; i<actionState.action.length; i++){
-								this.internal_parseActionString(object, actionState.action[i]);
+					if(objectStateVerbDefinition.action!=undefined){
+						if($.isArray(objectStateVerbDefinition.action) && objectStateVerbDefinition.action.length > 0) {
+							for(var i=0; i<objectStateVerbDefinition.action.length; i++){
+								this.internal_parseActionString(object, objectStateVerbDefinition.action[i]);
 							}
 						}else{
-							this.internal_parseActionString(object, actionState.action);
+							this.internal_parseActionString(object, objectStateVerbDefinition.action);
 						}
 					}
 	
-					if(actionState.inventory!=""){
-						let inv = actionState.inventory.split(" ");
+					if(objectStateVerbDefinition.inventory!=""){
+						let inv = objectStateVerbDefinition.inventory.split(" ");
 						if(inv[0]=="add"){
 							this.internal_CurrentItem = this.internal_Database.objects[inv[1]];
 						}else{
