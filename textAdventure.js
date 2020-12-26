@@ -12,8 +12,8 @@ class textAdventureEngine {
 	internal_CurrentItem = null;
 
 	constructor(outputFunction, clearOutputFunction) { 
-		this.output = outputFunction;
-		this.clear = clearOutputFunction;
+		this.outputAddLines = outputFunction;
+		this.outputClear = clearOutputFunction;
 	}
 
 	loadDatabaseFromPath(gamedatabasePath, showGameName = true){
@@ -27,7 +27,7 @@ class textAdventureEngine {
 		.fail(function( jqxhr, textStatus, error ) {
 			var err = textStatus + ", " + error;
 			console.log( "Request Failed: " + err );
-			base.output("Failed to Load json");
+			base.outputAddLines("Failed to Load json");
 			
 			base.internal_showRequest();
 		});
@@ -40,16 +40,16 @@ class textAdventureEngine {
 	internal_initDatbase(gameDatabaseObject, showGameName = true){
 		this.internal_Database = gameDatabaseObject;
 
-		if(TBA_DEBUG){
+		if(this.TBA_DEBUG){
 			var base = this;
 			$.each( json.actions, function( i, item ) {
-				base.output("Loaded Action: "+item.name);
+				base.outputAddLines("Loaded Action: "+item.name);
 			});
 			$.each( json.objects, function( i, item ) {
-				base.output("Loaded Object: "+item.name);
+				base.outputAddLines("Loaded Object: "+item.name);
 			});
 			$.each( json.locations, function( i, item ) {
-				base.output("Loaded Location: "+item.title);
+				base.outputAddLines("Loaded Location: "+item.title);
 			});
 			
 			this.outputAddLines("Loading done.");
@@ -156,7 +156,7 @@ class textAdventureEngine {
 				if(currentObjectState == undefined){
 					console.log("Object "+object.name+" is in an undefiend state: "+ object.currentState);
 				}
-				result = currentObjectState.actions[action.name];
+				var result = currentObjectState.actions[action.name];
 				if(this.TBA_DEBUG==true){
 					console.log(result);
 	
@@ -180,7 +180,7 @@ class textAdventureEngine {
 					}
 	
 					if(actionState.inventory!=""){
-						inv = actionState.inventory.split(" ");
+						let inv = actionState.inventory.split(" ");
 						if(inv[0]=="add"){
 							this.internal_CurrentItem = this.internal_Database.objects[inv[1]];
 						}else{
@@ -244,7 +244,7 @@ class textAdventureEngine {
 			var currentRoomState =  this.internal_getLocationState(this.internal_CurrentRoom);
 			this.writeLocationDescription(currentRoomState.objects);
 		}else if(acts[0]=="showLocationDescription"){
-			var currentRoomState =  internal_getLocationState(this.internal_CurrentRoom);
+			var currentRoomState =  this.internal_getLocationState(this.internal_CurrentRoom);
 			this.writeLocationDescription(currentRoomState.objects);
 		}
 	}
@@ -290,7 +290,7 @@ class textAdventureEngine {
 			
 			// Check inventory item
 			if(this.internal_CurrentItem != undefined){
-				test = $.inArray(words[i],  this.internal_getObjectState(this.internal_CurrentItem).words);
+				let test = $.inArray(words[i],  this.internal_getObjectState(this.internal_CurrentItem).words);
 				if(test >= 0){
 					value = this.internal_CurrentItem;
 					return value;
@@ -323,7 +323,7 @@ class textAdventureEngine {
 			let isHandItem = false;
 			// Check inventory item
 			if(this.internal_CurrentItem != undefined){
-				test = $.inArray(words[i],  this.internal_getObjectState(this.internal_CurrentItem).words);
+				let test = $.inArray(words[i],  this.internal_getObjectState(this.internal_CurrentItem).words);
 				if(test >= 0){
 					value = this.internal_CurrentItem;
 					founds++;
@@ -334,7 +334,7 @@ class textAdventureEngine {
 				// check for objects in room
 				var base = this;
 				$.each(locationState.objects, function( index, val ) {
-					var test = $.inArray(words[i], base.internal_Database.objects[val].words);
+					let test = $.inArray(words[i], base.internal_Database.objects[val].words);
 					if(test >= 0){
 						value = base.internal_Database.objects[val];
 						founds++;
