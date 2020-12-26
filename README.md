@@ -89,9 +89,8 @@ Automatically shows the current location description, as if the user typed 'look
  ```
 inventoryAdd {objectId}
  ```
-Adds the item to users inventory
-
-***Note:** Currently the user can only hold one item! The currently equipped item will be silently replaced with the new one, if the user picks up a second one.*
+Adds the item to users inventory. 
+The user can have multiple items in his inventory, the location descriptions will be listed below each other.
 
 #### inventoryRemove
  ```

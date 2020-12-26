@@ -196,10 +196,11 @@ class textAdventureEngine {
 		this.outputAddLines(fullLocationDescription);
 		
 		if(Object.keys(this.internal_Inventory).length > 0){
-			let index = Object.keys(this.internal_Inventory)[0];
-			let currentItemDescription = this.internal_Inventory[index].states[this.internal_Inventory[index].currentState].locationDescription;
-			if(currentItemDescription.length > 0){
-				this.outputAddLines(currentItemDescription);
+			for(var index in this.internal_Inventory) {
+				let currentItemDescription = this.internal_Inventory[index].states[this.internal_Inventory[index].currentState].locationDescription;
+				if(currentItemDescription.length > 0){
+					this.outputAddLines(currentItemDescription);
+				}
 			}
 		}
 	}
@@ -232,19 +233,11 @@ class textAdventureEngine {
 			var currentRoomState =  this.internal_getLocationState(this.internal_CurrentRoom);
 			this.writeLocationDescription(currentRoomState.objects);
 		}else if(acts[0]=="inventoryAdd"){
-			console.log("Add to inventory: " + acts[1]);
-			if(Object.keys(this.internal_Inventory).length > 0){
-				delete this.internal_Inventory[Object.keys(this.internal_Inventory)[0]];
-			}
+			console.log("Add or replace inventory item: " + acts[1]);
 			this.internal_Inventory[acts[1]] = this.internal_Database.objects[acts[1]];
 		}else if(acts[0]=="inventoryRemove"){
-			let index = Object.keys(this.internal_Inventory)[0];
-			if(index === acts[1]){
-				console.log("Removed current inventory object "+acts[1]);
-				delete this.internal_Inventory[index];
-			}else{
-				console.log("Can't remove item from inventory, as it's no in the inventory "+acts[1]);
-			}
+			console.log("Remove inventory object, if it exists "+acts[1]);
+			delete this.internal_Inventory[acts[1]];
 		}
 
 		
@@ -291,11 +284,12 @@ class textAdventureEngine {
 			
 			// Check inventory item
 			if(Object.keys(this.internal_Inventory).length > 0){
-				let index = Object.keys(this.internal_Inventory)[0];
-				let test = $.inArray(words[i],  this.internal_getObjectState(this.internal_Inventory[index]).words);
-				if(test >= 0){
-					value = this.internal_Inventory[index];
-					return value;
+				for(var index in this.internal_Inventory) {
+					let test = $.inArray(words[i],  this.internal_getObjectState(this.internal_Inventory[index]).words);
+					if(test >= 0){
+						value = this.internal_Inventory[index];
+						return value;
+					}
 				}
 			}
 			// check for objects in room
@@ -325,12 +319,13 @@ class textAdventureEngine {
 			let isInventoryItem = false;
 			// Check inventory item
 			if(Object.keys(this.internal_Inventory).length > 0){
-				let index = Object.keys(this.internal_Inventory)[0];
-				let test = $.inArray(words[i],  this.internal_getObjectState(this.internal_Inventory[index]).words);
-				if(test >= 0){
-					value = this.internal_Inventory[index];
-					founds++;
-					isInventoryItem = true;
+				for(var index in this.internal_Inventory) {
+					let test = $.inArray(words[i],  this.internal_getObjectState(this.internal_Inventory[index]).words);
+					if(test >= 0){
+						value = this.internal_Inventory[index];
+						founds++;
+						isInventoryItem = true;
+					}
 				}
 			}
 			if(!isInventoryItem){
