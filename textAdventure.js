@@ -16,7 +16,7 @@ class textAdventureEngine {
 		this.outputClear = clearOutputFunction;
 	}
 
-	loadDatabaseFromPath(gamedatabasePath, showGameName = true){
+	loadDatabaseFromFile(gamedatabasePath, showGameName = true){
 		this.outputClear();
 		this.outputAddLines("Initializing Text Adventure Engine...");
 		let base = this;
