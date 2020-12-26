@@ -112,7 +112,7 @@
                 "name",
                 "words",
                 "locationDescription",
-                "actions",
+                "verbs",
                 "useableObjects"
               ],
               "properties": {
@@ -129,8 +129,8 @@
                 "locationDescription": {
                   "type": "string"
                 },
-                "actions": {
-                  "description": "List of possible actions for this object",
+                "verbs": {
+                  "description": "List of possible verbs for this object",
                   "type": "object",
                   "additionalProperties": {
                     "$ref": "#/definitions/action_definition"

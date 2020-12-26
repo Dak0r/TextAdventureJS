@@ -78,7 +78,7 @@
           "name": "PILLOW",
           "words": ["desk", "desktop", "workingplace"],
           "locationDescription": "",
-          "actions": {
+          "verbs": {
             "pickup": {
               "text": "okay got it",
               "inventory": "add template_object",
@@ -112,7 +112,7 @@
           "name": "Walls with crumbling plaster",
           "words": ["wall", "walls", "plaster", "metal"],
           "locationDescription": "Plaster is crumbling from the WALLS.",
-          "actions": {
+          "verbs": {
             "look": {
               "text": "Plaster is crumbling from the walls. Something seems off, but it's too dark to have a closer look.",
               "action": "",
@@ -135,7 +135,7 @@
           "name": "Metal Behind Plaster",
           "words": ["wall", "walls"],
           "locationDescription": "Plaster is crumbling from the WALLS.",
-          "actions": {
+          "verbs": {
             "look": {
               "text": "You notice some rusty metal emerging behind the crumbling PLASTER of one wall.",
               "action": "",
@@ -156,7 +156,7 @@
           "name": "Hidden Door",
           "words": ["wall", "rusty", "door"],
           "locationDescription": "On the other side for the room is a RUSTY METAL DOOR.",
-          "actions": {
+          "verbs": {
             "look": {
               "text": "A heavy metal door that was hidden under the plaster.",
               "action": "",
@@ -184,7 +184,7 @@
           "name": "plaster",
           "words": ["rust", "rusty", "metal", "plaster"],
           "locationDescription": "",
-          "actions": {
+          "verbs": {
             "look": {
               "text": "It looks like a rusty metal object is hidden behind the crumbling plaster.",
               "inventory": "",
@@ -215,7 +215,7 @@
           "name": "room",
           "words": ["room"],
           "locationDescription": "You are in a dark ROOM.",
-          "actions": {
+          "verbs": {
             "enter": {
               "text": ["You wake up with a headache."],
               "inventory": "",
@@ -238,7 +238,7 @@
           "name": "room",
           "words": ["room"],
           "locationDescription": "The room is slightly lit.",
-          "actions": {
+          "verbs": {
             "look": {
               "text": ["You look at each wall..."],
               "inventory": "",
@@ -261,7 +261,7 @@
           "name": "Small Box",
           "words": ["box"],
           "locationDescription": "You see a small BOX near you.",
-          "actions": {
+          "verbs": {
             "pickup": {
               "text": "You got it. It's a box of matches!",
               "inventory": "add box_matches",
@@ -282,7 +282,7 @@
           "name": "Box of Matches",
           "words": ["box", "matches", "matchbox", "match"],
           "locationDescription": "You are holding the box of MATCHES.",
-          "actions": {
+          "verbs": {
             "use": {
               "text": "You light the last match. The room is now slightly illumanted.",
               "inventory": "remove box_matches",
@@ -321,7 +321,7 @@
           "name": "Box of Matches",
           "words": ["box", "matches", "matchbox"],
           "locationDescription": "You dropped the the box of MATCHES here.",
-          "actions": {
+          "verbs": {
             "pickup": {
               "text": "You picked up the Box of Matches again!",
               "inventory": "add box_matches",
@@ -347,7 +347,7 @@
           "name": "long empty hallway",
           "words": ["room", "hallway"],
           "locationDescription": "The long corridor has cold stone walls.",
-          "actions": {
+          "verbs": {
             "look": {
               "text": "",
               "inventory": "",
@@ -365,7 +365,7 @@
           "name": "light at the end of hallway",
           "words": ["light", "exit"],
           "locationDescription": "You see LIGHT at the other end of the hallway.",
-          "actions": {
+          "verbs": {
             "look": {
               "text": "It seems to be sunlight that enlightens the end of the hallway.",
               "inventory": "",
@@ -383,7 +383,7 @@
           "name": "light at the end of hallway",
           "words": ["light", "exit"],
           "locationDescription": "You see LIGHT at the other end of the hallway.",
-          "actions": {
+          "verbs": {
             "look": {
               "text": "It seems to be sunlight that enlightens the end of the hallway.",
               "inventory": "",
@@ -406,7 +406,7 @@
           "name": "Developer Notice Metal",
           "words": ["leaflet", "notice", "paper"],
           "locationDescription": "A LEAFLET is lying on the ground.",
-          "actions": {
+          "verbs": {
             "look": {
               "text": "The text is too small, to read read the leaflet, while it's on the ground.",
               "inventory": "",
@@ -424,7 +424,7 @@
           "name": "Developer Notice Metal",
           "words": ["leaflet", "notice", "paper"],
           "locationDescription": "You are holding the LEAFLET in your hands.",
-          "actions": {
+          "verbs": {
             "look": {
               "text": [
                 "\"Dear Player, <br />",

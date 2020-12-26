@@ -33,7 +33,7 @@
           "name": "PILLOW",
           "words": ["pillow", "pill" ],
           "locationDescription": "A pillow is lying on the floor",
-          "actions": {
+          "verbs": {
             "pickup": {
               "text": "okay got it",
               "inventory": "add template_object",
@@ -51,7 +51,7 @@
           "name": "PILLOW",
           "words": ["pillow", "pill" ],
           "locationDescription": "You are holding pillow in your hand.",
-          "actions": {
+          "verbs": {
             "drop": {
               "text": "okay dropped it",
               "inventory": "remove template_object",

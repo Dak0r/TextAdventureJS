@@ -42,7 +42,7 @@ class textAdventureEngine {
 
 		if(this.TBA_DEBUG){
 			var base = this;
-			$.each( json.actions, function( i, item ) {
+			$.each( json.verbs, function( i, item ) {
 				base.outputAddLines("Loaded Action: "+item.name);
 			});
 			$.each( json.objects, function( i, item ) {
@@ -112,12 +112,12 @@ class textAdventureEngine {
 					}
 			});
 			this.outputAddLines("Enter simple directions like<br /><i>look at wall</i><br />");
-			this.outputAddLines("Commonly used verbs are: "+allActions);
+			this.outputAddLines("Commonly used verbs are: "+allVerbs);
 		} else {
 			let words = cmd.split(" ");
 	
 			let locationState = this.internal_getLocationState(this.internal_CurrentRoom);
-			let action = this.internal_checkForVerb(words);
+			let verb = this.internal_checkForVerb(words);
 			let object = this.internal_checkForObject(words);
 			let currentObjectState = undefined;
 			// Get current state of object if it's not the room / location
@@ -126,7 +126,7 @@ class textAdventureEngine {
 			}
 	
 			//no action
-			if(action == undefined && object != undefined){
+			if(verb == undefined && object != undefined){
 				//this.outputAddLines("You want to do what with the "+currentObjectState.name+"?!");
 				this.outputAddLines("Unknown verb, please try to rephrase your command.");
 				this.internal_showRequest();
@@ -134,7 +134,7 @@ class textAdventureEngine {
 			}
 	
 			// Look at room
-			if(action != undefined && action.name == "look" && (words.length === 1)){
+			if(verb != undefined && verb.name == "look" && (words.length === 1)){
 				locationState = this.internal_getLocationState(this.internal_CurrentRoom);
 				this.writeLocationDescription(locationState.objects);
 				this.internal_showRequest();
@@ -142,31 +142,31 @@ class textAdventureEngine {
 			}
 	
 			//no object
-			if(action != undefined && (object == undefined)){
+			if(verb != undefined && (object == undefined)){
 				console.log("object is undefined");
-				this.outputAddLines(action.failed);
+				this.outputAddLines(verb.failed);
 				this.internal_showRequest();
 				return;
 			}
 	
-			//Do a regular Action
-			if(action!=undefined && object != undefined){
-				console.log("Action: "+ action.name);
+			//Do a regular Action (verb)
+			if(verb!=undefined && object != undefined){
+				console.log("Action: "+ verb.name);
 				console.log("Object: "+ currentObjectState.name);
 				if(currentObjectState == undefined){
 					console.log("Object "+object.name+" is in an undefiend state: "+ object.currentState);
 				}
-				var result = currentObjectState.actions[action.name];
+				var result = currentObjectState.verbs[verb.name];
 				if(this.TBA_DEBUG==true){
 					console.log(result);
 	
-					this.outputAddLines("Action: "+ action.name);
+					this.outputAddLines("Action: "+ verb.name);
 					this.outputAddLines("Object: "+ object.name);
 				}
 	
 				if(result != undefined){
 					//
-					let actionState = currentObjectState.actions[action.name];
+					let actionState = currentObjectState.verbs[verb.name];
 					this.outputAddLines(actionState.text);
 					//TODO: REFACTOR THIS AND LINE FOR USE CURRENT ITEM!!! 
 					if(actionState.action!=undefined){
@@ -221,11 +221,6 @@ class textAdventureEngine {
 		}else if(acts[0]=="objectState" && acts.length == 3){ // Reference other object
 			console.log("changing ObjectState of "+acts[1]+" to "+acts[2]);
 			this.internal_Database.objects[acts[1]].currentState = acts[2];
-		}else if(acts[0]=="locationState"){
-			console.log("changing LocationState to "+acts[1]);
-			this.internal_Database.locations[this.internal_CurrentRoom].currentState = acts[1];
-			locationState = this.internal_getLocationState(this.internal_CurrentRoom);
-			this.outputAddLines(locationState.actions.enter.text);
 		}else if(acts[0]=="objectRemoveFromLocation"){
 			console.log("removing Object from Location:"+acts[1]);
 			var index = this.internal_getLocationState(this.internal_CurrentRoom).objects.indexOf(acts[1]);
