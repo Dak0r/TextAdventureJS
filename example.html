@@ -3,6 +3,7 @@
         <meta charset="UTF-8">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="textAdventure.js"></script>
+
         <script  type="application/javascript">
             $( document ).ready(function() {
                 
@@ -12,18 +13,18 @@
                 function witeLine(output){
                     
                     output = output.replace(/<br ?\/?>/g, "\n");
-                    
-                    //$("#outputArea").append(output); 
                     $("#outputArea").val($("#outputArea").val()+output+"\n"); 
+                    $('#outputArea').scrollTop($('#outputArea')[0].scrollHeight);    
                     $("#inputButton").prop("disabled",false);
                     $("#inputText").prop('readonly', false);
+                    $('#inputText').focus();
         
                 }
                 function clearArea(){
-                   $("#outputArea").val("");         
+                    $("#outputArea").val("");         
                 }
 
-                function userInput(){
+                function readUserInput(){
                     $("#inputButton").prop("disabled",true);
                     $("#inputText").prop('readonly', true);
 
@@ -32,25 +33,16 @@
         
                 }
                 $("#inputButton").click(function(){
-                    userInput();
+                    readUserInput();
                 });
-                
-                
-                //FOR OLD BROWSERS
-                /*if (typeof Object.keys !== "function") {
-                    (function() {
-                        Object.keys = Object_keys;
-                        function Object_keys(obj) {
-                            var keys = [], name;
-                            for (name in obj) {
-                                if (obj.hasOwnProperty(name)) {
-                                    keys.push(name);
-                                }
-                            }
-                            return keys;
-                        }
-                    })();
-                }*/
+
+                $('#inputText').keypress(function(event){
+                    var keycode = (event.keyCode ? event.keyCode : event.which);
+                    if(keycode == '13'){ // return
+                        readUserInput();
+                    }
+                });
+                $('#inputText').focus();
     
                 console.log( "ready!" );
 
