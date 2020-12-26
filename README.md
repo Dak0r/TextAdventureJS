@@ -1,6 +1,12 @@
 # TextAdventureJS
 A text based adventure engine written in Javascript. 
 
+Here's a very basic example, that is included in this Repositroy:
+https://dak0r.github.io/TextAdventureJS/example.html
+
+A different project, that uses TextAdventureJS is the retro shell on my website: 
+https://www.danielkorgel.com
+
 ## Game Database 
 A Text Adventure Database (TADB) is JSON file which contains all information for a given game that runs on the TextAdventureJS Engine.
 It contains all Verbs, Locations and Objects and their relations to each other.
