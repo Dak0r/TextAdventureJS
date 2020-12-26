@@ -303,7 +303,7 @@
               "text": "You picked up the Box of Matches again!",
               "action": [
                 "objectState pickedUp",
-                "objectRemoveFromLocation pickedUp",
+                "objectRemoveFromLocation box_matches",
                 "inventoryAdd box_matches"
               ]
             },
