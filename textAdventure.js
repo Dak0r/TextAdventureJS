@@ -6,7 +6,6 @@
 class textAdventureEngine {
 	
 	TBA_DEBUG = false;
-	TBA_SHOW_GAME_NAME = false;
 
 	internal_Database = undefined;
 	internal_CurrentRoom = null;
@@ -17,13 +16,13 @@ class textAdventureEngine {
 		this.clear = clearOutputFunction;
 	}
 
-	loadDatabaseFromPath(gamedatabasePath){
-		this.clear();
-		this.output("Initializing Textbased Adventure Engine...");
+	loadDatabaseFromPath(gamedatabasePath, showGameName = true){
+		this.outputClear();
+		this.outputAddLines("Initializing Textbased Adventure Engine...");
 		let base = this;
 		$.getJSON( gamedatabasePath)
 		.done(function( json ) {
-			base.internal_initDatbase(json);
+			base.internal_initDatbase(json, showGameName);
 		})
 		.fail(function( jqxhr, textStatus, error ) {
 			var err = textStatus + ", " + error;
@@ -38,37 +37,34 @@ class textAdventureEngine {
 		this.internal_praseCommand(cmd);
 	}
 
-	internal_initDatbase(gameDatabaseObject){
+	internal_initDatbase(gameDatabaseObject, showGameName = true){
 		this.internal_Database = gameDatabaseObject;
-		//console.log( "JSON Data: " + json.users[ 3 ].name );
-		//this.output("Loaded json");
-		//this.output("Loading Actions...");
-		//this.output("Loading Objects...");
-		//this.output("Loading Locations...");
-		/*
-		var base = this;
-		$.each( json.actions, function( i, item ) {
-			base.output("Loaded Action: "+item.name);
-		});
-		$.each( json.objects, function( i, item ) {
-			base.output("Loaded Object: "+item.name);
-		});
-		$.each( json.locations, function( i, item ) {
-			base.output("Loaded Location: "+item.title);
-		});
-		*/
-		//this.output("Loading done.");
-		if(this.TBA_SHOW_GAME_NAME){
-			this.clear();
-			this.output("<br /><br />'"+this.internal_Database.general.title+"' by "+this.internal_Database.general.author+"<br>"+"Version: "+this.internal_Database.general.version+"<br />");
+
+		if(TBA_DEBUG){
+			var base = this;
+			$.each( json.actions, function( i, item ) {
+				base.output("Loaded Action: "+item.name);
+			});
+			$.each( json.objects, function( i, item ) {
+				base.output("Loaded Object: "+item.name);
+			});
+			$.each( json.locations, function( i, item ) {
+				base.output("Loaded Location: "+item.title);
+			});
+			
+			this.outputAddLines("Loading done.");
+		}
+		if(showGameName){
+			this.outputClear();
+			this.outputAddLines("<br /><br />'"+this.internal_Database.general.title+"' by "+this.internal_Database.general.author+"<br>"+"Version: "+this.internal_Database.general.version+"<br />");
 		}else{
-			this.clear();
+			this.outputClear();
 		}
 		this.internal_praseCommand("welcome");
 	}
 	
 	internal_showRequest(){
-		this.output(this.internal_Database.general.request);
+		this.outputAddLines(this.internal_Database.general.request);
 	}
 	
 	internal_removeFromString(arr,str){
@@ -88,7 +84,7 @@ class textAdventureEngine {
 		if(cmd=="welcome"){
 			this.internal_CurrentItem = null;
 			if(this.internal_Database.general.start.text.length > 0){
-				this.output(this.internal_Database.general.start.text);
+				this.outputAddLines(this.internal_Database.general.start.text);
 			}
 			if(this.internal_Database.general.start.inventory!=""){
 				inv = this.internal_Database.general.start.inventory.split(" ");
@@ -107,21 +103,21 @@ class textAdventureEngine {
 			}
 		}else if(cmd == "help" || cmd == "?" || cmd == "what" || cmd == "how" || cmd == "what do"){
 	
-			var allActions = "";
-			$.each( this.internal_Database.actions, function( key, val ) {
-					if(allActions != ""){
-						allActions += ", "+val.name;
+			var allVerbs = "";
+			$.each( this.internal_Database.verbs, function( key, val ) {
+					if(allVerbs != ""){
+						allVerbs += ", "+val.name;
 					}else{
-						allActions += val.name;
+						allVerbs += val.name;
 					}
 			});
-			this.output("Enter simple directions like<br /><i>look at wall</i><br />");
-			this.output("Commonly used verbs are: "+allActions);
+			this.outputAddLines("Enter simple directions like<br /><i>look at wall</i><br />");
+			this.outputAddLines("Commonly used verbs are: "+allActions);
 		} else {
 			let words = cmd.split(" ");
 	
 			let locationState = this.internal_getLocationState(this.internal_CurrentRoom);
-			let action = this.internal_checkForAction(words);
+			let action = this.internal_checkForVerb(words);
 			let object = this.internal_checkForObject(words);
 			let currentObjectState = undefined;
 			// Get current state of object if it's not the room / location
@@ -131,8 +127,8 @@ class textAdventureEngine {
 	
 			//no action
 			if(action == undefined && object != undefined){
-				//this.output("You want to do what with the "+currentObjectState.name+"?!");
-				this.output("Unknown verb, please try to rephrase your command.");
+				//this.outputAddLines("You want to do what with the "+currentObjectState.name+"?!");
+				this.outputAddLines("Unknown verb, please try to rephrase your command.");
 				this.internal_showRequest();
 				return;
 			}
@@ -148,7 +144,7 @@ class textAdventureEngine {
 			//no object
 			if(action != undefined && (object == undefined)){
 				console.log("object is undefined");
-				this.output(action.failed);
+				this.outputAddLines(action.failed);
 				this.internal_showRequest();
 				return;
 			}
@@ -164,14 +160,14 @@ class textAdventureEngine {
 				if(this.TBA_DEBUG==true){
 					console.log(result);
 	
-					this.output("Action: "+ action.name);
-					this.output("Object: "+ object.name);
+					this.outputAddLines("Action: "+ action.name);
+					this.outputAddLines("Object: "+ object.name);
 				}
 	
 				if(result != undefined){
 					//
 					let actionState = currentObjectState.actions[action.name];
-					this.output(actionState.text);
+					this.outputAddLines(actionState.text);
 					//TODO: REFACTOR THIS AND LINE FOR USE CURRENT ITEM!!! 
 					if(actionState.action!=undefined){
 						if($.isArray(actionState.action) && actionState.action.length > 0) {
@@ -192,12 +188,12 @@ class textAdventureEngine {
 						}
 					}
 				}else{
-					this.output("Sorry you can't do this with "+currentObjectState.name+".");
+					this.outputAddLines("Sorry you can't do this with "+currentObjectState.name+".");
 				}
 				this.internal_showRequest();
 				return;
 			}
-			this.output("Please try to rephrase your command.");
+			this.outputAddLines("Please try to rephrase your command.");
 	
 		}
 		this.internal_showRequest();
@@ -208,12 +204,12 @@ class textAdventureEngine {
 			let thisObject = this.internal_Database.objects[objectsInLocation[i]];
 			fullLocationDescription += " "+(thisObject.states[thisObject.currentState].locationDescription);
 		}
-		this.output(fullLocationDescription);
+		this.outputAddLines(fullLocationDescription);
 		
 		if(this.internal_CurrentItem!=undefined){
 			let currentItemDescription = this.internal_CurrentItem.states[this.internal_CurrentItem.currentState].locationDescription;
 			if(currentItemDescription.length > 0){
-				this.output(currentItemDescription);
+				this.outputAddLines(currentItemDescription);
 			}
 		}
 	}
@@ -229,7 +225,7 @@ class textAdventureEngine {
 			console.log("changing LocationState to "+acts[1]);
 			this.internal_Database.locations[this.internal_CurrentRoom].currentState = acts[1];
 			locationState = this.internal_getLocationState(this.internal_CurrentRoom);
-			this.output(locationState.actions.enter.text);
+			this.outputAddLines(locationState.actions.enter.text);
 		}else if(acts[0]=="objectRemoveFromLocation"){
 			console.log("removing Object from Location:"+acts[1]);
 			var index = this.internal_getLocationState(this.internal_CurrentRoom).objects.indexOf(acts[1]);
@@ -268,16 +264,15 @@ class textAdventureEngine {
 	
 	
 	
-	internal_checkForAction(words){
+	internal_checkForVerb(words){
 		let value = undefined;
 		for(var i=0; i<words.length && value === undefined; i++){
 			//console.log( "Checking: "+words[i] );
-			$.each( this.internal_Database.actions, function( key, val ) {
+			$.each( this.internal_Database.verbs, function( key, val ) {
 				//console.log( "Key: "+key+ " " + val.words[0] );
 				let test = $.inArray(words[i], val.words);
 				//console.log("test result: "+ test);
 				if(test >= 0){
-					//console.log("OOOOOKKKKAAAYY!!");
 					value = val;
 					return; // exit $.each
 				}

@@ -1,0 +1,26 @@
+{
+  "$schema": "../textAdventureDatabase.schema.json",
+
+  "general": {
+    "title": "TextAdventureJS Empty Database Template",
+    "author": "Your Name",
+    "version": "0.1",
+    "request": "<br />What do you do?",
+    "start": {
+      "text": "Welcome to the Empty Template",
+      "inventory": "",
+      "action": "gotoLocation first_room"
+    }
+  },
+  "ignored_words" :[ ],
+  "verbs": {
+  },
+  "objects": {
+  },
+  "locations": {
+    "first_room": {
+      "name": "Template Room",
+      "objects": []
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "$schema": "./tbegamedatabase.schema.json",
+  "$schema": "./textAdventureDatabase.schema.json",
 
   "general": {
     "title": "Survivor Teaser",
@@ -13,7 +13,7 @@
     }
   },
   "ignored_words" :[ "to", "through", "on", "off", "from", "around", "at"],
-  "actions": {
+  "verbs": {
     "pickup": {
       "name": "pickup",
       "failed": "Sorry you can't see that.",

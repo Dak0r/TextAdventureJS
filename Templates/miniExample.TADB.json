@@ -1,0 +1,77 @@
+{
+  "$schema": "../textAdventureDatabase.schema.json",
+
+  "general": {
+    "title": "TextAdventureJS Database Mini Example",
+    "author": "Daniel Korgel",
+    "version": "0.1",
+    "request": "<br />What do you do?",
+    "start": {
+      "text": "Welcome to the textAdventureJS Mini Example",
+      "inventory": "",
+      "action": "gotoLocation bedroom"
+    }
+  },
+  "ignored_words" :[ "to", "through", "on", "off", "from", "around", "at"],
+  "verbs": {
+    "pickup": {
+      "name": "pickup",
+      "failed": "Sorry you can't see that.",
+      "words": [
+        "pick",
+        "lift",
+        "take",
+        "get"
+      ]
+    }
+  },
+  "objects": {
+    "template_object": {
+      "currentState": "default",
+      "states": {
+        "default": {
+          "name": "PILLOW",
+          "words": ["pillow", "pill" ],
+          "locationDescription": "A pillow is lying on the floor",
+          "actions": {
+            "pickup": {
+              "text": "okay got it",
+              "inventory": "add template_object",
+              "action": ["objectRemoveFromLocation template_object", "objectState pickedUp"]
+            },
+            "look": {
+              "text": "soft and comfy",
+              "inventory": "",
+              "action": ""
+            }
+          },
+          "useableObjects": {}
+        },
+        "pickedUp": {
+          "name": "PILLOW",
+          "words": ["pillow", "pill" ],
+          "locationDescription": "You are holding pillow in your hand.",
+          "actions": {
+            "drop": {
+              "text": "okay dropped it",
+              "inventory": "remove template_object",
+              "action": ["objectAddToLocation template_object", "objectState default"]
+            },
+            "look": {
+              "text": "soft and comfy",
+              "inventory": "",
+              "action": ""
+            }
+          },
+          "useableObjects": {}
+        }
+      }
+    }
+  },
+  "locations": {
+    "bedroom": {
+      "name": "Bedroom",
+      "objects": ["template_object"]
+    }
+  }
+}
