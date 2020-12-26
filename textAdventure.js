@@ -18,7 +18,7 @@ class textAdventureEngine {
 
 	loadDatabaseFromPath(gamedatabasePath, showGameName = true){
 		this.outputClear();
-		this.outputAddLines("Initializing Textbased Adventure Engine...");
+		this.outputAddLines("Initializing Text Adventure Engine...");
 		let base = this;
 		$.getJSON( gamedatabasePath)
 		.done(function( json ) {
@@ -31,6 +31,12 @@ class textAdventureEngine {
 			
 			base.internal_showRequest();
 		});
+	}
+
+	loadDatabaseFromObject(gamedatabaseJSON, showGameName = true){
+		this.outputClear();
+		this.outputAddLines("Initializing Text Adventure Engine...");
+		base.internal_initDatbase(json, showGameName);
 	}
 
 	input(cmd){
@@ -316,7 +322,7 @@ class textAdventureEngine {
 		var founds = 0;
 	
 		for(var i=0; i<words.length; i++){
-			let isHandItem = false;
+			let isInventoryItem = false;
 			// Check inventory item
 			if(Object.keys(this.internal_Inventory).length > 0){
 				let index = Object.keys(this.internal_Inventory)[0];
@@ -324,10 +330,10 @@ class textAdventureEngine {
 				if(test >= 0){
 					value = this.internal_Inventory[index];
 					founds++;
-					isHandItem = true;
+					isInventoryItem = true;
 				}
 			}
-			if(!isHandItem){
+			if(!isInventoryItem){
 				// check for objects in room
 				var base = this;
 				$.each(locationState.objects, function( index, val ) {
