@@ -90,11 +90,11 @@ Automatically shows the current location description, as if the user typed 'look
 inventoryAdd {objectId}
  ```
 Adds the item to users inventory
-*Note: Currently the user can only hold one item, and the currently equippred item will be silently replaced with the new one.*
+
+***Note:** Currently the user can only hold one item! The currently equipped item will be silently replaced with the new one, if the user picks up a second one.*
 
 #### inventoryRemove
  ```
 inventoryRemove {objectId}
  ```
- Removes the item from users inventory
- *Note: the objectId is currently unchecked, what ever item the user is currently holding will be removed from the inventory*
+Removes the item from users inventory
