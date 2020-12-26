@@ -86,14 +86,6 @@ class textAdventureEngine {
 			if(this.internal_Database.general.start.text.length > 0){
 				this.outputAddLines(this.internal_Database.general.start.text);
 			}
-			if(this.internal_Database.general.start.inventory!=""){
-				inv = this.internal_Database.general.start.inventory.split(" ");
-				if(inv[0]=="add"){
-					this.internal_CurrentItem = this.internal_Database.objects[inv[1]];
-				}else{
-					this.internal_CurrentItem = undefined;
-				}
-			}
 			this.internal_parseActionString(undefined, this.internal_Database.general.start.action);
 		}else if(cmd == "debug"){
 			if(this.TBA_DEBUG==true){
@@ -168,7 +160,7 @@ class textAdventureEngine {
 					//
 					let objectStateVerbDefinition = currentObjectState.verbs[verb.name];
 					this.outputAddLines(objectStateVerbDefinition.text);
-					//TODO: REFACTOR THIS AND LINE FOR USE CURRENT ITEM!!! 
+					
 					if(objectStateVerbDefinition.action!=undefined){
 						if($.isArray(objectStateVerbDefinition.action) && objectStateVerbDefinition.action.length > 0) {
 							for(var i=0; i<objectStateVerbDefinition.action.length; i++){
@@ -176,15 +168,6 @@ class textAdventureEngine {
 							}
 						}else{
 							this.internal_parseActionString(object, objectStateVerbDefinition.action);
-						}
-					}
-	
-					if(objectStateVerbDefinition.inventory!=""){
-						let inv = objectStateVerbDefinition.inventory.split(" ");
-						if(inv[0]=="add"){
-							this.internal_CurrentItem = this.internal_Database.objects[inv[1]];
-						}else{
-							this.internal_CurrentItem = undefined;
 						}
 					}
 				}else{
@@ -241,7 +224,16 @@ class textAdventureEngine {
 		}else if(acts[0]=="showLocationDescription"){
 			var currentRoomState =  this.internal_getLocationState(this.internal_CurrentRoom);
 			this.writeLocationDescription(currentRoomState.objects);
+		}else if(acts[0]=="inventoryAdd"){
+			console.log("Ad to inventory: " + acts[1]);
+			this.internal_CurrentItem = this.internal_Database.objects[acts[1]];
+		}else if(acts[0]=="inventoryRemove"){
+			// TODO: Check if current item is actually the item in acts[1]
+			console.log("Removed current inventory object");
+			this.internal_CurrentItem = undefined;
 		}
+
+		
 	}
 	
 	internal_getLocationState(location){

@@ -8,7 +8,6 @@
     "request": "<br />What do you do?",
     "start": {
       "text": "Welcome to the textAdventureJS Mini Example",
-      "inventory": "",
       "action": "gotoLocation bedroom"
     }
   },
@@ -36,12 +35,10 @@
           "verbs": {
             "pickup": {
               "text": "okay got it",
-              "inventory": "add template_object",
-              "action": ["objectRemoveFromLocation template_object", "objectState pickedUp"]
+              "action": ["objectRemoveFromLocation template_object", "objectState pickedUp", "inventoryAdd template_object"]
             },
             "look": {
               "text": "soft and comfy",
-              "inventory": "",
               "action": ""
             }
           },
@@ -54,12 +51,10 @@
           "verbs": {
             "drop": {
               "text": "okay dropped it",
-              "inventory": "remove template_object",
-              "action": ["objectAddToLocation template_object", "objectState default"]
+              "action": ["objectAddToLocation template_object", "objectState default", "inventoryRemove template_object"]
             },
             "look": {
               "text": "soft and comfy",
-              "inventory": "",
               "action": ""
             }
           },

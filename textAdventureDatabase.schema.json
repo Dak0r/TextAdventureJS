@@ -7,7 +7,7 @@
     "action_definition": {
       "description": "Defines what happens if an action is used (with this object / in this location)",
       "type": "object",
-      "required": ["text", "inventory", "action"],
+      "required": ["text", "action"],
       "properties": {
         "text": {
           "anyOf": [
@@ -23,7 +23,6 @@
             }
           ]
         },
-        "inventory": { "type": "string" },
         "action": {
           "anyOf": [
             {

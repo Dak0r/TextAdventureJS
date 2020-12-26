@@ -8,7 +8,6 @@
     "request": "<br />What do you do?",
     "start": {
       "text": "<br /><br/><br />You wake up with a headache...",
-      "inventory": "",
       "action": "gotoLocation start_chamber"
     }
   },
@@ -81,24 +80,20 @@
           "verbs": {
             "pickup": {
               "text": "okay got it",
-              "inventory": "add template_object",
-              "action": ""
+              "action": "inventoryAdd template_object"
             },
             "look": {
               "text": "soft and comfy",
-              "inventory": "",
               "action": ""
             }
           },
           "useableObjects": {
             "bedroom_desk": {
               "text": "soft and comfy",
-              "inventory": "",
               "action": ""
             },
             "test": {
               "text": "works",
-              "inventory": "",
               "action": ""
             }
           }
@@ -115,18 +110,15 @@
           "verbs": {
             "look": {
               "text": "Plaster is crumbling from the walls. Something seems off, but it's too dark to have a closer look.",
-              "action": "",
-              "inventory": ""
+              "action": ""
             },
             "touch": {
               "text": "The plaster feels wet and is crumbling in your hands as you touch it.",
-              "action": "",
-              "inventory": ""
+              "action": ""
             },
             "break": {
               "text": "Why would you do that?",
-              "action": "",
-              "inventory": ""
+              "action": ""
             }
           },
           "useableObjects": {}
@@ -138,16 +130,14 @@
           "verbs": {
             "look": {
               "text": "You notice some rusty metal emerging behind the crumbling PLASTER of one wall.",
-              "action": "",
-              "inventory": ""
+              "action": ""
             },
 			"remove": {
               "text": "You break the loose plaster of the wall. Piece by piece it reveals an old RUSTY METAL DOOR.",
               "action": [
                 "objectState plaster_wall_door door_found",
                 "objectRemoveFromLocation metal_behind_plaster"
-              ],
-              "inventory": ""
+              ]
             }
           },
           "useableObjects": {}
@@ -159,18 +149,15 @@
           "verbs": {
             "look": {
               "text": "A heavy metal door that was hidden under the plaster.",
-              "action": "",
-              "inventory": ""
+              "action": ""
             },
             "go": {
               "text": "You open the rusty door and enter a hallway.",
-              "action": "gotoLocation long_hallway",
-              "inventory": ""
+              "action": "gotoLocation long_hallway"
             },
             "open": {
               "text": "You open the rusty door and enter a hallway.",
-              "action": "gotoLocation long_hallway",
-              "inventory": ""
+              "action": "gotoLocation long_hallway"
             }
           },
           "useableObjects": {}
@@ -187,21 +174,18 @@
           "verbs": {
             "look": {
               "text": "It looks like a rusty metal object is hidden behind the crumbling plaster.",
-              "inventory": "",
               "action": ""
             },
             "touch": {
               "text": "The plaster feels loose, you might be able to remove it with your hands.",
-              "action": "",
-              "inventory": ""
+              "action": ""
             },
             "remove": {
               "text": "You break the loose plaster of the wall. Piece by piece it reveals an old RUSTY METAL DOOR.",
               "action": [
                 "objectState plaster_wall_door door_found",
                 "objectRemoveFromLocation metal_behind_plaster"
-              ],
-              "inventory": ""
+              ]
             }
           },
           "useableObjects": {}
@@ -218,17 +202,14 @@
           "verbs": {
             "enter": {
               "text": ["You wake up with a headache."],
-              "inventory": "",
               "action": ""
             },
             "look": {
               "text": ["You look around..."],
-              "inventory": "",
               "action": "showLocationDescription"
             },
             "light": {
               "text": "You don't have aynthing to light the room with.",
-              "inventory": "",
               "action": ""
             }
           },
@@ -241,12 +222,10 @@
           "verbs": {
             "look": {
               "text": ["You look at each wall..."],
-              "inventory": "",
               "action": "showLocationDescription"
             },
             "light": {
               "text": "The room is already slightly illuminated.",
-              "inventory": "",
               "action": ""
             }
           },
@@ -264,15 +243,14 @@
           "verbs": {
             "pickup": {
               "text": "You got it. It's a box of matches!",
-              "inventory": "add box_matches",
               "action": [
                 "objectState pickedUp",
-                "objectRemoveFromLocation box_matches"
+                "objectRemoveFromLocation box_matches",
+                "inventoryAdd box_matches"
               ]
             },
             "look": {
               "text": "It's too dark to see the small box properly. You could probably reach it.",
-              "inventory": "",
               "action": ""
             }
           },
@@ -285,33 +263,32 @@
           "verbs": {
             "use": {
               "text": "You light the last match. The room is now slightly illumanted.",
-              "inventory": "remove box_matches",
               "action": [
                 "objectState plaster_wall_door door_visible",
                 "objectState room_start_chamber enlighted",
-                "objectAddToLocation metal_behind_plaster"
+                "objectAddToLocation metal_behind_plaster",
+                "inventoryRemove box_matches"
               ]
             },
             "light": {
               "text": "You light the last match. The room is now slightly illumanted.",
-              "inventory": "remove box_matches",
               "action": [
                 "objectState plaster_wall_door door_visible",
                 "objectState room_start_chamber enlighted",
-                "objectAddToLocation metal_behind_plaster"
+                "objectAddToLocation metal_behind_plaster",
+                "inventoryRemove box_matches"
               ]
             },
             "drop": {
               "text": "You dropped the box of matches",
-              "inventory": "remove box_matches",
               "action": [
                 "objectAddToLocation box_matches",
-                "objectState dropped"
+                "objectState dropped",
+                "inventoryRemove box_matches"
               ]
             },
             "look": {
               "text": "An almost empty box of matches.",
-              "inventory": "",
               "action": ""
             }
           },
@@ -324,15 +301,14 @@
           "verbs": {
             "pickup": {
               "text": "You picked up the Box of Matches again!",
-              "inventory": "add box_matches",
               "action": [
                 "objectState pickedUp",
-                "objectRemoveFromLocation pickedUp"
+                "objectRemoveFromLocation pickedUp",
+                "inventoryAdd box_matches"
               ]
             },
             "look": {
               "text": "A small box of matches, that you dropped here...",
-              "inventory": "",
               "action": ""
             }
           },
@@ -350,7 +326,6 @@
           "verbs": {
             "look": {
               "text": "",
-              "inventory": "",
               "action": ""
             }
           },
@@ -368,12 +343,10 @@
           "verbs": {
             "look": {
               "text": "It seems to be sunlight that enlightens the end of the hallway.",
-              "inventory": "",
               "action": ""
             },
             "go": {
               "text": "You walk towards the light, but you don't seem to get any closer. A gust of wind blows the leaflet to you.",
-              "inventory": "",
               "action": ""
             }
           },
@@ -386,12 +359,10 @@
           "verbs": {
             "look": {
               "text": "It seems to be sunlight that enlightens the end of the hallway.",
-              "inventory": "",
               "action": ""
             },
             "go": {
               "text": "You walk towards the light, but you don't seem to get any closer.",
-              "inventory": "",
               "action": ""
             }
           },
@@ -409,13 +380,16 @@
           "verbs": {
             "look": {
               "text": "The text is too small, to read read the leaflet, while it's on the ground.",
-              "inventory": "",
               "action": ""
             },
             "pickup": {
               "text": "You take the leaflet.",
-              "inventory":"add dev_leaflet",
-              "action":  ["objectState pickedUp", "objectRemoveFromLocation dev_leaflet", "objectState exit_light without_leaflet"]
+              "action":  [
+                "objectState pickedUp", 
+                "objectRemoveFromLocation dev_leaflet", 
+                "objectState exit_light without_leaflet",
+                "inventoryAdd dev_leaflet"
+              ]
             }
           },
           "useableObjects": {}
@@ -434,13 +408,16 @@
                 "I hope you liked it, feel free to contact me if you did. ",
                 "With best regards -Daniel.\" "
               ],
-              "inventory": "",
               "action": ""
             },
             "drop": {
               "text": "You dropped the leaflet.",
-              "inventory":"remove dev_leaflet",
-              "action":  ["objectState on_ground", "objectAddToLocation dev_leaflet", "objectState exit_light default"]
+              "action":  [
+                "objectState on_ground", 
+                "objectAddToLocation dev_leaflet", 
+                "objectState exit_light default",
+                "inventoryRemove dev_leaflet"
+              ]
             }
           },
           "useableObjects": {}

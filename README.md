@@ -42,7 +42,6 @@ Each object state has...
 - a list of ```verbs``` that can be used with this object, in its current state. \
     each of these verbs has...
     - a ```text``` that will be shown if the verb is used with this object
-    - one or multiple ```inventory``` actions which define changes to the players inventory
     - one or multiple general ```action```s which defines what happens to this or other objects if this verb is used with the object in its current state. (see Possible Actions)
     - a list of 'usableObjects' *which is currently unused*. \
      It is designed to implement usage of object with other objects.
@@ -85,3 +84,17 @@ Changes the current location to a different one
 showLocationDescription
  ```
 Automatically shows the current location description, as if the user typed 'look'
+
+#### inventoryAdd
+ ```
+inventoryAdd {objectId}
+ ```
+Adds the item to users inventory
+*Note: Currently the user can only hold one item, and the currently equippred item will be silently replaced with the new one.*
+
+#### inventoryRemove
+ ```
+inventoryRemove {objectId}
+ ```
+ Removes the item from users inventory
+ *Note: the objectId is currently unchecked, what ever item the user is currently holding will be removed from the inventory*
