@@ -5,7 +5,7 @@
   "description": "A game database for textAdventureJS",
   "definitions": {
     "action_definition": {
-      "description": "Defines what happens if an action is used (with this object / in this location)",
+      "description": "Defines what happens if a verb is used (with this object / in this location)",
       "type": "object",
       "required": ["text", "action"],
       "properties": {

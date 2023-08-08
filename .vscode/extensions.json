@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "tberman.json-schema-validator"
+        "tberman.json-schema-validator",
+        "ms-vscode.live-server"
     ]
 }
