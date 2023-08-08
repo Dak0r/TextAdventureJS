@@ -21,7 +21,7 @@
     "look": {
       "name": "look",
       "failed": "Sorry you can't see that.",
-      "words": ["look", "view", "watch", "read"]
+      "words": ["look", "view", "watch", "read", "search"]
     },
     "activate": {
       "name": "activate",
@@ -55,17 +55,17 @@
     },
     "use": {
       "name": "use",
-      "failed": "well.. this does not work.",
+      "failed": "Well.. this does not work.",
       "words": ["use", "combine", "throw", "attack"]
     },
     "light": {
       "name": "light",
-      "failed": "well.. this does not work.",
+      "failed": "Well.. this does not work.",
       "words": ["light", "burn", "fire"]
     },
     "remove": {
       "name": "remove",
-      "failed": "well.. this does not work.",
+      "failed": "Well.. this does not work.",
       "words": ["remove", "break", "split", "destroy"]
     }
   },
@@ -346,7 +346,7 @@
               "action": ""
             },
             "go": {
-              "text": "You walk towards the light, but you don't seem to get any closer. A gust of wind blows the leaflet to you.",
+              "text": "You walk towards the light, but you don't seem to get any closer. A gust of wind blows the LEAFLET to you.",
               "action": ""
             }
           },
@@ -379,7 +379,7 @@
           "locationDescription": "A LEAFLET is lying on the ground.",
           "verbs": {
             "look": {
-              "text": "The text is too small, to read read the leaflet, while it's on the ground.",
+              "text": "The text is too small to read the LEAFLET, while it's on the ground.",
               "action": ""
             },
             "pickup": {
@@ -402,11 +402,11 @@
             "look": {
               "text": [
                 "\"Dear Player, <br />",
-                "Wow, you actually played this little teaser :-)",
+                "Wow, you actually played this :-)",
                 "I'm afraid your adventure ends here, already.",
-                "The Text Based Adventure Engine, is just a fun project I work on ocasionally.",
+                "This Text Based Adventure Engine was just a quick project on a rainy weekend.",
                 "I hope you liked it, feel free to contact me if you did. ",
-                "With best regards -Daniel.\" "
+                "-Daniel.\" "
               ],
               "action": ""
             },
