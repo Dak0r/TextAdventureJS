@@ -1,6 +1,5 @@
 {
   "$schema": "../textAdventureDatabase.schema.json",
-
   "general": {
     "title": "TextAdventureJS Database Mini Example",
     "author": "Daniel Korgel",
@@ -8,10 +7,18 @@
     "request": "<br />What do you do?",
     "start": {
       "text": "Welcome to the textAdventureJS Mini Example",
-      "action": "gotoLocation bedroom"
+      "action": "gotoLocation template_room"
     }
   },
-  "ignored_words" :[ "to", "through", "on", "off", "from", "around", "at"],
+  "ignored_words": [
+    "to",
+    "through",
+    "on",
+    "off",
+    "from",
+    "around",
+    "at"
+  ],
   "verbs": {
     "pickup": {
       "name": "pickup",
@@ -26,47 +33,58 @@
   },
   "objects": {
     "template_object": {
-      "currentState": "default",
-      "states": {
-        "default": {
-          "name": "PILLOW",
-          "words": ["pillow", "pill" ],
-          "locationDescription": "A pillow is lying on the floor",
-          "verbs": {
-            "pickup": {
-              "text": "okay got it",
-              "action": ["objectRemoveFromLocation template_object", "objectState pickedUp", "inventoryAdd template_object"]
-            },
-            "look": {
-              "text": "soft and comfy",
-              "action": ""
-            }
-          },
-          "useableObjects": {}
+      "name": "PILLOW",
+      "words": [
+        "pillow",
+        "pill"
+      ],
+      "locationDescription": "A pillow is lying on the floor",
+      "verbs": {
+        "pickup": {
+          "text": "okay got it",
+          "action": [
+            "objectRemoveFromLocation template_object",
+            "objectState pickedUp",
+            "inventoryAdd template_object"
+          ]
         },
-        "pickedUp": {
-          "name": "PILLOW",
-          "words": ["pillow", "pill" ],
-          "locationDescription": "You are holding pillow in your hand.",
-          "verbs": {
-            "drop": {
-              "text": "okay dropped it",
-              "action": ["objectAddToLocation template_object", "objectState default", "inventoryRemove template_object"]
-            },
-            "look": {
-              "text": "soft and comfy",
-              "action": ""
-            }
-          },
-          "useableObjects": {}
+        "look": {
+          "text": "soft and comfy",
+          "action": ""
         }
-      }
+      },
+      "useableObjects": {}
+    },
+    "template_object_pickedUp": {
+      "name": "PILLOW",
+      "words": [
+        "pillow",
+        "pill"
+      ],
+      "locationDescription": "You are holding pillow in your hand.",
+      "verbs": {
+        "drop": {
+          "text": "okay dropped it",
+          "action": [
+            "objectAddToLocation template_object",
+            "objectState default",
+            "inventoryRemove template_object"
+          ]
+        },
+        "look": {
+          "text": "soft and comfy",
+          "action": ""
+        }
+      },
+      "useableObjects": {}
     }
   },
   "locations": {
-    "bedroom": {
-      "name": "Bedroom",
-      "objects": ["template_object"]
+    "template_room": {
+      "name": "Template_Room",
+      "objects": [
+        "template_object"
+      ]
     }
   }
 }

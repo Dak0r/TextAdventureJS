@@ -98,51 +98,39 @@
       "type": "object",
       "additionalProperties": {
         "type": "object",
-        "required": ["currentState", "states"],
+        "required": [
+          "name",
+          "words",
+          "locationDescription",
+          "verbs",
+          "useableObjects"
+        ],
         "properties": {
-          "currentState": {
+          "name": {
             "type": "string"
           },
-          "states": {
+          "words": {
+            "description": "Alternative words that the player may use",
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "locationDescription": {
+            "type": "string"
+          },
+          "verbs": {
+            "description": "List of possible verbs for this object",
             "type": "object",
             "additionalProperties": {
-              "type": "object",
-              "required": [
-                "name",
-                "words",
-                "locationDescription",
-                "verbs",
-                "useableObjects"
-              ],
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "words": {
-                  "description": "Alternative words that the player may use",
-                  "type": "array",
-                  "items": { "type": "string" },
-                  "minItems": 1,
-                  "uniqueItems": true
-                },
-                "locationDescription": {
-                  "type": "string"
-                },
-                "verbs": {
-                  "description": "List of possible verbs for this object",
-                  "type": "object",
-                  "additionalProperties": {
-                    "$ref": "#/definitions/action_definition"
-                  }
-                },
-                "useableObjects": {
-                  "description": "List of possible combinations",
-                  "type": "object",
-                  "additionalProperties": {
-                    "$ref": "#/definitions/action_definition"
-                  }
-                }
-              }
+              "$ref": "#/definitions/action_definition"
+            }
+          },
+          "useableObjects": {
+            "description": "List of possible combinations",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/action_definition"
             }
           }
         }
