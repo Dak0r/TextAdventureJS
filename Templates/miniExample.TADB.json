@@ -21,7 +21,6 @@
   ],
   "verbs": {
     "pickup": {
-      "name": "pickup",
       "failed": "Sorry you can't see that.",
       "words": [
         "pick",
@@ -33,7 +32,6 @@
   },
   "objects": {
     "template_object": {
-      "name": "PILLOW",
       "words": [
         "pillow",
         "pill"
@@ -56,7 +54,6 @@
       "useableObjects": {}
     },
     "template_object_pickedUp": {
-      "name": "PILLOW",
       "words": [
         "pillow",
         "pill"
@@ -81,7 +78,6 @@
   },
   "locations": {
     "template_room": {
-      "name": "Template_Room",
       "objects": [
         "template_object"
       ]

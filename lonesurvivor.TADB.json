@@ -21,7 +21,6 @@
   ],
   "verbs": {
     "pickup": {
-      "name": "pickup",
       "failed": "Sorry you can't see that.",
       "words": [
         "pick",
@@ -33,7 +32,6 @@
       ]
     },
     "look": {
-      "name": "look",
       "failed": "Sorry you can't see that.",
       "words": [
         "look",
@@ -44,7 +42,6 @@
       ]
     },
     "activate": {
-      "name": "activate",
       "failed": "Sorry you can't see that.",
       "words": [
         "turn",
@@ -53,7 +50,6 @@
       ]
     },
     "go": {
-      "name": "go",
       "failed": "Sorry you can't go there.",
       "words": [
         "go",
@@ -63,7 +59,6 @@
       ]
     },
     "open": {
-      "name": "open",
       "failed": "Sorry you can't open that.",
       "words": [
         "open",
@@ -71,7 +66,6 @@
       ]
     },
     "close": {
-      "name": "close",
       "failed": "Sorry you can't close that.",
       "words": [
         "close",
@@ -79,14 +73,12 @@
       ]
     },
     "jump": {
-      "name": "jump",
       "failed": "Sorry this is not possible.",
       "words": [
         "jump"
       ]
     },
     "drop": {
-      "name": "drop",
       "failed": "How do you want to drop that?",
       "words": [
         "drop",
@@ -94,7 +86,6 @@
       ]
     },
     "use": {
-      "name": "use",
       "failed": "Well.. this does not work.",
       "words": [
         "use",
@@ -104,7 +95,6 @@
       ]
     },
     "light": {
-      "name": "light",
       "failed": "Well.. this does not work.",
       "words": [
         "light",
@@ -113,7 +103,6 @@
       ]
     },
     "remove": {
-      "name": "remove",
       "failed": "Well.. this does not work.",
       "words": [
         "remove",
@@ -125,7 +114,6 @@
   },
   "objects": {
     "template_object": {
-      "name": "PILLOW",
       "words": [
         "desk",
         "desktop",
@@ -154,7 +142,6 @@
       }
     },
     "plaster_wall_door_unidentified": {
-      "name": "Walls with crumbling plaster",
       "words": [
         "wall",
         "walls",
@@ -179,7 +166,6 @@
       "useableObjects": {}
     },
     "plaster_wall_door_door_visible": {
-      "name": "Metal Behind Plaster",
       "words": [
         "wall",
         "walls"
@@ -201,7 +187,6 @@
       "useableObjects": {}
     },
     "plaster_wall_door_door_found": {
-      "name": "Hidden Door",
       "words": [
         "wall",
         "rusty",
@@ -225,7 +210,6 @@
       "useableObjects": {}
     },
     "metal_behind_plaster": {
-      "name": "plaster",
       "words": [
         "rust",
         "rusty",
@@ -253,7 +237,6 @@
       "useableObjects": {}
     },
     "room_start_chamber_dark": {
-      "name": "room",
       "words": [
         "room"
       ],
@@ -279,7 +262,6 @@
       "useableObjects": {}
     },
     "room_start_chamber_enlighted": {
-      "name": "room",
       "words": [
         "room"
       ],
@@ -299,7 +281,6 @@
       "useableObjects": {}
     },
     "box_matches_unidentified": {
-      "name": "Small Box",
       "words": [
         "box"
       ],
@@ -320,7 +301,6 @@
       "useableObjects": {}
     },
     "box_matches_pickedUp": {
-      "name": "Box of Matches",
       "words": [
         "box",
         "matches",
@@ -362,7 +342,6 @@
       "useableObjects": {}
     },
     "box_matches_dropped": {
-      "name": "Box of Matches",
       "words": [
         "box",
         "matches",
@@ -385,7 +364,6 @@
       "useableObjects": {}
     },
     "room_hallway": {
-      "name": "long empty hallway",
       "words": [
         "room",
         "hallway"
@@ -400,7 +378,6 @@
       "useableObjects": {}
     },
     "exit_light": {
-      "name": "light at the end of hallway",
       "words": [
         "light",
         "exit"
@@ -419,7 +396,6 @@
       "useableObjects": {}
     },
     "exit_light_without_leaflet": {
-      "name": "light at the end of hallway",
       "words": [
         "light",
         "exit"
@@ -438,7 +414,6 @@
       "useableObjects": {}
     },
     "dev_leaflet_on_ground": {
-      "name": "Developer Notice Metal",
       "words": [
         "leaflet",
         "notice",
@@ -462,7 +437,6 @@
       "useableObjects": {}
     },
     "dev_leaflet_pickedUp": {
-      "name": "Developer Notice Metal",
       "words": [
         "leaflet",
         "notice",
@@ -491,7 +465,6 @@
   },
   "locations": {
     "start_chamber": {
-      "name": "Dark Chamber",
       "objects": [
         "room_start_chamber_dark",
         "plaster_wall_door_unidentified",
@@ -499,7 +472,6 @@
       ]
     },
     "long_hallway": {
-      "name": "Long Hallway",
       "objects": [
         "room_hallway",
         "exit_light",

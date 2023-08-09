@@ -41,15 +41,26 @@ class textAdventureEngine {
 	#initDatbase(gameDatabaseObject, showGameName = true){
 		this.#database = gameDatabaseObject;
 
+		// Tell each object it's name
+		$.each( this.#database.verbs, function( key, val ) {
+			val.name = key;	
+		});
+		$.each( this.#database.object, function( key, val ) {
+			val.name = key;	
+		});
+		$.each( this.#database.locations, function( key, val ) {
+			val.name = key;	
+		});
+
 		if(this.TBA_DEBUG){
 			var base = this;
-			$.each( json.verbs, function( i, item ) {
+			$.each( this.#database.verbs, function( i, item ) {
 				base.outputAddLines("Loaded Action: "+item.name);
 			});
-			$.each( json.objects, function( i, item ) {
+			$.each( this.#database.objects, function( i, item ) {
 				base.outputAddLines("Loaded Object: "+item.name);
 			});
-			$.each( json.locations, function( i, item ) {
+			$.each( this.#database.locations, function( i, item ) {
 				base.outputAddLines("Loaded Location: "+item.title);
 			});
 			
@@ -138,7 +149,7 @@ class textAdventureEngine {
 	
 			//Do a regular Action (verb)
 			if(verb!=undefined && object != undefined){
-				console.log("Action: "+ verb.name);
+				console.log("Action: "+ verb.words);
 				console.log("Object: "+ object.name);
 				var result = object.verbs[verb.name];
 				if(this.TBA_DEBUG==true){

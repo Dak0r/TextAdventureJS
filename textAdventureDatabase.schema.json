@@ -75,11 +75,8 @@
       "type": "object",
       "additionalProperties": {
         "type": "object",
-        "required": ["name", "failed", "words"],
+        "required": ["failed", "words"],
         "properties": {
-          "name": {
-            "type": "string"
-          },
           "failed": {
             "type": "string"
           },
@@ -99,16 +96,12 @@
       "additionalProperties": {
         "type": "object",
         "required": [
-          "name",
           "words",
           "locationDescription",
           "verbs",
           "useableObjects"
         ],
         "properties": {
-          "name": {
-            "type": "string"
-          },
           "words": {
             "description": "Alternative words that the player may use",
             "type": "array",
@@ -142,11 +135,8 @@
       "additionalProperties": {
         "minProperties": 1,
         "type": "object",
-        "required": ["name", "objects"],
+        "required": ["objects"],
         "properties": {
-          "name": {
-            "type": "string"
-          },
           "objects": {
             "description": "List of objects in this location",
             "type": "array",
