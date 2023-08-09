@@ -68,7 +68,9 @@ class textAdventureEngine {
 		}
 		if(showGameName){
 			this.outputClear();
-			this.#writeOutputLines("<br /><br />'"+this.#database.general.title+"' by "+this.#database.general.author+"<br>"+"Version: "+this.#database.general.version+"<br />");
+			this.#writeOutputLines(["", "", 
+				"'"+this.#database.general.title+"' by "+this.#database.general.author,
+				"Version: "+this.#database.general.version]);
 		}else{
 			this.outputClear();
 		}

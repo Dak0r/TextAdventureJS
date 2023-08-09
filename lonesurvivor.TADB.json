@@ -4,9 +4,9 @@
     "title": "Survivor Teaser",
     "author": "Daniel Korgel",
     "version": "0.1",
-    "request": "<br />What do you do?",
+    "request": ["", "What do you do?"],
     "start": {
-      "text": "<br /><br/><br />You wake up with a headache...",
+      "text": ["", "", "", "You wake up with a headache..."],
       "action": "gotoLocation start_chamber"
     }
   },
