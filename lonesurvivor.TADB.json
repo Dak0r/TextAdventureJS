@@ -22,7 +22,7 @@
       "words": [ "look", "view", "watch", "read", "search" ]
     },
     "activate": {
-      "failed": "Sorry you can't see that.",
+      "failed": "Sorry you can't do that.",
       "words": [ "turn", "power", "switch" ]
     },
     "go": {
@@ -55,12 +55,7 @@
     },
     "remove": {
       "failed": "Well.. this does not work.",
-      "words": [
-        "remove",
-        "break",
-        "split",
-        "destroy"
-      ]
+      "words": [ "remove", "break", "split", "destroy" ]
     }
   },
   "objects": {

@@ -77,6 +77,7 @@ Now you can use the `objectReplaceInLocation` function in `chest`s `open` action
 To close the chest again, you can use `objectReplaceInLocation` again in `chest_opened`s `close` action.
 
 ### Functions
+Functions can be used in actions to modify the current location or the plazers inventory.
 
 #### objectRemoveFromLocation
  ```
