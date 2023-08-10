@@ -10,34 +10,18 @@
       "action": "gotoLocation template_room"
     }
   },
-  "ignored_words": [
-    "to",
-    "through",
-    "on",
-    "off",
-    "from",
-    "around",
-    "at"
-  ],
+  "ignored_words": [ "to", "through", "on", "off", "from", "around", "at" ],
   "verbs": {
     "pickup": {
       "failed": "Sorry you can't see that.",
-      "words": [
-        "pick",
-        "lift",
-        "take",
-        "get"
-      ]
+      "words": [ "pick", "lift", "take", "get" ]
     }
   },
   "objects": {
     "template_object": {
-      "words": [
-        "pillow",
-        "pill"
-      ],
+      "words": [ "pillow", "pill" ],
       "locationDescription": "A pillow is lying on the floor",
-      "verbs": {
+      "actions": {
         "pickup": {
           "text": "okay got it",
           "action": [
@@ -51,15 +35,12 @@
           "action": ""
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "template_object_pickedUp": {
-      "words": [
-        "pillow",
-        "pill"
-      ],
+      "words": [ "pillow", "pill" ],
       "locationDescription": "You are holding pillow in your hand.",
-      "verbs": {
+      "actions": {
         "drop": {
           "text": "okay dropped it",
           "action": [
@@ -73,7 +54,7 @@
           "action": ""
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     }
   },
   "locations": {

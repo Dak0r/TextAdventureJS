@@ -43,13 +43,13 @@ class textAdventureEngine {
 
 		// Tell each object it's name
 		$.each( this.#database.verbs, function( key, val ) {
-			val.name = key;	
+			val["name"] = key;	
 		});
-		$.each( this.#database.object, function( key, val ) {
-			val.name = key;	
+		$.each( this.#database.objects, function( key, val ) {
+			val["name"] = key;	
 		});
 		$.each( this.#database.locations, function( key, val ) {
-			val.name = key;	
+			val["name"] = key;	
 		});
 
 		if(this.TBA_DEBUG){
@@ -128,7 +128,7 @@ class textAdventureEngine {
 	
 			//no action
 			if(verb == undefined && object != undefined){
-				this.#writeOutputLines("Unknown verb, please try to rephrase your command.");
+				this.#writeOutputLines("Unknown verb, please try to rephrase your command."); //TODO: Improve
 				this.#showRequest();
 				return;
 			}
@@ -153,7 +153,7 @@ class textAdventureEngine {
 			if(verb!=undefined && object != undefined){
 				console.log("Action: "+ verb.words);
 				console.log("Object: "+ object.name);
-				var result = object.verbs[verb.name];
+				var result = object.actions[verb.name];
 				if(this.TBA_DEBUG==true){
 					console.log(result);
 	
@@ -163,7 +163,7 @@ class textAdventureEngine {
 	
 				if(result != undefined){
 					//
-					let objectStateVerbDefinition = object.verbs[verb.name];
+					let objectStateVerbDefinition = object.actions[verb.name];
 					this.#writeOutputLines(objectStateVerbDefinition.text); // This might be a string here
 					
 					if(objectStateVerbDefinition.action!=undefined){
@@ -176,12 +176,12 @@ class textAdventureEngine {
 						}
 					}
 				}else{
-					this.#writeOutputLines("Sorry you can't do this with "+object.name+".");
+					this.#writeOutputLines(verb.failed); //TODO: Could be improved
 				}
 				this.#showRequest();
 				return;
 			}
-			this.#writeOutputLines("Please try to rephrase your command.");
+			this.#writeOutputLines("Please try to rephrase your command."); //TODO: Replace
 		}
 		this.#showRequest();
 	}

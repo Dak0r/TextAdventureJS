@@ -4,103 +4,54 @@
     "title": "Survivor Teaser",
     "author": "Daniel Korgel",
     "version": "0.1",
-    "request": ["", "What do you do?"],
+    "request": [ "", "What do you do?" ],
     "start": {
-      "text": ["", "", "", "You wake up with a headache..."],
+      "text": [ "", "", "", "You wake up with a headache..." ],
       "action": "gotoLocation start_chamber"
     }
   },
-  "ignored_words": [
-    "to",
-    "through",
-    "on",
-    "off",
-    "from",
-    "around",
-    "at"
-  ],
+  "ignored_words": [ "to", "through", "on", "off", "from", "around", "at" ],
   "verbs": {
     "pickup": {
       "failed": "Sorry you can't see that.",
-      "words": [
-        "pick",
-        "pickup",
-        "lift",
-        "take",
-        "get",
-        "reach"
+      "words": [ "pick", "pickup", "lift", "take", "get", "reach"
       ]
     },
     "look": {
       "failed": "Sorry you can't see that.",
-      "words": [
-        "look",
-        "view",
-        "watch",
-        "read",
-        "search"
-      ]
+      "words": [ "look", "view", "watch", "read", "search" ]
     },
     "activate": {
       "failed": "Sorry you can't see that.",
-      "words": [
-        "turn",
-        "power",
-        "switch"
-      ]
+      "words": [ "turn", "power", "switch" ]
     },
     "go": {
       "failed": "Sorry you can't go there.",
-      "words": [
-        "go",
-        "walk",
-        "run",
-        "goto"
-      ]
+      "words": [ "go", "walk", "run", "goto" ]
     },
     "open": {
       "failed": "Sorry you can't open that.",
-      "words": [
-        "open",
-        "break"
-      ]
+      "words": [ "open", "break" ]
     },
     "close": {
       "failed": "Sorry you can't close that.",
-      "words": [
-        "close",
-        "shut"
-      ]
+      "words": [ "close", "shut" ]
     },
     "jump": {
       "failed": "Sorry this is not possible.",
-      "words": [
-        "jump"
-      ]
+      "words": [ "jump" ]
     },
     "drop": {
       "failed": "How do you want to drop that?",
-      "words": [
-        "drop",
-        "let go"
-      ]
+      "words": [ "drop", "let go" ]
     },
     "use": {
       "failed": "Well.. this does not work.",
-      "words": [
-        "use",
-        "combine",
-        "throw",
-        "attack"
-      ]
+      "words": [ "use", "combine", "throw", "attack" ]
     },
     "light": {
       "failed": "Well.. this does not work.",
-      "words": [
-        "light",
-        "burn",
-        "fire"
-      ]
+      "words": [ "light", "burn", "fire" ]
     },
     "remove": {
       "failed": "Well.. this does not work.",
@@ -120,7 +71,7 @@
         "workingplace"
       ],
       "locationDescription": "",
-      "verbs": {
+      "actions": {
         "pickup": {
           "text": "okay got it",
           "action": "inventoryAdd template_object"
@@ -142,14 +93,9 @@
       }
     },
     "plaster_wall_door_unidentified": {
-      "words": [
-        "wall",
-        "walls",
-        "plaster",
-        "metal"
-      ],
+      "words": [ "wall", "walls", "plaster", "metal" ],
       "locationDescription": "Plaster is crumbling from the WALLS.",
-      "verbs": {
+      "actions": {
         "look": {
           "text": "Plaster is crumbling from the walls. Something seems off, but it's too dark to have a closer look.",
           "action": ""
@@ -163,15 +109,12 @@
           "action": ""
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "plaster_wall_door_door_visible": {
-      "words": [
-        "wall",
-        "walls"
-      ],
+      "words": [ "wall", "walls" ],
       "locationDescription": "Plaster is crumbling from the WALLS.",
-      "verbs": {
+      "actions": {
         "look": {
           "text": "You notice some rusty metal emerging behind the crumbling PLASTER of one wall.",
           "action": ""
@@ -184,16 +127,12 @@
           ]
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "plaster_wall_door_door_found": {
-      "words": [
-        "wall",
-        "rusty",
-        "door"
-      ],
+      "words": [ "wall", "rusty", "door" ],
       "locationDescription": "On the other side for the room is a RUSTY METAL DOOR.",
-      "verbs": {
+      "actions": {
         "look": {
           "text": "A heavy metal door that was hidden under the plaster.",
           "action": ""
@@ -207,17 +146,12 @@
           "action": "gotoLocation long_hallway"
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "metal_behind_plaster": {
-      "words": [
-        "rust",
-        "rusty",
-        "metal",
-        "plaster"
-      ],
+      "words": [ "rust", "rusty", "metal", "plaster" ],
       "locationDescription": "",
-      "verbs": {
+      "actions": {
         "look": {
           "text": "It looks like a rusty metal object is hidden behind the crumbling plaster.",
           "action": ""
@@ -234,14 +168,12 @@
           ]
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "room_start_chamber_dark": {
-      "words": [
-        "room"
-      ],
+      "words": [ "room" ],
       "locationDescription": "You are in a dark ROOM.",
-      "verbs": {
+      "actions": {
         "enter": {
           "text": [
             "You wake up with a headache."
@@ -259,14 +191,12 @@
           "action": ""
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "room_start_chamber_enlighted": {
-      "words": [
-        "room"
-      ],
+      "words": [ "room" ],
       "locationDescription": "The room is slightly lit.",
-      "verbs": {
+      "actions": {
         "look": {
           "text": [
             "You look at each wall..."
@@ -278,14 +208,14 @@
           "action": ""
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "box_matches_unidentified": {
       "words": [
         "box"
       ],
       "locationDescription": "You see a small BOX near you.",
-      "verbs": {
+      "actions": {
         "pickup": {
           "text": "You got it. It's a box of matches!",
           "action": [
@@ -298,17 +228,12 @@
           "action": ""
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "box_matches_pickedUp": {
-      "words": [
-        "box",
-        "matches",
-        "matchbox",
-        "match"
-      ],
+      "words": [ "box", "matches", "matchbox", "match" ],
       "locationDescription": "You are holding the box of MATCHES.",
-      "verbs": {
+      "actions": {
         "use": {
           "text": "You light the last match. The room is now slightly illumanted.",
           "action": [
@@ -339,16 +264,12 @@
           "action": ""
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "box_matches_dropped": {
-      "words": [
-        "box",
-        "matches",
-        "matchbox"
-      ],
+      "words": [ "box", "matches", "matchbox" ],
       "locationDescription": "You dropped the the box of MATCHES here.",
-      "verbs": {
+      "actions": {
         "pickup": {
           "text": "You picked up the Box of Matches again!",
           "action": [
@@ -361,29 +282,23 @@
           "action": ""
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "room_hallway": {
-      "words": [
-        "room",
-        "hallway"
-      ],
+      "words": [ "room", "hallway" ],
       "locationDescription": "The long corridor has cold stone walls.",
-      "verbs": {
+      "actions": {
         "look": {
           "text": "",
           "action": ""
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "exit_light": {
-      "words": [
-        "light",
-        "exit"
-      ],
+      "words": [ "light", "exit" ],
       "locationDescription": "You see LIGHT at the other end of the hallway.",
-      "verbs": {
+      "actions": {
         "look": {
           "text": "It seems to be sunlight that enlightens the end of the hallway.",
           "action": ""
@@ -393,15 +308,12 @@
           "action": ""
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "exit_light_without_leaflet": {
-      "words": [
-        "light",
-        "exit"
-      ],
+      "words": [ "light", "exit" ],
       "locationDescription": "You see LIGHT at the other end of the hallway.",
-      "verbs": {
+      "actions": {
         "look": {
           "text": "It seems to be sunlight that enlightens the end of the hallway.",
           "action": ""
@@ -411,16 +323,12 @@
           "action": ""
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "dev_leaflet_on_ground": {
-      "words": [
-        "leaflet",
-        "notice",
-        "paper"
-      ],
+      "words": [ "leaflet", "notice", "paper" ],
       "locationDescription": "A LEAFLET is lying on the ground.",
-      "verbs": {
+      "actions": {
         "look": {
           "text": "The text is too small to read the LEAFLET, while it's on the ground.",
           "action": ""
@@ -434,16 +342,12 @@
           ]
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     },
     "dev_leaflet_pickedUp": {
-      "words": [
-        "leaflet",
-        "notice",
-        "paper"
-      ],
+      "words": [ "leaflet", "notice", "paper" ],
       "locationDescription": "You are holding the LEAFLET in your hands.",
-      "verbs": {
+      "actions": {
         "look": {
           "text": [
             "\"Dear Player,",
@@ -460,7 +364,7 @@
           ]
         }
       },
-      "useableObjects": {}
+      "useableObjects": { }
     }
   },
   "locations": {

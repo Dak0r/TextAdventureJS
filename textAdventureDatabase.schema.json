@@ -109,7 +109,7 @@
         "required": [
           "words",
           "locationDescription",
-          "verbs",
+          "actions",
           "useableObjects"
         ],
         "properties": {
@@ -123,8 +123,8 @@
           "locationDescription": {
             "type": "string"
           },
-          "verbs": {
-            "description": "List of possible verbs for this object",
+          "actions": {
+            "description": "List of verbs that can be used with this object and what should happen",
             "type": "object",
             "additionalProperties": {
               "$ref": "#/definitions/action_definition"

@@ -39,54 +39,44 @@ I recommend the VSCODE Addon JSON Schema Validator by tberman. \
 Not only does it validate the schema, as it also provides you   information from schema.
 
 ## Concept
-Each game exists of ```objects``` which are either in the players inventory or in ```locations```. The player can interact with object using ```verbs```.
+Each game exists of `objects` which are either in the players inventory or in `locations`. The player can interact with object using `verbs`.
 
 ### Locations
-Locations are basically groups of ```objects```.
+Locations are basically groups of `objects`.
 
 The description text of a location soley exists of the objects which can be found in it. This means an empty location has no description. Thus a location should always have at least one object, at any given moment.
 
 ### Verbs
 Verbs are commands that the user can type. \
    Each verb has a...
-   - a name (usually the verb itself, ```name```)
-   - list of synonyms (```words```)
-   - a text that is shown, in case the verb can't be used with the named object (```failed```) \
+   - a name (usually the verb itself, `name`)
+   - list of synonyms (`words`)
+   - a text that is shown, in case the verb can't be used with the named object (`failed`) \
    E.G. if the user tries to 'open' an object, that can't be opened.
 
 ### Objects
 Everything that player can see or interact with is an object.
-Objects can be realtivily complex, as every object can have multiple `states`, which cause its description and possible actions to change.
 
 Each object has...
-- a value that defines wich state it is currently in (```currentState```)
-- a list of all possible ```states```
-
-Each object state has...
-- the name for this object in this current state (like "closed box" or "opend box", ```name```)
-- a list of ```words``` that the player can type to refer to this object
-- a text that is added to the location description if the object is in the players current location or in his inventory (can be left emptry, ```locationDescription```)
-- a list of ```verbs``` that can be used with this object, in its current state. \
-    each of these verbs has...
-    - a ```text``` that will be shown if the verb is used with this object
-    - one or multiple general ```action```s which defines what happens to this or other objects if a verb is used with the object in its current state. (see Possible Actions)
+- a unique name
+- a list of `words` that the player can type to refer to this object
+- an optional  text that is added to the location description if the object is in the players current location or in his inventory (`locationDescription`)
+- a list of `actions` which describes the `verbs` that can be used with this object. \
+    each of these actions has...
+    - a `text` that will be shown if the verb is used with this object
+    - zero, one or more functions listed under `action`, which can be used to change the current location and its objects (see Functions)
     - a list of 'usableObjects' *which is currently unused*. \
      It is designed to implement usage of object with other objects.
 
+#### Changing Objects
+In almost every game there are scenarios where objects have to change their description texts or behaviors during gameplay. For example if you need a `chest` which the player can open only once, after that it will be open.
 
+In this case you have to create a second object `chest_opened`, which has it's own description and verbs it can handle.
+Now you can use the `objectReplaceInLocation` function in `chest`s `open` action to replace `chest` in the current location with `chest_opened`.
 
-### Possible Actions
+To close the chest again, you can use `objectReplaceInLocation` again in `chest_opened`s `close` action.
 
-#### objectState
-
- ```
- objectState {newObjectState}
- ```
-Changes the state of the current Object to newObjectState
- ```
-objectState {objectId} {newObjectState}
- ```
-Changes the state of a different Object to newObjectState
+### Functions
 
 #### objectRemoveFromLocation
  ```
@@ -99,6 +89,14 @@ Removes the given object from the current location
 objectAddToLocation {objectId}
  ```
 Adds a given object to the current location
+
+#### objectReplaceInLocation
+ ```
+objectReplaceInLocation {objectIdToRemove} {objectIdToAdd}
+ ```
+Removes `{objectIdToRemove}` and adds `{objectIdToAdd}`. Shorthand for sequentially calling `objectRemoveFromLocation` and `objectAddToLocation`.
+
+Useful if an object transitions into a different one like `chest_closed` to `chest_opened`.
 
 #### gotoLocation
  ```
