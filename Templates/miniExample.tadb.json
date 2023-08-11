@@ -4,7 +4,7 @@
     "title": "TextAdventureJS Database Mini Example",
     "author": "Daniel Korgel",
     "version": "0.1",
-    "request": "<br />What do you do?",
+    "request": [ "", "What do you do?" ],
     "start": {
       "text": "Welcome to the textAdventureJS Mini Example",
       "action": "gotoLocation template_room"
