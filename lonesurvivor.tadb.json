@@ -1,0 +1,381 @@
+{
+  "$schema": "./textAdventureDatabase.schema.json",
+  "general": {
+    "title": "Survivor Teaser",
+    "author": "Daniel Korgel",
+    "version": "0.1",
+    "request": [ "", "What do you do?" ],
+    "start": {
+      "text": [ "", "", "", "You wake up with a headache..." ],
+      "action": "gotoLocation start_chamber"
+    }
+  },
+  "ignored_words": [ "to", "through", "on", "off", "from", "around", "at" ],
+  "verbs": {
+    "pickup": {
+      "failure": "Sorry you can't see that.",
+      "words": [ "pick", "pickup", "lift", "take", "get", "reach"
+      ]
+    },
+    "look": {
+      "failure": "Sorry you can't see that.",
+      "words": [ "look", "view", "watch", "read", "search" ]
+    },
+    "activate": {
+      "failure": "Sorry you can't do that.",
+      "words": [ "turn", "power", "switch" ]
+    },
+    "go": {
+      "failure": "Sorry you can't go there.",
+      "words": [ "go", "walk", "run", "goto" ]
+    },
+    "open": {
+      "failure": "Sorry you can't open that.",
+      "words": [ "open", "break" ]
+    },
+    "close": {
+      "failure": "Sorry you can't close that.",
+      "words": [ "close", "shut" ]
+    },
+    "jump": {
+      "failure": "Sorry this is not possible.",
+      "words": [ "jump" ]
+    },
+    "drop": {
+      "failure": "How do you want to drop that?",
+      "words": [ "drop", "let go" ]
+    },
+    "use": {
+      "failure": "Well.. this does not work.",
+      "words": [ "use", "combine", "throw", "attack" ]
+    },
+    "light": {
+      "failure": "Well.. this does not work.",
+      "words": [ "light", "burn", "fire" ]
+    },
+    "remove": {
+      "failure": "Well.. this does not work.",
+      "words": [ "remove", "break", "split", "destroy" ]
+    }
+  },
+  "objects": {
+    "template_object": {
+      "words": [
+        "desk",
+        "desktop",
+        "workingplace"
+      ],
+      "locationDescription": "",
+      "actions": {
+        "pickup": {
+          "text": "okay got it",
+          "action": "inventoryAdd template_object"
+        },
+        "look": {
+          "text": "soft and comfy",
+          "action": ""
+        }
+      },
+      "useableObjects": {
+        "bedroom_desk": {
+          "text": "soft and comfy",
+          "action": ""
+        },
+        "test": {
+          "text": "works",
+          "action": ""
+        }
+      }
+    },
+    "plaster_wall_door_unidentified": {
+      "words": [ "wall", "walls", "plaster", "metal" ],
+      "locationDescription": "Plaster is crumbling from the WALLS.",
+      "actions": {
+        "look": {
+          "text": "Plaster is crumbling from the walls. Something seems off, but it's too dark to have a closer look.",
+          "action": ""
+        },
+        "touch": {
+          "text": "The plaster feels wet and is crumbling in your hands as you touch it.",
+          "action": ""
+        },
+        "break": {
+          "text": "Why would you do that?",
+          "action": ""
+        }
+      },
+      "useableObjects": { }
+    },
+    "plaster_wall_door_door_visible": {
+      "words": [ "wall", "walls" ],
+      "locationDescription": "Plaster is crumbling from the WALLS.",
+      "actions": {
+        "look": {
+          "text": "You notice some rusty metal emerging behind the crumbling PLASTER of one wall.",
+          "action": ""
+        },
+        "remove": {
+          "text": "You break the loose plaster of the wall. Piece by piece it reveals an old RUSTY METAL DOOR.",
+          "action": [
+            "objectReplaceInLocation plaster_wall_door_unidentified plaster_wall_door_door_found",
+            "objectRemoveFromLocation metal_behind_plaster"
+          ]
+        }
+      },
+      "useableObjects": { }
+    },
+    "plaster_wall_door_door_found": {
+      "words": [ "wall", "rusty", "door" ],
+      "locationDescription": "On the other side for the room is a RUSTY METAL DOOR.",
+      "actions": {
+        "look": {
+          "text": "A heavy metal door that was hidden under the plaster.",
+          "action": ""
+        },
+        "go": {
+          "text": "You open the rusty door and enter a hallway.",
+          "action": "gotoLocation long_hallway"
+        },
+        "open": {
+          "text": "You open the rusty door and enter a hallway.",
+          "action": "gotoLocation long_hallway"
+        }
+      },
+      "useableObjects": { }
+    },
+    "metal_behind_plaster": {
+      "words": [ "rust", "rusty", "metal", "plaster" ],
+      "locationDescription": "",
+      "actions": {
+        "look": {
+          "text": "It looks like a rusty metal object is hidden behind the crumbling plaster.",
+          "action": ""
+        },
+        "touch": {
+          "text": "The plaster feels loose, you might be able to remove it with your hands.",
+          "action": ""
+        },
+        "remove": {
+          "text": "You break the loose plaster of the wall. Piece by piece it reveals an old RUSTY METAL DOOR.",
+          "action": [
+            "objectReplaceInLocation plaster_wall_door_door_visible plaster_wall_door_door_found",
+            "objectRemoveFromLocation metal_behind_plaster"
+          ]
+        }
+      },
+      "useableObjects": { }
+    },
+    "room_start_chamber_dark": {
+      "words": [ "room" ],
+      "locationDescription": "You are in a dark ROOM.",
+      "actions": {
+        "enter": {
+          "text": [
+            "You wake up with a headache."
+          ],
+          "action": ""
+        },
+        "look": {
+          "text": [
+            "You look around..."
+          ],
+          "action": "showLocationDescription"
+        },
+        "light": {
+          "text": "If only you'd had something to enlighten the room with...",
+          "action": ""
+        }
+      },
+      "useableObjects": { }
+    },
+    "room_start_chamber_enlighted": {
+      "words": [ "room" ],
+      "locationDescription": "The room is slightly lit.",
+      "actions": {
+        "look": {
+          "text": [
+            "You look at each wall..."
+          ],
+          "action": "showLocationDescription"
+        },
+        "light": {
+          "text": "The room is already slightly illuminated.",
+          "action": ""
+        }
+      },
+      "useableObjects": { }
+    },
+    "box_matches_unidentified": {
+      "words": [
+        "box"
+      ],
+      "locationDescription": "You see a small BOX near you.",
+      "actions": {
+        "pickup": {
+          "text": "You got it. It's a box of matches!",
+          "action": [
+            "objectRemoveFromLocation box_matches_unidentified",
+            "inventoryAdd box_matches_pickedUp"
+          ]
+        },
+        "look": {
+          "text": "It's too dark to see the small box properly. You could probably reach it.",
+          "action": ""
+        }
+      },
+      "useableObjects": { }
+    },
+    "box_matches_pickedUp": {
+      "words": [ "box", "matches", "matchbox", "match" ],
+      "locationDescription": "You are holding the box of MATCHES.",
+      "actions": {
+        "use": {
+          "text": "You light the last match. The room is now slightly illumanted.",
+          "action": [
+            "objectReplaceInLocation plaster_wall_door_unidentified plaster_wall_door_door_visible",
+            "objectReplaceInLocation room_start_chamber_dark room_start_chamber_enlighted",
+            "objectAddToLocation metal_behind_plaster",
+            "inventoryRemove box_matches_pickedUp"
+          ]
+        },
+        "light": {
+          "text": "You light the last match. The room is now slightly illumanted.",
+          "action": [
+            "objectReplaceInLocation plaster_wall_door_unidentified plaster_wall_door_door_visible",
+            "objectReplaceInLocation room_start_chamber_dark room_start_chamber_enlighted",
+            "objectAddToLocation metal_behind_plaster",
+            "inventoryRemove box_matches_pickedUp"
+          ]
+        },
+        "drop": {
+          "text": "You dropped the box of matches",
+          "action": [
+            "objectAddToLocation box_matches_dropped",
+            "inventoryRemove box_matches_pickedUp"
+          ]
+        },
+        "look": {
+          "text": "An almost empty box of matches.",
+          "action": ""
+        }
+      },
+      "useableObjects": { }
+    },
+    "box_matches_dropped": {
+      "words": [ "box", "matches", "matchbox" ],
+      "locationDescription": "You dropped the the box of MATCHES here.",
+      "actions": {
+        "pickup": {
+          "text": "You picked up the Box of Matches again!",
+          "action": [
+            "objectRemoveFromLocation box_matches_dropped",
+            "inventoryAdd box_matches_pickedUp"
+          ]
+        },
+        "look": {
+          "text": "A small box of matches, that you dropped here...",
+          "action": ""
+        }
+      },
+      "useableObjects": { }
+    },
+    "room_hallway": {
+      "words": [ "room", "hallway" ],
+      "locationDescription": "The long corridor has cold stone walls.",
+      "actions": {
+        "look": {
+          "text": "",
+          "action": ""
+        }
+      },
+      "useableObjects": { }
+    },
+    "exit_light": {
+      "words": [ "light", "exit" ],
+      "locationDescription": "You see LIGHT at the other end of the hallway.",
+      "actions": {
+        "look": {
+          "text": "It seems to be sunlight that enlightens the end of the hallway.",
+          "action": ""
+        },
+        "go": {
+          "text": "You walk towards the light, but you don't seem to get any closer. A gust of wind blows the LEAFLET to you.",
+          "action": ""
+        }
+      },
+      "useableObjects": { }
+    },
+    "exit_light_without_leaflet": {
+      "words": [ "light", "exit" ],
+      "locationDescription": "You see LIGHT at the other end of the hallway.",
+      "actions": {
+        "look": {
+          "text": "It seems to be sunlight that enlightens the end of the hallway.",
+          "action": ""
+        },
+        "go": {
+          "text": "You walk towards the light, but you don't seem to get any closer.",
+          "action": ""
+        }
+      },
+      "useableObjects": { }
+    },
+    "dev_leaflet_on_ground": {
+      "words": [ "leaflet", "notice", "paper" ],
+      "locationDescription": "A LEAFLET is lying on the ground.",
+      "actions": {
+        "look": {
+          "text": "The text is too small to read the LEAFLET, while it's on the ground.",
+          "action": ""
+        },
+        "pickup": {
+          "text": "You take the leaflet.",
+          "action": [
+            "objectReplaceInLocation exit_light exit_light_without_leaflet",
+            "objectRemoveFromLocation dev_leaflet_on_ground",
+            "inventoryAdd dev_leaflet_pickedUp"
+          ]
+        }
+      },
+      "useableObjects": { }
+    },
+    "dev_leaflet_pickedUp": {
+      "words": [ "leaflet", "notice", "paper" ],
+      "locationDescription": "You are holding the LEAFLET in your hands.",
+      "actions": {
+        "look": {
+          "text": [
+            "\"Dear Player,",
+            "Wow, you actually played this :-) I'm afraid your adventure ends here, already. This Text Based Adventure Engine was just a quick project on a rainy weekend. I hope you liked it, feel free to contact me if you did. -Daniel.\""
+          ],
+          "action": ""
+        },
+        "drop": {
+          "text": "You dropped the leaflet.",
+          "action": [
+            "objectReplaceInLocation exit_light_without_leaflet exit_light",
+            "objectAddToLocation dev_leaflet_on_ground",
+            "inventoryRemove dev_leaflet_pickedUp"
+          ]
+        }
+      },
+      "useableObjects": { }
+    }
+  },
+  "locations": {
+    "start_chamber": {
+      "objects": [
+        "room_start_chamber_dark",
+        "plaster_wall_door_unidentified",
+        "box_matches_unidentified"
+      ]
+    },
+    "long_hallway": {
+      "objects": [
+        "room_hallway",
+        "exit_light",
+        "dev_leaflet_on_ground"
+      ]
+    }
+  }
+}

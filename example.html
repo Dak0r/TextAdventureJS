@@ -8,11 +8,9 @@
             $( document ).ready(function() {
                 
                 var textAdv = new textAdventureEngine(witeLine, clearArea);
-                textAdv.loadDatabaseFromFile("lonesurvivor.TADB.json");
+                textAdv.loadDatabaseFromFile("lonesurvivor.tadb.json");
 
                 function witeLine(output){
-                    
-                    output = output.replace(/<br ?\/?>/g, "\n");
                     $("#outputArea").val($("#outputArea").val()+output+"\n"); 
                     $('#outputArea').scrollTop($('#outputArea')[0].scrollHeight);    
                     $("#inputButton").prop("disabled",false);

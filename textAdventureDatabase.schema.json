@@ -55,7 +55,18 @@
           "type": "string"
         },
         "request": {
-          "type": "string"
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
         },
         "start": {
           "$ref": "#/definitions/action_definition"
@@ -75,12 +86,9 @@
       "type": "object",
       "additionalProperties": {
         "type": "object",
-        "required": ["name", "failed", "words"],
+        "required": ["failure", "words"],
         "properties": {
-          "name": {
-            "type": "string"
-          },
-          "failed": {
+          "failure": {
             "type": "string"
           },
           "words": {
@@ -98,51 +106,35 @@
       "type": "object",
       "additionalProperties": {
         "type": "object",
-        "required": ["currentState", "states"],
+        "required": [
+          "words",
+          "locationDescription",
+          "actions",
+          "useableObjects"
+        ],
         "properties": {
-          "currentState": {
+          "words": {
+            "description": "Alternative words that the player may use",
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "locationDescription": {
             "type": "string"
           },
-          "states": {
+          "actions": {
+            "description": "List of verbs that can be used with this object and what should happen",
             "type": "object",
             "additionalProperties": {
-              "type": "object",
-              "required": [
-                "name",
-                "words",
-                "locationDescription",
-                "verbs",
-                "useableObjects"
-              ],
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "words": {
-                  "description": "Alternative words that the player may use",
-                  "type": "array",
-                  "items": { "type": "string" },
-                  "minItems": 1,
-                  "uniqueItems": true
-                },
-                "locationDescription": {
-                  "type": "string"
-                },
-                "verbs": {
-                  "description": "List of possible verbs for this object",
-                  "type": "object",
-                  "additionalProperties": {
-                    "$ref": "#/definitions/action_definition"
-                  }
-                },
-                "useableObjects": {
-                  "description": "List of possible combinations",
-                  "type": "object",
-                  "additionalProperties": {
-                    "$ref": "#/definitions/action_definition"
-                  }
-                }
-              }
+              "$ref": "#/definitions/action_definition"
+            }
+          },
+          "useableObjects": {
+            "description": "List of possible combinations",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/action_definition"
             }
           }
         }
@@ -154,11 +146,8 @@
       "additionalProperties": {
         "minProperties": 1,
         "type": "object",
-        "required": ["name", "objects"],
+        "required": ["objects"],
         "properties": {
-          "name": {
-            "type": "string"
-          },
           "objects": {
             "description": "List of objects in this location",
             "type": "array",

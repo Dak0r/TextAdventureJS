@@ -1,0 +1,67 @@
+{
+  "$schema": "../textAdventureDatabase.schema.json",
+  "general": {
+    "title": "TextAdventureJS Database Mini Example",
+    "author": "Daniel Korgel",
+    "version": "0.1",
+    "request": [ "", "What do you do?" ],
+    "start": {
+      "text": "Welcome to the textAdventureJS Mini Example",
+      "action": "gotoLocation template_room"
+    }
+  },
+  "ignored_words": [ "to", "through", "on", "off", "from", "around", "at" ],
+  "verbs": {
+    "pickup": {
+      "failure": "Sorry you can't see that.",
+      "words": [ "pick", "lift", "take", "get" ]
+    }
+  },
+  "objects": {
+    "template_object": {
+      "words": [ "pillow", "pill" ],
+      "locationDescription": "A pillow is lying on the floor",
+      "actions": {
+        "pickup": {
+          "text": "okay got it",
+          "action": [
+            "objectRemoveFromLocation template_object",
+            "objectState pickedUp",
+            "inventoryAdd template_object"
+          ]
+        },
+        "look": {
+          "text": "soft and comfy",
+          "action": ""
+        }
+      },
+      "useableObjects": { }
+    },
+    "template_object_pickedUp": {
+      "words": [ "pillow", "pill" ],
+      "locationDescription": "You are holding pillow in your hand.",
+      "actions": {
+        "drop": {
+          "text": "okay dropped it",
+          "action": [
+            "objectAddToLocation template_object",
+            "objectState default",
+            "inventoryRemove template_object"
+          ]
+        },
+        "look": {
+          "text": "soft and comfy",
+          "action": ""
+        }
+      },
+      "useableObjects": { }
+    }
+  },
+  "locations": {
+    "template_room": {
+      "objects": [
+        "template_object"
+      ]
+    }
+  }
+}

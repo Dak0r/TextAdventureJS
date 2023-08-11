@@ -5,7 +5,7 @@
     "title": "TextAdventureJS Empty Database Template",
     "author": "Your Name",
     "version": "0.1",
-    "request": "<br />What do you do?",
+    "request": [ "", "What do you do?" ],
     "start": {
       "text": "Welcome to the Empty Template",
       "inventory": "",
@@ -19,7 +19,6 @@
   },
   "locations": {
     "first_room": {
-      "name": "Template Room",
       "objects": []
     }
   }
