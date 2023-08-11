@@ -13,7 +13,7 @@
   "ignored_words": [ "to", "through", "on", "off", "from", "around", "at" ],
   "verbs": {
     "pickup": {
-      "failed": "Sorry you can't see that.",
+      "failure": "Sorry you can't see that.",
       "words": [ "pick", "lift", "take", "get" ]
     }
   },

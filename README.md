@@ -30,13 +30,10 @@ See `example.html` for a working minimal example.
 ```
 
 ## Game Database 
-A Text Adventure Database (TADB) is JSON file which contains all information for a given game that runs on the TextAdventureJS Engine.
-It contains all Verbs, Locations and Objects and their relations to each other.
+A Text Adventure Database (TADB) is JSON file which describes games that can run in the TextAdventureJS Engine.
 
-A TADB-Json file can be validated using the provieded JSON schema: `textAdventureDatabase.schema.json`. The schema contains all important infos on how to write your own Game. It shows which JSON keys are required and what their value is used for.
-
-I recommend the VSCODE Addon JSON Schema Validator by tberman. \
-Not only does it validate the schema, as it also provides you   information from schema.
+`.tadb.json` files can be validated using the JSON schema in this repo: `textAdventureDatabase.schema.json`.
+The schema contains also includes descriptions for the properties. I recommend using the [JSON Schema Validator](https://marketplace.visualstudio.com/items?itemName=tberman.json-schema-validator) for this task.
 
 ## Concept
 Each game exists of `objects` which are either in the players inventory or in `locations`. The player can interact with object using `verbs`.
@@ -49,9 +46,9 @@ The description text of a location soley exists of the objects which can be foun
 ### Verbs
 Verbs are commands that the user can type. \
    Each verb has a...
-   - a name (usually the verb itself, `name`)
+   - a name
    - list of synonyms (`words`)
-   - a text that is shown, in case the verb can't be used with the named object (`failed`) \
+   - a text that is shown, in case the verb can't be used with the object the user mentioned (`failure`) \
    E.G. if the user tries to 'open' an object, that can't be opened.
 
 ### Objects

@@ -13,48 +13,48 @@
   "ignored_words": [ "to", "through", "on", "off", "from", "around", "at" ],
   "verbs": {
     "pickup": {
-      "failed": "Sorry you can't see that.",
+      "failure": "Sorry you can't see that.",
       "words": [ "pick", "pickup", "lift", "take", "get", "reach"
       ]
     },
     "look": {
-      "failed": "Sorry you can't see that.",
+      "failure": "Sorry you can't see that.",
       "words": [ "look", "view", "watch", "read", "search" ]
     },
     "activate": {
-      "failed": "Sorry you can't do that.",
+      "failure": "Sorry you can't do that.",
       "words": [ "turn", "power", "switch" ]
     },
     "go": {
-      "failed": "Sorry you can't go there.",
+      "failure": "Sorry you can't go there.",
       "words": [ "go", "walk", "run", "goto" ]
     },
     "open": {
-      "failed": "Sorry you can't open that.",
+      "failure": "Sorry you can't open that.",
       "words": [ "open", "break" ]
     },
     "close": {
-      "failed": "Sorry you can't close that.",
+      "failure": "Sorry you can't close that.",
       "words": [ "close", "shut" ]
     },
     "jump": {
-      "failed": "Sorry this is not possible.",
+      "failure": "Sorry this is not possible.",
       "words": [ "jump" ]
     },
     "drop": {
-      "failed": "How do you want to drop that?",
+      "failure": "How do you want to drop that?",
       "words": [ "drop", "let go" ]
     },
     "use": {
-      "failed": "Well.. this does not work.",
+      "failure": "Well.. this does not work.",
       "words": [ "use", "combine", "throw", "attack" ]
     },
     "light": {
-      "failed": "Well.. this does not work.",
+      "failure": "Well.. this does not work.",
       "words": [ "light", "burn", "fire" ]
     },
     "remove": {
-      "failed": "Well.. this does not work.",
+      "failure": "Well.. this does not work.",
       "words": [ "remove", "break", "split", "destroy" ]
     }
   },

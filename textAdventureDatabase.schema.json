@@ -86,9 +86,9 @@
       "type": "object",
       "additionalProperties": {
         "type": "object",
-        "required": ["failed", "words"],
+        "required": ["failure", "words"],
         "properties": {
-          "failed": {
+          "failure": {
             "type": "string"
           },
           "words": {

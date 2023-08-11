@@ -144,7 +144,7 @@ class textAdventureEngine {
 			//no object
 			if(verb != undefined && (object == undefined)){
 				console.log("object is undefined");
-				this.#writeOutputLines(verb.failed);
+				this.#writeOutputLines(verb.failure);
 				this.#showRequest();
 				return;
 			}
@@ -176,7 +176,7 @@ class textAdventureEngine {
 						}
 					}
 				}else{
-					this.#writeOutputLines(verb.failed); //TODO: Could be improved
+					this.#writeOutputLines(verb.failure); //TODO: Could be improved
 				}
 				this.#showRequest();
 				return;
