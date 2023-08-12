@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>testAdventureJS Editor</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"> </script>
+<link href="editor-style.css" rel="stylesheet"></script>
+<script src="tba_editor.js"> </script>
+
+</head>
+
+<body>
+	<main role="main" class="container">
+		<h1 class="mt-5">textAdventureJS Game Editor</h1>
+		<div class="file-drop-area" id="drop-area">
+			<h1>DROP HERE</h1>
+		</div>
+		<div id="editor-aera">
+			<p>
+				<select id="type" onchange="initEditorForSlection()">
+					<option value="verbs">Verbs</option>
+					<option value="objects">Objects</option>
+				<option value="locations">Locations</option>
+				</select> 
+			</p>
+			<div id="editor">
+				<div id="elementSelection"></div>
+				<div id="elementEditor"></div>
+			</div>
+		</div>
+	</main>	
+</body>
+</html>
