@@ -9,7 +9,7 @@
     "start": {
       "text": "Welcome to the Empty Template",
       "inventory": "",
-      "action": "gotoLocation first_room"
+      "action": [ "gotoLocation first_room" ]
     }
   },
   "ignored_words" :[ ],

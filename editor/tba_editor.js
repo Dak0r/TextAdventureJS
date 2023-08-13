@@ -56,7 +56,7 @@ function initEditorForSlection(){
 	$("#elementSelection").html("");
 
 	let elementSelector = $('<select id="element" onchange="onElementChanged()"><select>');
-	 $.each( TBA_DATABASE[type], function( key, val ) {
+	$.each( TBA_DATABASE[type], function( key, val ) {
 		elementSelector.append($('<option value="'+key+'">'+key+'</option>'));
 	});	
 	$("#elementSelection").append(elementSelector);
@@ -70,6 +70,15 @@ function initEditorForSlection(){
 			TBA_DATABASE.verbs[name]=newVerb;
 			initEditorForSlection();
 		}));
+	}else if(type==="objects"){
+		$("#elementSelection").append(generateNewButton(function(name){
+			if(TBA_DATABASE.objects[name]!==undefined){
+				alert("An object with this name already exists.");
+				return;
+			}
+			TBA_DATABASE.objects[name]=getNewObject(name);
+			initEditorForSlection();
+		}));
 	}
 	$("#elementEditor").html("");
 }
@@ -80,23 +89,12 @@ function onElementChanged(){
 	if(type=="verbs"){
 		gui = generateUiForVerbElement(element, TBA_DATABASE.verbs[element]);
 	}else if(type=="objects"){
-
+		gui = generateUiForObjectElement(element, TBA_DATABASE.objects[element]);
 	}else{
 
 	}
 	
 	$("#elementEditor").html(gui);
-}
-
-function generateNewButton(onClick) {
-	let editorGui = $('<div/>');
-	let elementNameInput = $('<input id="newElement"="newElement" type="text" size="30" value=""/>');
-	
-	let addButton = $('<button>Add</button>');
-	addButton.click(function() { onClick(elementNameInput.val()); });
-	editorGui.append(elementNameInput);
-	editorGui.append(addButton); //getNewVerb
-	return editorGui;
 }
 
 function generateUiForVerbElement(verbName, verb) {
@@ -116,10 +114,84 @@ function generateUiForVerbElement(verbName, verb) {
 	return editorGui;
 }
 
+function generateUiForObjectElement(objectName, object) {
+	let editorGui = $('<div/>');
+	let name = $('<p>Name: '+objectName+' </p>');
+	let removeButton = $('<button>Remove</button>');
+	removeButton.click(function() { delete TBA_DATABASE.objects[objectName]; initEditorForSlection(); });
+	name.append(removeButton);
+	editorGui.append(name);
+	editorGui.append(generateInput("Location Description", object.locationDescription, function(value){ object.locationDescription = value; }));
+	editorGui.append(generateInput("Words", object.words.join(", "), 
+		function(value){
+			object.words = value.split(",").map(function(item) { return item.trim(); });
+		}));
+	editorGui.append($('<p>Actions:</p>'));
+	editorGui.append(generateNewActionButton(object.actions, function(verb){
+		if(object.actions[name]!==undefined){
+			alert("An action with this verb already exists for this object.");
+			return;
+		}
+		alert(verb);
+		let newAction = getNewObjectAction();
+		object.actions[verb]=newAction;
+		initEditorForSlection();
+	}));
+	$.each(object.actions, function( verb, action ) {
+		let actionGui = $('<div/>');
+		let name = $('<p>Name: '+verb+' </p>');
+		actionGui.append(name);
+		actionGui.append(generateInput("Text", action.text, function(value){ action.text = value; }));
+		actionGui.append(generateTextArea("Functions", action.action.join("\n"), function(value){
+			action.action = value.split("\n").map(function(item) { return item.trim(); }).filter(e => e);
+		}));
+		editorGui.append(actionGui);
+	});	
+
+	return editorGui;
+}
+
+function generateNewButton(onClick) {
+	let editorGui = $('<div/>');
+	let elementNameInput = $('<input id="newElement" type="text" size="30" value=""/>');
+	
+	let addButton = $('<button>Add</button>');
+	addButton.click(function() { onClick(elementNameInput.val()); });
+	editorGui.append(elementNameInput);
+	editorGui.append(addButton);
+	return editorGui;
+}
+
+function generateNewActionButton(existingActions, onClick) {
+	let editorGui = $('<div/>');
+	let selectNewAction = $('<select id="selectNewAction" />');
+	$.each(TBA_DATABASE.verbs, function( verb ) {
+		if(existingActions[verb] !== undefined) { return; }
+		selectNewAction.append($('<option/>').val(verb).html(verb));
+	});
+	
+	let addButton = $('<button>Add</button>');
+	addButton.click(function() { onClick(selectNewAction.val()); });
+	editorGui.append(selectNewAction);
+	editorGui.append(addButton);
+	return editorGui;
+}
+
 function generateInput(name, value, onChange){
 	let inputFieldArea = $('<p></p>');
 	inputFieldArea.append('<label for="'+name+'">'+name+'</label> ');
 	let inputField = $('<input id="'+name+'" type="text" size="30" value="'+value+'"/>');
+	inputField.on( "change", function() {
+		onChange(inputField.val());
+	} );
+	inputFieldArea.append(inputField);
+	return inputFieldArea;
+}
+
+function generateTextArea(name, value, onChange){
+	let inputFieldArea = $('<p></p>');
+	inputFieldArea.append('<label for="'+name+'">'+name+'</label><br />');
+	let inputField = $('<textarea id="'+name+'" name="'+name+'" cols="40" rows="5">'+value+'</textarea>');
 	inputField.on( "change", function() {
 		onChange(inputField.val());
 	} );
@@ -148,6 +220,21 @@ function getNewVerb(name){
 	newVerb["failure"] = "That didnt work.";
 	newVerb["words"] = [name];
 	return newVerb;
+}
+
+function getNewObject(name){
+	var newObject = {};
+	newObject["words"] = [name];
+	newObject["locationDescription"] = "";
+	newObject["actions"] = [];
+	return newObject;
+}
+
+function getNewObjectAction(){
+	var newAction = {};
+	newAction["text"] = "That worked!";
+	newAction["action"] = [];
+	return newAction;
 }
 
 

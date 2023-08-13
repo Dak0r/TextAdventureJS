@@ -7,7 +7,7 @@
     "request": [ "", "What do you do?" ],
     "start": {
       "text": "Welcome to the textAdventureJS Mini Example",
-      "action": "gotoLocation template_room"
+      "action": [ "gotoLocation template_room" ]
     }
   },
   "ignored_words": [ "to", "through", "on", "off", "from", "around", "at" ],
@@ -32,7 +32,7 @@
         },
         "look": {
           "text": "soft and comfy",
-          "action": ""
+          "action": []
         }
       },
       "useableObjects": { }
@@ -51,7 +51,7 @@
         },
         "look": {
           "text": "soft and comfy",
-          "action": ""
+          "action": []
         }
       },
       "useableObjects": { }

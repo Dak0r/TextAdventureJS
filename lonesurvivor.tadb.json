@@ -7,7 +7,7 @@
     "request": [ "", "What do you do?" ],
     "start": {
       "text": [ "", "", "", "You wake up with a headache..." ],
-      "action": "gotoLocation start_chamber"
+      "action": [ "gotoLocation start_chamber" ]
     }
   },
   "ignored_words": [ "to", "through", "on", "off", "from", "around", "at" ],
@@ -69,21 +69,21 @@
       "actions": {
         "pickup": {
           "text": "okay got it",
-          "action": "inventoryAdd template_object"
+          "action": [ "inventoryAdd template_object" ]
         },
         "look": {
           "text": "soft and comfy",
-          "action": ""
+          "action": []
         }
       },
       "useableObjects": {
         "bedroom_desk": {
           "text": "soft and comfy",
-          "action": ""
+          "action": []
         },
         "test": {
           "text": "works",
-          "action": ""
+          "action": []
         }
       }
     },
@@ -93,15 +93,15 @@
       "actions": {
         "look": {
           "text": "Plaster is crumbling from the walls. Something seems off, but it's too dark to have a closer look.",
-          "action": ""
+          "action": []
         },
         "touch": {
           "text": "The plaster feels wet and is crumbling in your hands as you touch it.",
-          "action": ""
+          "action": []
         },
         "break": {
           "text": "Why would you do that?",
-          "action": ""
+          "action": []
         }
       },
       "useableObjects": { }
@@ -112,7 +112,7 @@
       "actions": {
         "look": {
           "text": "You notice some rusty metal emerging behind the crumbling PLASTER of one wall.",
-          "action": ""
+          "action": []
         },
         "remove": {
           "text": "You break the loose plaster of the wall. Piece by piece it reveals an old RUSTY METAL DOOR.",
@@ -130,15 +130,15 @@
       "actions": {
         "look": {
           "text": "A heavy metal door that was hidden under the plaster.",
-          "action": ""
+          "action": []
         },
         "go": {
           "text": "You open the rusty door and enter a hallway.",
-          "action": "gotoLocation long_hallway"
+          "action": [ "gotoLocation long_hallway" ]
         },
         "open": {
           "text": "You open the rusty door and enter a hallway.",
-          "action": "gotoLocation long_hallway"
+          "action": [ "gotoLocation long_hallway" ]
         }
       },
       "useableObjects": { }
@@ -149,11 +149,11 @@
       "actions": {
         "look": {
           "text": "It looks like a rusty metal object is hidden behind the crumbling plaster.",
-          "action": ""
+          "action": []
         },
         "touch": {
           "text": "The plaster feels loose, you might be able to remove it with your hands.",
-          "action": ""
+          "action": []
         },
         "remove": {
           "text": "You break the loose plaster of the wall. Piece by piece it reveals an old RUSTY METAL DOOR.",
@@ -173,17 +173,17 @@
           "text": [
             "You wake up with a headache."
           ],
-          "action": ""
+          "action": []
         },
         "look": {
           "text": [
             "You look around..."
           ],
-          "action": "showLocationDescription"
+          "action": [ "showLocationDescription" ]
         },
         "light": {
           "text": "If only you'd had something to enlighten the room with...",
-          "action": ""
+          "action": []
         }
       },
       "useableObjects": { }
@@ -196,11 +196,11 @@
           "text": [
             "You look at each wall..."
           ],
-          "action": "showLocationDescription"
+          "action": [ "showLocationDescription" ]
         },
         "light": {
           "text": "The room is already slightly illuminated.",
-          "action": ""
+          "action": []
         }
       },
       "useableObjects": { }
@@ -220,7 +220,7 @@
         },
         "look": {
           "text": "It's too dark to see the small box properly. You could probably reach it.",
-          "action": ""
+          "action": []
         }
       },
       "useableObjects": { }
@@ -256,7 +256,7 @@
         },
         "look": {
           "text": "An almost empty box of matches.",
-          "action": ""
+          "action": []
         }
       },
       "useableObjects": { }
@@ -274,7 +274,7 @@
         },
         "look": {
           "text": "A small box of matches, that you dropped here...",
-          "action": ""
+          "action": []
         }
       },
       "useableObjects": { }
@@ -285,7 +285,7 @@
       "actions": {
         "look": {
           "text": "",
-          "action": ""
+          "action": []
         }
       },
       "useableObjects": { }
@@ -296,11 +296,11 @@
       "actions": {
         "look": {
           "text": "It seems to be sunlight that enlightens the end of the hallway.",
-          "action": ""
+          "action": []
         },
         "go": {
           "text": "You walk towards the light, but you don't seem to get any closer. A gust of wind blows the LEAFLET to you.",
-          "action": ""
+          "action": []
         }
       },
       "useableObjects": { }
@@ -311,11 +311,11 @@
       "actions": {
         "look": {
           "text": "It seems to be sunlight that enlightens the end of the hallway.",
-          "action": ""
+          "action": []
         },
         "go": {
           "text": "You walk towards the light, but you don't seem to get any closer.",
-          "action": ""
+          "action": []
         }
       },
       "useableObjects": { }
@@ -326,7 +326,7 @@
       "actions": {
         "look": {
           "text": "The text is too small to read the LEAFLET, while it's on the ground.",
-          "action": ""
+          "action": []
         },
         "pickup": {
           "text": "You take the leaflet.",
@@ -348,7 +348,7 @@
             "\"Dear Player,",
             "Wow, you actually played this :-) I'm afraid your adventure ends here, already. This Text Based Adventure Engine was just a quick project on a rainy weekend. I hope you liked it, feel free to contact me if you did. -Daniel.\""
           ],
-          "action": ""
+          "action": []
         },
         "drop": {
           "text": "You dropped the leaflet.",
