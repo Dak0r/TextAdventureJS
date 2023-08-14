@@ -79,6 +79,15 @@ function initEditorForSlection(){
 			TBA_DATABASE.objects[name]=getNewObject(name);
 			initEditorForSlection();
 		}));
+	}else if(type==="locations"){
+		$("#elementSelection").append(generateNewButton(function(name){
+			if(TBA_DATABASE.locations[name]!==undefined){
+				alert("A location with this name already exists.");
+				return;
+			}
+			TBA_DATABASE.locations[name]=getNewLocation();
+			initEditorForSlection();
+		}));
 	}
 	$("#elementEditor").html("");
 }
@@ -91,9 +100,8 @@ function onElementChanged(){
 	}else if(type=="objects"){
 		gui = generateUiForObjectElement(element, TBA_DATABASE.objects[element]);
 	}else{
-
+		gui = generateUiForLocationElement(element, TBA_DATABASE.locations[element]);
 	}
-	
 	$("#elementEditor").html(gui);
 }
 
@@ -132,7 +140,6 @@ function generateUiForObjectElement(objectName, object) {
 			alert("An action with this verb already exists for this object.");
 			return;
 		}
-		alert(verb);
 		let newAction = getNewObjectAction();
 		object.actions[verb]=newAction;
 		initEditorForSlection();
@@ -147,6 +154,36 @@ function generateUiForObjectElement(objectName, object) {
 		}));
 		editorGui.append(actionGui);
 	});	
+
+	return editorGui;
+}
+
+function generateUiForLocationElement(locationName, location) {
+	let editorGui = $('<div/>');
+	let name = $('<p>Name: '+locationName+' </p>');
+	let removeButton = $('<button>Remove</button>');
+	removeButton.click(function() { delete TBA_DATABASE.locations[locationName]; initEditorForSlection(); });
+	name.append(removeButton);
+	editorGui.append(name);
+	editorGui.append($('<p>Objects:</p>'));
+	let objSelector = $('<select size="'+location.objects.length+'"/>');
+	$.each(location.objects, function(index, object) {
+		let option = $('<option value="'+index+'">'+object+'</option>');
+		objSelector.append(option);
+	});	
+	let removeObjectButton = $('<button>Remove Object</button>');
+	removeObjectButton.click(function() { 
+		let index = objSelector.val();
+		if(index === null || index < 0) { alert("No object selected"); return; }
+		delete location.objects.splice(index, 1); 
+		initEditorForSlection();
+	});
+	editorGui.append(objSelector);
+	editorGui.append(removeObjectButton);
+	editorGui.append(generateNewObjectForLocationButton(location.objects, function(obj){
+		location.objects.push(obj);
+		initEditorForSlection();
+	}));
 
 	return editorGui;
 }
@@ -173,6 +210,21 @@ function generateNewActionButton(existingActions, onClick) {
 	let addButton = $('<button>Add</button>');
 	addButton.click(function() { onClick(selectNewAction.val()); });
 	editorGui.append(selectNewAction);
+	editorGui.append(addButton);
+	return editorGui;
+}
+
+function generateNewObjectForLocationButton(existingObjects, onClick) {
+	let editorGui = $('<div/>');
+	let selectNewObject = $('<select id="selectNewObject" />');
+	$.each(TBA_DATABASE.objects, function( obj ) {
+		if(existingObjects[obj] !== undefined) { return; }
+		selectNewObject.append($('<option/>').val(obj).html(obj));
+	});
+	
+	let addButton = $('<button>Add</button>');
+	addButton.click(function() { onClick(selectNewObject.val()); });
+	editorGui.append(selectNewObject);
 	editorGui.append(addButton);
 	return editorGui;
 }
@@ -235,6 +287,12 @@ function getNewObjectAction(){
 	newAction["text"] = "That worked!";
 	newAction["action"] = [];
 	return newAction;
+}
+
+function getNewLocation(){
+	var newLocation = {};
+	newLocation["objects"] = [];
+	return newLocation;
 }
 
 
