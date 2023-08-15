@@ -178,7 +178,27 @@ function generateUiForLocationElement(locationName, location) {
 		delete location.objects.splice(index, 1); 
 		initEditorForSlection();
 	});
+	let moveUpButton = $('<button>Move Up</button>');
+	moveUpButton.click(function() { 
+		let index = objSelector.val();
+		if(index === null || index < 0) { alert("No object selected"); return; }
+		const indexInt = parseInt(index);
+		if(indexInt > 0) {
+			moveArrayElement(location.objects, indexInt, indexInt-1);
+		}
+	});
+	let moveDownButton = $('<button>Move Down</button>');
+	moveDownButton.click(function() { 
+		let index = objSelector.val();
+		if(index === null || index < 0) { alert("No object selected"); return; }
+		const indexInt = parseInt(index);
+		if (indexInt < location.objects.length-1 ) {
+			moveArrayElement(location.objects, indexInt, indexInt+1);
+		}
+	});
 	editorGui.append(objSelector);
+	editorGui.append(moveUpButton);
+	editorGui.append(moveDownButton);
 	editorGui.append(removeObjectButton);
 	editorGui.append(generateNewObjectForLocationButton(location.objects, function(obj){
 		location.objects.push(obj);
@@ -187,6 +207,16 @@ function generateUiForLocationElement(locationName, location) {
 
 	return editorGui;
 }
+
+function moveArrayElement(arr, old_index, new_index) {
+    if (new_index >= arr.length) {
+        new_index = arr.length-1;
+    }else if(new_index < 0){
+		new_index = 0;
+	}
+    const element = arr.splice(old_index, 1)[0];
+    arr.splice(new_index, 0, element);
+};
 
 function generateNewButton(onClick) {
 	let editorGui = $('<div/>');
