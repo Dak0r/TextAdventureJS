@@ -117,9 +117,15 @@ function onElementChanged(){
 function generateUiForVerbElement(verbName, verb) {
 	let editorGui = $('<div/>');
 	let name = $('<p>Name: '+verbName+' </p>');
+
 	let removeButton = $('<button>Remove</button>')
 	removeButton.click(function() { delete TBA_DATABASE.verbs[verbName]; onTypeChanged(); });
 	name.append(removeButton);
+
+	let duplicateButton = $('<button>Duplicate</button>');
+	duplicateButton.click(function() { TBA_DATABASE.verbs[getAvailableVerbName(verbName)] = clone(verb); onTypeChanged(); });
+	name.append(duplicateButton);
+
 	editorGui.append(name);
 	editorGui.append(generateInput("Failure", verb.failure, function(value){ verb.failure = value; }));
 	editorGui.append(generateInput("Words", verb.words.join(", "), 
@@ -134,9 +140,15 @@ function generateUiForVerbElement(verbName, verb) {
 function generateUiForObjectElement(objectName, object) {
 	let editorGui = $('<div/>');
 	let name = $('<p>Name: '+objectName+' </p>');
+
 	let removeButton = $('<button>Remove</button>');
 	removeButton.click(function() { delete TBA_DATABASE.objects[objectName]; onTypeChanged(); });
 	name.append(removeButton);
+
+	let duplicateButton = $('<button>Duplicate</button>');
+	duplicateButton.click(function() { TBA_DATABASE.objects[getAvailableObjectName(objectName)] = clone(object); onTypeChanged(); });
+	name.append(duplicateButton);
+
 	editorGui.append(name);
 	editorGui.append(generateInput("Location Description", object.locationDescription, function(value){ object.locationDescription = value; }));
 	editorGui.append(generateInput("Words", object.words.join(", "), 
@@ -248,6 +260,24 @@ function getAvailableLocationName(locationName) {
 	var testName = locationName;
 	while(TBA_DATABASE.locations[testName] !== undefined) {
 		testName = locationName + " " + index;
+		index++;
+	}
+	return testName;
+}
+function getAvailableObjectName(objectName) {
+	var index=1;
+	var testName = objectName;
+	while(TBA_DATABASE.objects[testName] !== undefined) {
+		testName = objectName + " " + index;
+		index++;
+	}
+	return testName;
+}
+function getAvailableVerbName(verbName) {
+	var index=1;
+	var testName = verbName;
+	while(TBA_DATABASE.verbs[testName] !== undefined) {
+		testName = verbName + " " + index;
 		index++;
 	}
 	return testName;
