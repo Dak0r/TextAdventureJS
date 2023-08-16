@@ -57,14 +57,10 @@ function onTypeChanged(){
 	if(type===null){ type=$("#type option:first");}
 
 	$("#elementSelection").html("");
-
-	let elementSelector = $('<select id="element" onchange="onElementChanged()"><select>');
-	$.each( TBA_DATABASE[type], function( key, val ) {
-		elementSelector.append($('<option value="'+key+'">'+key+'</option>'));
-	});	
-	$("#elementSelection").append(elementSelector);
+	var newArea = $('<div class="w100" />');
+	$("#elementSelection").append(newArea);
 	if(type==="verbs") {
-		$("#elementSelection").append(generateNewButton(function(name){
+		newArea.append(generateNewButton(function(name){
 			if(TBA_DATABASE.verbs[name]!==undefined){
 				alert("A verb with this name already exists.");
 				return;
@@ -74,7 +70,7 @@ function onTypeChanged(){
 			onTypeChanged();
 		}));
 	}else if(type==="objects"){
-		$("#elementSelection").append(generateNewButton(function(name){
+		newArea.append(generateNewButton(function(name){
 			if(TBA_DATABASE.objects[name]!==undefined){
 				alert("An object with this name already exists.");
 				return;
@@ -83,7 +79,7 @@ function onTypeChanged(){
 			onTypeChanged();
 		}));
 	}else if(type==="locations"){
-		$("#elementSelection").append(generateNewButton(function(name){
+		newArea.append(generateNewButton(function(name){
 			if(TBA_DATABASE.locations[name]!==undefined){
 				alert("A location with this name already exists.");
 				return;
@@ -92,6 +88,13 @@ function onTypeChanged(){
 			onTypeChanged();
 		}));
 	}
+
+	let elementSelector = $('<select id="element" onchange="onElementChanged()" size="30" class="w100"><select>');
+	$.each( TBA_DATABASE[type], function( key, val ) {
+		elementSelector.append($('<option value="'+key+'">'+key+'</option>'));
+	});	
+	$("#elementSelection").append(elementSelector);
+
 	$("#elementEditor").html("");
 	onElementChanged();
 }
@@ -99,7 +102,7 @@ function onTypeChanged(){
 function onElementChanged(){
 	let gui;
 	let element = $('#element').val();
-	if(element===null){ type=$("#element option:first");}
+	if(element===null){ element=$("#element option:first");}
 
 	if(type=="verbs"){
 		gui = generateUiForVerbElement(element, TBA_DATABASE.verbs[element]);
@@ -170,9 +173,15 @@ function generateUiForObjectElement(objectName, object) {
 function generateUiForLocationElement(locationName, location) {
 	let editorGui = $('<div/>');
 	let name = $('<p>Name: '+locationName+' </p>');
+
 	let removeButton = $('<button>Remove</button>');
-	removeButton.click(function() { delete TBA_DATABASE.locations[locationName]; onElementChanged(); });
+	removeButton.click(function() { delete TBA_DATABASE.locations[locationName]; onTypeChanged(); });
 	name.append(removeButton);
+
+	let duplicateButton = $('<button>Duplicate</button>');
+	duplicateButton.click(function() { TBA_DATABASE.locations[getAvailableLocationName(locationName)] = clone(location); onTypeChanged(); });
+	name.append(duplicateButton);
+
 	editorGui.append(name);
 	editorGui.append($('<p>Objects:</p>'));
 	let objSelector = $('<select size="'+location.objects.length+'"/>');
@@ -229,11 +238,26 @@ function moveArrayElement(arr, old_index, new_index) {
     arr.splice(new_index, 0, element);
 };
 
+function clone(obj){
+	const clonedObj = JSON.parse(JSON.stringify(obj));
+	return clonedObj;
+}
+
+function getAvailableLocationName(locationName) {
+	var index=1;
+	var testName = locationName;
+	while(TBA_DATABASE.locations[testName] !== undefined) {
+		testName = locationName + " " + index;
+		index++;
+	}
+	return testName;
+}
+
 function generateNewButton(onClick) {
 	let editorGui = $('<div/>');
-	let elementNameInput = $('<input id="newElement" type="text" size="30" value=""/>');
+	let elementNameInput = $('<label class="w15">New:</label> <input id="newElement" type="text" value="" class="w60"/>');
 	
-	let addButton = $('<button>Add</button>');
+	let addButton = $('<button class="w15">Add</button>');
 	addButton.click(function() { onClick(elementNameInput.val()); });
 	editorGui.append(elementNameInput);
 	editorGui.append(addButton);
