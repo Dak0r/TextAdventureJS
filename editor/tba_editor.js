@@ -1,6 +1,8 @@
 TBA_DATABASE = undefined;
 TBA_DEBUG = false;
 
+var type;
+
 $( document ).ready(function() {
 	$(".file-drop-area").on('dragover', (e) => {
 		// Prevent navigation.
@@ -47,11 +49,12 @@ function updateEditorState() {
 function tba_init(json){
 	TBA_DATABASE = JSON.parse(json);
 	updateEditorState();
-	initEditorForSlection();
+	onTypeChanged();
 }
 
-function initEditorForSlection(){
+function onTypeChanged(){
 	type = $("#type").val();
+	if(type===null){ type=$("#type option:first");}
 
 	$("#elementSelection").html("");
 
@@ -68,7 +71,7 @@ function initEditorForSlection(){
 			}
 			let newVerb = getNewVerb(name);
 			TBA_DATABASE.verbs[name]=newVerb;
-			initEditorForSlection();
+			onTypeChanged();
 		}));
 	}else if(type==="objects"){
 		$("#elementSelection").append(generateNewButton(function(name){
@@ -77,7 +80,7 @@ function initEditorForSlection(){
 				return;
 			}
 			TBA_DATABASE.objects[name]=getNewObject(name);
-			initEditorForSlection();
+			onTypeChanged();
 		}));
 	}else if(type==="locations"){
 		$("#elementSelection").append(generateNewButton(function(name){
@@ -86,15 +89,18 @@ function initEditorForSlection(){
 				return;
 			}
 			TBA_DATABASE.locations[name]=getNewLocation();
-			initEditorForSlection();
+			onTypeChanged();
 		}));
 	}
 	$("#elementEditor").html("");
+	onElementChanged();
 }
 
 function onElementChanged(){
 	let gui;
-	let element = $("#element").val();
+	let element = $('#element').val();
+	if(element===null){ type=$("#element option:first");}
+
 	if(type=="verbs"){
 		gui = generateUiForVerbElement(element, TBA_DATABASE.verbs[element]);
 	}else if(type=="objects"){
@@ -109,7 +115,7 @@ function generateUiForVerbElement(verbName, verb) {
 	let editorGui = $('<div/>');
 	let name = $('<p>Name: '+verbName+' </p>');
 	let removeButton = $('<button>Remove</button>')
-	removeButton.click(function() { delete TBA_DATABASE.verbs[verbName]; initEditorForSlection(); });
+	removeButton.click(function() { delete TBA_DATABASE.verbs[verbName]; onTypeChanged(); });
 	name.append(removeButton);
 	editorGui.append(name);
 	editorGui.append(generateInput("Failure", verb.failure, function(value){ verb.failure = value; }));
@@ -126,7 +132,7 @@ function generateUiForObjectElement(objectName, object) {
 	let editorGui = $('<div/>');
 	let name = $('<p>Name: '+objectName+' </p>');
 	let removeButton = $('<button>Remove</button>');
-	removeButton.click(function() { delete TBA_DATABASE.objects[objectName]; initEditorForSlection(); });
+	removeButton.click(function() { delete TBA_DATABASE.objects[objectName]; onTypeChanged(); });
 	name.append(removeButton);
 	editorGui.append(name);
 	editorGui.append(generateInput("Location Description", object.locationDescription, function(value){ object.locationDescription = value; }));
@@ -142,11 +148,14 @@ function generateUiForObjectElement(objectName, object) {
 		}
 		let newAction = getNewObjectAction();
 		object.actions[verb]=newAction;
-		initEditorForSlection();
+		onElementChanged();
 	}));
 	$.each(object.actions, function( verb, action ) {
 		let actionGui = $('<div/>');
 		let name = $('<p>Name: '+verb+' </p>');
+		let removeActionButton = $('<button>Remove</button>')
+		removeActionButton.click(function() { delete object.actions[verb]; onElementChanged(); });
+		name.append(removeActionButton);
 		actionGui.append(name);
 		actionGui.append(generateInput("Text", action.text, function(value){ action.text = value; }));
 		actionGui.append(generateTextArea("Functions", action.action.join("\n"), function(value){
@@ -162,7 +171,7 @@ function generateUiForLocationElement(locationName, location) {
 	let editorGui = $('<div/>');
 	let name = $('<p>Name: '+locationName+' </p>');
 	let removeButton = $('<button>Remove</button>');
-	removeButton.click(function() { delete TBA_DATABASE.locations[locationName]; initEditorForSlection(); });
+	removeButton.click(function() { delete TBA_DATABASE.locations[locationName]; onElementChanged(); });
 	name.append(removeButton);
 	editorGui.append(name);
 	editorGui.append($('<p>Objects:</p>'));
@@ -176,7 +185,7 @@ function generateUiForLocationElement(locationName, location) {
 		let index = objSelector.val();
 		if(index === null || index < 0) { alert("No object selected"); return; }
 		delete location.objects.splice(index, 1); 
-		initEditorForSlection();
+		onElementChanged();
 	});
 	let moveUpButton = $('<button>Move Up</button>');
 	moveUpButton.click(function() { 
@@ -185,6 +194,7 @@ function generateUiForLocationElement(locationName, location) {
 		const indexInt = parseInt(index);
 		if(indexInt > 0) {
 			moveArrayElement(location.objects, indexInt, indexInt-1);
+			onElementChanged();
 		}
 	});
 	let moveDownButton = $('<button>Move Down</button>');
@@ -194,6 +204,7 @@ function generateUiForLocationElement(locationName, location) {
 		const indexInt = parseInt(index);
 		if (indexInt < location.objects.length-1 ) {
 			moveArrayElement(location.objects, indexInt, indexInt+1);
+			onElementChanged();
 		}
 	});
 	editorGui.append(objSelector);
@@ -202,7 +213,7 @@ function generateUiForLocationElement(locationName, location) {
 	editorGui.append(removeObjectButton);
 	editorGui.append(generateNewObjectForLocationButton(location.objects, function(obj){
 		location.objects.push(obj);
-		initEditorForSlection();
+		onElementChanged();
 	}));
 
 	return editorGui;
