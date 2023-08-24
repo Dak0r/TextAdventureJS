@@ -149,11 +149,11 @@ function generateUiForVerbElement(verbName, verb) {
 
 	let nameOptions = $('<span/>');
 
-	let removeButton = $('<button>Remove</button>')
+	let removeButton = button('Remove', 'btn-error');
 	removeButton.click(function() { delete TBA_DATABASE.verbs[verbName]; onTypeChanged(); });
 	nameOptions.append(removeButton);
 
-	let duplicateButton = $('<button>Duplicate</button>');
+	let duplicateButton = button('Duplicate');
 	duplicateButton.click(function() { TBA_DATABASE.verbs[getAvailableVerbName(verbName)] = clone(verb); onTypeChanged(); });
 	nameOptions.append(duplicateButton);
 
@@ -173,11 +173,11 @@ function generateUiForObjectElement(objectName, object) {
 	let name = $('<span><h2>'+objectName+' </h2></span>');
 
 	let nameOptions = $('<span/>');
-	let removeButton = $('<button>Remove</button>');
+	let removeButton = button('Remove', 'btn-error');
 	removeButton.click(function() { delete TBA_DATABASE.objects[objectName]; onTypeChanged(); });
 	nameOptions.append(removeButton);
 
-	let duplicateButton = $('<button>Duplicate</button>');
+	let duplicateButton = button('Duplicate');
 	duplicateButton.click(function() { TBA_DATABASE.objects[getAvailableObjectName(objectName)] = clone(object); onTypeChanged(); });
 	nameOptions.append(duplicateButton);
 
@@ -190,8 +190,8 @@ function generateUiForObjectElement(objectName, object) {
 		}));
 	editorGui.append(tableH3('Actions'));
 	$.each(object.actions, function( verb, action ) {
-		let name = $('<td><h4><i>'+verb+'</i></h4></td>');
-		let removeActionButton = $('<button>Remove</button>')
+		let name = $('<h4><i>'+verb+'</i></h4>');
+		let removeActionButton = button('Remove', 'btn-error btn-ghost')
 		removeActionButton.click(function() { delete object.actions[verb]; onElementChanged(); });
 		editorGui.append(tableRow2(name, removeActionButton));
 		editorGui.append(generateInput("Text", action.text, function(value){ action.text = value; }));
@@ -217,11 +217,11 @@ function generateUiForLocationElement(locationName, location) {
 	let name = $('<span><h2>'+locationName+' </h2></span>');
 
 	let nameOptions = $('<span/>');
-	let removeButton = $('<button>Remove</button>');
+	let removeButton = button('Remove', 'btn-error');
 	removeButton.click(function() { delete TBA_DATABASE.locations[locationName]; onTypeChanged(); });
 	nameOptions.append(removeButton);
 
-	let duplicateButton = $('<button>Duplicate</button>');
+	let duplicateButton = button('Duplicate');
 	duplicateButton.click(function() { TBA_DATABASE.locations[getAvailableLocationName(locationName)] = clone(location); onTypeChanged(); });
 	nameOptions.append(duplicateButton);
 
@@ -237,14 +237,14 @@ function generateUiForLocationElement(locationName, location) {
 	leftCellSelector.append(objSelector);
 	rowSelector.append(leftCellSelector);
 	let rightCellSelector = $('<td/>');
-	let removeObjectButton = $('<button>Remove Object</button>');
+	let removeObjectButton = button('Remove Object', 'btn-error btn-ghost');
 	removeObjectButton.click(function() { 
 		let index = objSelector.val();
 		if(index === null || index < 0) { alert("No object selected"); return; }
 		delete location.objects.splice(index, 1); 
 		onElementChanged();
 	});
-	let moveUpButton = $('<button>Move Up</button>');
+	let moveUpButton = button('Move Up');
 	moveUpButton.click(function() { 
 		let index = objSelector.val();
 		if(index === null || index < 0) { alert("No object selected"); return; }
@@ -254,7 +254,7 @@ function generateUiForLocationElement(locationName, location) {
 			onElementChanged();
 		}
 	});
-	let moveDownButton = $('<button>Move Down</button>');
+	let moveDownButton = button('Move Down');
 	moveDownButton.click(function() { 
 		let index = objSelector.val();
 		if(index === null || index < 0) { alert("No object selected"); return; }
@@ -277,6 +277,10 @@ function generateUiForLocationElement(locationName, location) {
 	editorGui.append(rowNewObject);
 
 	return editorGui;
+}
+
+function button(text, btnClasses = 'btn-default') {
+	return $('<button class="btn '+btnClasses+'">'+text+'</button>');
 }
 
 function paragraph(element) {
@@ -347,10 +351,10 @@ function getAvailableVerbName(verbName) {
 }
 
 function generateNewButton(onClick) {
-	let editorGui = $('<div/>');
-	let elementNameInput = $('<label class="w15">New:</label> <input id="newElement" type="text" value="" class="w60"/>');
+	let editorGui = $('<div class="input-pair-container"/>');
+	let elementNameInput = $('<input placeholder="New Element" id="newElement" type="text" value="" class="left-pair-element"/>');
 	
-	let addButton = $('<button class="w15">Add</button>');
+	let addButton = button('Add');
 	addButton.click(function() { onClick(elementNameInput.val()); });
 	editorGui.append(elementNameInput);
 	editorGui.append(addButton);
@@ -358,14 +362,14 @@ function generateNewButton(onClick) {
 }
 
 function generateNewActionButton(existingActions, onClick) {
-	let editorGui = $('<span/>');
-	let selectNewAction = $('<select id="selectNewAction" />');
+	let editorGui = $('<div class="input-pair-container"/>');
+	let selectNewAction = $('<select class="left-pair-element" id="selectNewAction" />');
 	$.each(TBA_DATABASE.verbs, function( verb ) {
 		if(existingActions[verb] !== undefined) { return; }
 		selectNewAction.append($('<option/>').val(verb).html(verb));
 	});
 	
-	let addButton = $('<button>Add</button>');
+	let addButton = button('Add');
 	addButton.click(function() { onClick(selectNewAction.val()); });
 	editorGui.append(selectNewAction);
 	editorGui.append(addButton);
@@ -373,17 +377,19 @@ function generateNewActionButton(existingActions, onClick) {
 }
 
 function generateNewObjectForLocationButton(existingObjects, onClick) {
-	let editorGui = $('<div/>');
-	let selectNewObject = $('<select id="selectNewObject" />');
+	let editorGui = $('<td/>');
+	let container = $('<div class="input-pair-container"/>');
+	let selectNewObject = $('<select class="left-pair-element" id="selectNewObject" />');
 	$.each(TBA_DATABASE.objects, function( obj ) {
 		if(existingObjects[obj] !== undefined) { return; }
 		selectNewObject.append($('<option/>').val(obj).html(obj));
 	});
 	
-	let addButton = $(' <button>Add</button>');
+	let addButton = button('Add');
 	addButton.click(function() { onClick(selectNewObject.val()); });
-	editorGui.append(selectNewObject);
-	editorGui.append(addButton);
+	container.append(selectNewObject);
+	container.append(addButton);
+	editorGui.append(container);
 	return editorGui;
 }
 

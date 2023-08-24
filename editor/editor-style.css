@@ -12,6 +12,15 @@ html {
    
   }
 
+  .input-pair-container {
+    display: flex;
+    width: 100%;
+  }
+  .left-pair-element {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+
   td {
     padding: 5px;
   }
