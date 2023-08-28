@@ -54,9 +54,9 @@ function tba_init(json){
 	onTypeChanged();
 }
 
-function onTypeChanged(){
-	type = $("#type").val();
-	if(type===null){ type=$("#type option:first");}
+function onTypeChanged(typeParam){
+	type = typeParam;
+	if(type===null){ type="general"; }
 
 	$("#elementSelection").html("");
 	if(type=="general") {
