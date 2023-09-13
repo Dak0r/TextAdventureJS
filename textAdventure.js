@@ -46,31 +46,20 @@ class textAdventureEngine {
 		this.#database = gameDatabaseObject;
 		var base = this;
 
-		// Tell each object it's name
-		$.each( this.#database.verbs, function( key, val ) {
-			val["name"] = key;	
-		});
-		$.each( this.#database.objects, function( key, val ) {
-			val["name"] = key;	
-		});
-		$.each( this.#database.locations, function( key, val ) {
-			val["name"] = key;	
-		});
-
 		// init runtime locations
 		$.each( this.#database.locations, function( key, val ) {
 			base.#gameState.locations[key] = JSON.parse(JSON.stringify(val)); // deep copy
 		});
 
 		if(this.TBA_DEBUG){
-			$.each( this.#database.verbs, function( i, item ) {
-				base.outputAddLines("Loaded Action: "+item.name);
+			$.each( this.#database.verbs, function( name, item ) {
+				base.outputAddLines("Loaded Action: "+name);
 			});
-			$.each( this.#database.objects, function( i, item ) {
-				base.outputAddLines("Loaded Object: "+item.name);
+			$.each( this.#database.objects, function( name, item ) {
+				base.outputAddLines("Loaded Object: "+name);
 			});
-			$.each( this.#gameState.locations, function( i, item ) {
-				base.outputAddLines("Loaded Location: "+item.title);
+			$.each( this.#gameState.locations, function( name, item ) {
+				base.outputAddLines("Loaded Location: "+name);
 			});
 			
 			this.#writeOutputLines("Loading done.");
@@ -119,11 +108,11 @@ class textAdventureEngine {
 		}else if(cmd == "help" || cmd == "?" || cmd == "what" || cmd == "how" || cmd == "what do"){
 	
 			var allVerbs = "";
-			$.each( this.#database.verbs, function( key, val ) {
+			$.each( this.#database.verbs, function( name, val ) {
 					if(allVerbs != ""){
-						allVerbs += ", "+val.name;
+						allVerbs += ", "+name;
 					}else{
-						allVerbs += val.name;
+						allVerbs += name;
 					}
 			});
 			this.#writeOutputLines("Enter simple directions like<br /><i>look at wall</i><br />");
@@ -132,8 +121,15 @@ class textAdventureEngine {
 			let words = cmd.split(" ");
 	
 			let locationState = this.#getLocationState(this.#gameState.currentRoom);
-			let verb = this.#checkForVerb(words);
-			let object = this.#checkForObject(words);
+			let verbName = this.#checkForVerb(words);
+			let verb = this.#database.verbs[verbName];
+			let objectName = this.#checkForObject(words);
+			let object = undefined;
+			if(this.#gameState.inventory[objectName] != undefined) {
+				object = this.#gameState.inventory[objectName];
+			}else{
+				object = this.#database.objects[objectName];
+			}
 	
 			//no action
 			if(verb == undefined && object != undefined){
@@ -143,7 +139,7 @@ class textAdventureEngine {
 			}
 	
 			// Look at room
-			if(verb != undefined && verb.name == "look" && (words.length === 1)){
+			if(verb != undefined && verbName == "look" && (words.length === 1)){
 				locationState = this.#getLocationState(this.#gameState.currentRoom);
 				this.#writeLocationDescription(locationState.objects);
 				this.#showRequest();
@@ -162,15 +158,15 @@ class textAdventureEngine {
 			if(verb!=undefined && object != undefined){
 				console.log("Action: "+ verb.words);
 				console.log("Object: "+ object.name);
-				var result = object.actions[verb.name];
+				var result = object.actions[verbName];
 				if(this.TBA_DEBUG==true){
 					console.log(result);
-					this.#writeOutputLines("Action: "+ verb.name);
+					this.#writeOutputLines("Action: "+ verbName);
 					this.#writeOutputLines("Object: "+ object.name);
 				}
 	
 				if(result != undefined){
-					let objectStateVerbDefinition = object.actions[verb.name];
+					let objectStateVerbDefinition = object.actions[verbName];
 					this.#writeOutputLines(objectStateVerbDefinition.text);
 					this.#runActions(object, objectStateVerbDefinition.action);
 				}else{
@@ -278,53 +274,53 @@ class textAdventureEngine {
 	}
 	
 	#checkForVerb(words){
-		let value = undefined;
-		for(var i=0; i<words.length && value === undefined; i++){
+		let verb = undefined;
+		for(var i=0; i<words.length && verb === undefined; i++){
 			//console.log( "Checking: "+words[i] );
 			$.each( this.#database.verbs, function( key, val ) {
 				//console.log( "Key: "+key+ " " + val.words[0] );
 				let test = $.inArray(words[i], val.words);
 				//console.log("test result: "+ test);
 				if(test >= 0){
-					value = val;
+					verb = key;
 					return;
 				}
 			});
 		}
-		return value;
+		return verb;
 	}
 	
 	#checkForObject(words){
 		var locationState = this.#getLocationState(this.#gameState.currentRoom);
-		let value = undefined;
+		let objectName = undefined;
 	
 		// Check room Items
 		for(var i=0; i<words.length; i++){
 			
 			// Check inventory item
 			if(Object.keys(this.#gameState.inventory).length > 0){
-				for(var index in this.#gameState.inventory) {
-					let test = $.inArray(words[i],  this.#getObject(this.#gameState.inventory[index]).words);
+				for(var name in this.#gameState.inventory) {
+					let test = $.inArray(words[i],  this.#getObject(this.#gameState.inventory[name]).words);
 					if(test >= 0){
-						value = this.#gameState.inventory[index];
-						return value;
+						objectName = name;
+						return objectName;
 					}
 				}
 			}
 			// check for objects in room
 			var base = this;
-			$.each(locationState.objects, function( index, val ) {
-				let test = $.inArray(words[i], base.#getObject(val).words);
+			$.each(locationState.objects, function( index, name ) {
+				let test = $.inArray(words[i], base.#getObject(name).words);
 				if(test >= 0){
-					value = base.#database.objects[val];
+					objectName = name;
 					return; // exit $.each loop
 				}
 			});
-			if(value!=undefined){
+			if(objectName!=undefined){
 				break;
 			}
 		}
-		return value;
+		return objectName;
 	}
 
 	#writeOutputLines(lines){
