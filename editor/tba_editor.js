@@ -35,7 +35,6 @@ $( document ).ready(function() {
 		reader.readAsText(file);
 	});
 	updateEditorState();
-	//tba_init(JSON.stringify($.getJSON('../lonesurvivor.tadb.json')));
 });
 
 function updateEditorState() {
@@ -62,6 +61,9 @@ function onTypeChanged(typeParam){
 	if(type=="general") {
 		$("#elementEditor").html(generateUiForGeneral(TBA_DATABASE.general));
 		return;
+	}else if(type=="preview") {
+			$("#elementEditor").html(generateUiForPreview());
+			return;
 	}else{
 		var newArea = $('<div class="w100" />');
 		$("#elementSelection").append(newArea);
@@ -121,6 +123,55 @@ function onElementChanged(){
 	if(gui !== undefined){
 		$("#elementEditor").html(gui);
 	}
+}
+
+function generateUiForPreview() {
+	var previewContainer = $('<div style="text-align: center;"/>');
+	var log = $('<textarea id="outputArea" readonly="readonly" style="width: 600px; height: 400px;">Loading</textarea> ');
+	var inputText = $('<input id="inputText" type="text"  style="width: 500px;"/>');
+	var inputButton = $('<input id="inputButton" type="button" value="Send"/>');
+	previewContainer.append(log);
+	previewContainer.append(inputText);
+	previewContainer.append(inputButton);
+
+	let witeLine = function witeLine(output){
+		log.val(log.val()+output+"\n"); 
+		let height = log[0].scrollHeight;
+		log.scrollTop(height);    
+		inputButton.prop("disabled",false);
+		inputText.prop('readonly', false);
+		inputText.focus();
+	}
+
+	function clearArea(){
+		log.val("");         
+	}
+
+	function readUserInput(){
+		inputButton.prop("disabled",true);
+		inputText.prop('readonly', true);
+		let input = inputText.val();
+		witeLine("> "+input);
+		textAdv.input(input);
+		inputText.val("");
+
+	}
+	inputButton.click(function(){
+		readUserInput();
+	});
+
+	inputText.keypress(function(event){
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		if(keycode == '13'){ // return
+			readUserInput();
+		}
+	});
+	inputText.focus();
+
+	var textAdv = new textAdventureEngine(witeLine, clearArea);
+	textAdv.loadDatabaseFromObject(TBA_DATABASE);
+
+	return previewContainer;
 }
 
 function generateUiForGeneral(general) {
