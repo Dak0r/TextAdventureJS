@@ -31,7 +31,7 @@ class textAdventureEngine {
 	loadDatabaseFromObject(json, showGameName = true){
 		this.outputClear();
 		this.#writeOutputLines("Initializing Text Adventure Engine...");
-		base.#initDatbase(json, showGameName);
+		this.#initDatbase(json, showGameName);
 	}
 
 	input(cmd){
@@ -100,7 +100,7 @@ class textAdventureEngine {
 			if(this.#database.general.start.text.length > 0){
 				this.#writeOutputLines(this.#database.general.start.text);
 			}
-			this.#parseActionString(undefined, this.#database.general.start.action);
+			this.#runActions(undefined, this.#database.general.start.action);
 		}else if(cmd == "debug"){
 			if(this.TBA_DEBUG==true){
 				this.TBA_DEBUG = true;
@@ -165,16 +165,7 @@ class textAdventureEngine {
 					//
 					let objectStateVerbDefinition = object.actions[verb.name];
 					this.#writeOutputLines(objectStateVerbDefinition.text); // This might be a string here
-					
-					if(objectStateVerbDefinition.action!=undefined){
-						if($.isArray(objectStateVerbDefinition.action) && objectStateVerbDefinition.action.length > 0) {
-							for(var i=0; i<objectStateVerbDefinition.action.length; i++){
-								this.#parseActionString(object, objectStateVerbDefinition.action[i]);
-							}
-						}else{
-							this.#parseActionString(object, objectStateVerbDefinition.action);
-						}
-					}
+					this.#runActions(object, objectStateVerbDefinition.action);
 				}else{
 					this.#writeOutputLines(verb.failure); //TODO: Could be improved
 				}
@@ -209,7 +200,23 @@ class textAdventureEngine {
 		}
 	}
 
+	#runActions(callingObject, actions){
+		if(actions === undefined){
+			return;
+		}
+		if($.isArray(actions)) {
+			for(var i=0; i<actions.length; i++){
+				this.#parseActionString(callingObject, actions[i]);
+			}
+		}else{
+			this.#parseActionString(callingObject, actions);
+		}
+	}
+
 	#parseActionString(callingObject, actionString){
+		if(actionString === undefined){
+			return;
+		}
 		var acts = actionString.split(" ");
 		if(acts[0]=="objectState") {
 			console.error("objectState was removed. Use objectReplaceInLocation instead!");
