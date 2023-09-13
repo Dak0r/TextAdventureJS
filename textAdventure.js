@@ -156,23 +156,21 @@ class textAdventureEngine {
 				var result = object.actions[verb.name];
 				if(this.TBA_DEBUG==true){
 					console.log(result);
-	
 					this.#writeOutputLines("Action: "+ verb.name);
 					this.#writeOutputLines("Object: "+ object.name);
 				}
 	
 				if(result != undefined){
-					//
 					let objectStateVerbDefinition = object.actions[verb.name];
-					this.#writeOutputLines(objectStateVerbDefinition.text); // This might be a string here
+					this.#writeOutputLines(objectStateVerbDefinition.text);
 					this.#runActions(object, objectStateVerbDefinition.action);
 				}else{
-					this.#writeOutputLines(verb.failure); //TODO: Could be improved
+					this.#writeOutputLines(verb.failure); //TODO: Could be improved, verb doesn't work with object
 				}
 				this.#showRequest();
 				return;
 			}
-			this.#writeOutputLines("Please try to rephrase your command."); //TODO: Replace
+			this.#writeOutputLines("Please try to rephrase your command."); //TODO: Replace with something more immersive
 		}
 		this.#showRequest();
 	}
