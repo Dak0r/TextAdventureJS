@@ -1,6 +1,8 @@
 TBA_DATABASE = undefined;
 TBA_DEBUG = false;
 
+var filename = undefined;
+
 var textAdv = undefined;
 
 var previewContainer = undefined;
@@ -35,16 +37,32 @@ $( document ).ready(function() {
 		  }
 		}*/
 
-		var file = e.originalEvent.dataTransfer.files[0],
+		var file = e.originalEvent.dataTransfer.files[0];
         reader = new FileReader();
     	reader.onload = function(event) {
        		console.log(event.target);
 			tba_init(event.target.result);
     	};
+		filename = file.name;
 		reader.readAsText(file);
+	});
+	$("#btn-save").click(() => {
+		download(JSON.stringify(TBA_DATABASE), filename, 'text/plain');
+	});
+	$("#btn-close").click(() => {
+		TBA_DATABASE = undefined;
+		updateEditorState();
 	});
 	updateEditorState();
 });
+
+function download(content, fileName, contentType) {
+    var a = document.createElement("a");
+    var file = new Blob([content], {type: contentType});
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+}
 
 function updateEditorState() {
 	if(TBA_DATABASE !== undefined) {

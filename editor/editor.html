@@ -46,8 +46,11 @@
 			<h1>DROP HERE</h1>
 		</div>
 		<div id="editor-aera">
-			<h2><a href="#" id="tabGeneral" onclick="onTypeChanged('general')">General</a> | <a href="#" id="tabVerbs" onclick="onTypeChanged('verbs')">Verbs</a> | <a href="#" id="tabObjects" onclick="onTypeChanged('objects')">Objects</a> | <a href="#" id="tabLocations" onclick="onTypeChanged('locations')">Locations</a> | <a href="#" id="tabPreview" onclick="onTypeChanged('preview')">Preview</a></h2>
-			<div id="editor">
+      <div id="editor-menu">
+        <button class="btn btn-primary" id="btn-save">Save</button> <button class="btn btn-error" id="btn-close">Close</button>
+			  <h2><a href="#" id="tabGeneral" onclick="onTypeChanged('general')">General</a> | <a href="#" id="tabVerbs" onclick="onTypeChanged('verbs')">Verbs</a> | <a href="#" id="tabObjects" onclick="onTypeChanged('objects')">Objects</a> | <a href="#" id="tabLocations" onclick="onTypeChanged('locations')">Locations</a> | <a href="#" id="tabPreview" onclick="onTypeChanged('preview')">Preview</a></h2>
+      </div>
+      <div id="editor">
 				<div id="elementSelection"></div>
 				<div id="elementEditor"></div>
 			</div>
