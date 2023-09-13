@@ -51,9 +51,14 @@ $( document ).ready(function() {
 	});
 	$("#btn-close").click(() => {
 		TBA_DATABASE = undefined;
+		deleteDatabaseFromStorage();
 		updateEditorState();
 	});
+	loadToDatabaseFromStorage();
 	updateEditorState();
+	if(TBA_DATABASE != undefined){
+		onTypeChanged();
+	}
 });
 
 function download(content, fileName, contentType) {
@@ -62,6 +67,19 @@ function download(content, fileName, contentType) {
     a.href = URL.createObjectURL(file);
     a.download = fileName;
     a.click();
+}
+
+function saveToDatabaseToStorage(){
+	localStorage.setItem("database", JSON.stringify(TBA_DATABASE));
+}
+function loadToDatabaseFromStorage(){
+	var stored = localStorage.getItem("database");
+	if(stored != undefined){
+		TBA_DATABASE = JSON.parse(stored);
+	}
+}
+function deleteDatabaseFromStorage(){
+	localStorage.removeItem("database");
 }
 
 function updateEditorState() {
@@ -136,6 +154,7 @@ function onTypeChanged(typeParam){
 }
 
 function onElementChanged(){
+	onDatabaseChanged();
 	let gui = undefined;
 	let element = $('#element').val();
 	if(element===null){ element=$("#element option:first").val(); $('#element').val(element);}
@@ -150,6 +169,10 @@ function onElementChanged(){
 	if(gui !== undefined){
 		$("#elementEditor").html(gui);
 	}
+}
+
+function onDatabaseChanged(){
+	saveToDatabaseToStorage();
 }
 
 function generateUiForPreview() {
@@ -528,6 +551,7 @@ function generateInput(name, value, onChange){
 	let inputField = $('<input id="'+name+'" type="text" size="30" value="'+value+'"/>');
 	inputField.on( "change", function() {
 		onChange(inputField.val());
+		onDatabaseChanged();
 	} );
 	let valueTableField = $('<td/>');
 	valueTableField.append(inputField);
@@ -542,26 +566,11 @@ function generateTextArea(name, value, onChange){
 	let inputField = $('<textarea id="'+name+'" name="'+name+'" cols="40" rows="5">'+value+'</textarea>');
 	inputField.on( "change", function() {
 		onChange(inputField.val());
+		onDatabaseChanged();
 	} );
 	valueTableField.append(inputField);
 	inputFieldArea.append(valueTableField);
 	return inputFieldArea;
-}
-
-function generateGui(objectToBeEdited){
-	let editorGui = $('<div/>');
-	$.each( objectToBeEdited, function( key, value ) {
-		if(typeof value === 'object'){
-			editorGui.append("<p>"+key+"</p>");
-			editorGui.append(generateGui(value));
-		}else{
-			let inputField = $('<p/>');
-			inputField.append('<label for="'+key+'">'+key+'</label> ');
-			inputField.append('<input name="'+key+'" type="text" size="30" value="'+value+'">');
-			editorGui.append(inputField);
-		}
-	});
-	return editorGui;
 }
 
 function getNewVerb(name){
@@ -590,21 +599,4 @@ function getNewLocation(){
 	var newLocation = {};
 	newLocation["objects"] = [];
 	return newLocation;
-}
-
-
-//FOR OLD BROWSERS
-if (typeof Object.keys !== "function") {
-    (function() {
-        Object.keys = Object_keys;
-        function Object_keys(obj) {
-            var keys = [], name;
-            for (name in obj) {
-                if (obj.hasOwnProperty(name)) {
-                    keys.push(name);
-                }
-            }
-            return keys;
-        }
-    })();
 }
