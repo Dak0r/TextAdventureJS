@@ -1,6 +1,15 @@
 TBA_DATABASE = undefined;
 TBA_DEBUG = false;
 
+var textAdv = undefined;
+
+var previewContainer = undefined;
+var previewLog  = undefined;
+var previewInputText = undefined;
+var previewInputButton = undefined;
+var previewRestartButton = undefined;
+var previewReloadButton = undefined;
+
 const NEWLINE = "&#13;";
 
 var type;
@@ -55,7 +64,7 @@ function tba_init(json){
 
 function onTypeChanged(typeParam){
 	type = typeParam;
-	if(type===null){ type="general"; }
+	if(type===null || type === undefined){ type="general"; }
 
 	$("#elementSelection").html("");
 	if(type=="general") {
@@ -126,52 +135,104 @@ function onElementChanged(){
 }
 
 function generateUiForPreview() {
-	var previewContainer = $('<div style="text-align: center;"/>');
-	var log = $('<textarea id="outputArea" readonly="readonly" style="width: 600px; height: 400px;">Loading</textarea> ');
-	var inputText = $('<input id="inputText" type="text"  style="width: 500px;"/>');
-	var inputButton = $('<input id="inputButton" type="button" value="Send"/>');
-	previewContainer.append(log);
-	previewContainer.append(inputText);
-	previewContainer.append(inputButton);
+	if(previewContainer === undefined) {
+		previewContainer = $('<div style="text-align: center;"/>');
+		previewLog = $('<textarea id="outputArea" readonly="readonly" style="width: 600px; height: 400px;">Loading</textarea> ');
+		previewInputText = $('<input id="inputText" type="text"  style="width: 500px;"/>');
+		previewInputButton = $('<input id="inputButton" type="button" value="Send"/>');
 
-	let witeLine = function witeLine(output){
-		log.val(log.val()+output+"\n"); 
-		let height = log[0].scrollHeight;
-		log.scrollTop(height);    
-		inputButton.prop("disabled",false);
-		inputText.prop('readonly', false);
-		inputText.focus();
+		let buttonBar = $('<p />');
+		previewRestartButton = button('Restart Game');
+		previewReloadButton = button('Reload Current Room');
+		buttonBar.append(previewReloadButton);
+		buttonBar.append(previewRestartButton);
+
+		previewContainer.append(buttonBar);
+		previewContainer.append(previewLog);
+		previewContainer.append(previewInputText);
+		previewContainer.append(previewInputButton);
 	}
 
-	function clearArea(){
-		log.val("");         
-	}
-
-	function readUserInput(){
-		inputButton.prop("disabled",true);
-		inputText.prop('readonly', true);
-		let input = inputText.val();
-		witeLine("> "+input);
-		textAdv.input(input);
-		inputText.val("");
-
-	}
-	inputButton.click(function(){
+	previewInputButton.click(function(){
 		readUserInput();
 	});
+	previewRestartButton.click(function(){
+		textAdv = undefined;
+		startGame();
+	});
+	previewReloadButton.click(function(){
+		textAdv.devResetRoom();
+	});
 
-	inputText.keypress(function(event){
+	previewInputText.keypress(function(event){
 		var keycode = (event.keyCode ? event.keyCode : event.which);
 		if(keycode == '13'){ // return
 			readUserInput();
 		}
 	});
-	inputText.focus();
 
-	var textAdv = new textAdventureEngine(witeLine, clearArea);
-	textAdv.loadDatabaseFromObject(TBA_DATABASE);
-
+	if(textAdv === undefined){
+		startGame();
+	}
+	updatePreviewSideBar();
+	previewLog.scrollTop(previewLog[0].scrollHeight); 
+	previewInputText.focus();
+	
 	return previewContainer;
+}
+
+function startGame() {
+	textAdv = new textAdventureEngine(witeLine, clearArea);
+	textAdv.loadDatabaseFromObject(TBA_DATABASE);
+}
+
+function witeLine(output){
+	previewLog.val(previewLog.val()+output+"\n"); 
+	previewLog.scrollTop(previewLog[0].scrollHeight);    
+	previewInputButton.prop("disabled",false);
+	previewInputText.prop('readonly', false);
+	previewInputText.focus();
+	updatePreviewSideBar();
+}
+
+function clearArea(){
+	previewLog.val("");         
+}
+
+function readUserInput(){
+	previewInputButton.prop("disabled",true);
+	previewInputText.prop('readonly', true);
+	let input = previewInputText.val();
+	witeLine("> "+input);
+	textAdv.input(input);
+	previewInputText.val("");
+
+}
+
+function updatePreviewSideBar() {
+	let gameState = textAdv.devGetGameState();
+	$("#elementSelection").html("");
+	let currentLocation = $('<p><b>Current Location:</b> '+gameState.currentLocation+'</p>');
+	$("#elementSelection").append(currentLocation);
+	let inventoryList = $('<ul />');
+	$.each(gameState.inventory, function( objectName ) {
+		inventoryList.append($('<li>'+objectName+'</li>'));
+	});	
+	$("#elementSelection").append($('<p><b>Inventory</b></p>'));
+	$("#elementSelection").append(inventoryList);
+	let locations = $('<ul />');
+	$.each(gameState.locations, function( locationName, locationObj ) {
+		let location = $('<li><b>'+locationName+'</b></li>');
+		let locationObjs = $('<ul />');
+		$.each(locationObj.objects, function( index, objectName ) {
+			locationObjs.append($('<li>'+objectName+'</li>'));
+		});	
+		location.append(locationObjs);
+		locations.append(location);
+	});
+	$("#elementSelection").append($('<p>Locations</p>'));
+	
+	$("#elementSelection").append(locations);
 }
 
 function generateUiForGeneral(general) {
@@ -192,7 +253,6 @@ function generateUiForGeneral(general) {
 
 	return editorGui;
 }
-
 
 function generateUiForVerbElement(verbName, verb) {
 	let editorGui = $('<table class="w100"/>');

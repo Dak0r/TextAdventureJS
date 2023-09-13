@@ -7,7 +7,7 @@ class textAdventureEngine {
 	#gameState = {
 		locations: {},
 		inventory: {},
-		currentRoom: null,
+		currentLocation: null,
 	};
 
 	constructor(outputFunction, clearOutputFunction) { 
@@ -120,7 +120,7 @@ class textAdventureEngine {
 		} else {
 			let words = cmd.split(" ");
 	
-			let locationState = this.#getLocationState(this.#gameState.currentRoom);
+			let locationState = this.#getLocationState(this.#gameState.currentLocation);
 			let verbName = this.#checkForVerb(words);
 			let verb = this.#database.verbs[verbName];
 			let objectName = this.#checkForObject(words);
@@ -140,7 +140,7 @@ class textAdventureEngine {
 	
 			// Look at room
 			if(verb != undefined && verbName == "look" && (words.length === 1)){
-				locationState = this.#getLocationState(this.#gameState.currentRoom);
+				locationState = this.#getLocationState(this.#gameState.currentLocation);
 				this.#writeLocationDescription(locationState.objects);
 				this.#showRequest();
 				return;
@@ -225,32 +225,32 @@ class textAdventureEngine {
 			console.error("objectState was removed. Use objectReplaceInLocation instead!");
 		}else if(acts[0]=="objectRemoveFromLocation"){
 			console.log("removing Object from Location:"+acts[1]);
-			var index = this.#getLocationState(this.#gameState.currentRoom).objects.indexOf(acts[1]);
+			var index = this.#getLocationState(this.#gameState.currentLocation).objects.indexOf(acts[1]);
 			if (index > -1) {
-				this.#getLocationState(this.#gameState.currentRoom).objects.splice(index, 1);
+				this.#getLocationState(this.#gameState.currentLocation).objects.splice(index, 1);
 				console.log("Removed object with index: "+index);
 			}else{
 				console.log("Object not found in location: " + acts[1]);
 			}
 		}else if(acts[0]=="objectAddToLocation"){
 			console.log("adding Object to Location:"+acts[1]);
-			this.#getLocationState(this.#gameState.currentRoom).objects.push(acts[1]);
+			this.#getLocationState(this.#gameState.currentLocation).objects.push(acts[1]);
 		}else if(acts[0]=="objectReplaceInLocation"){
-			var index = this.#getLocationState(this.#gameState.currentRoom).objects.indexOf(acts[1]);
+			var index = this.#getLocationState(this.#gameState.currentLocation).objects.indexOf(acts[1]);
 			if (index > -1) {
-				this.#getLocationState(this.#gameState.currentRoom).objects.splice(index, 1);
+				this.#getLocationState(this.#gameState.currentLocation).objects.splice(index, 1);
 				console.log("Removed object with index: "+index);
 			}else{
 				console.log("Object not found in location: " + acts[1]);
 			}
-			this.#getLocationState(this.#gameState.currentRoom).objects.push(acts[2]);
+			this.#getLocationState(this.#gameState.currentLocation).objects.push(acts[2]);
 		}else if(acts[0]=="gotoLocation"){
 			console.log("SIWTCHING LOCATION TO:"+acts[1]);
-			this.#gameState.currentRoom = acts[1];
-			var currentRoomState =  this.#getLocationState(this.#gameState.currentRoom);
+			this.#gameState.currentLocation = acts[1];
+			var currentRoomState =  this.#getLocationState(this.#gameState.currentLocation);
 			this.#writeLocationDescription(currentRoomState.objects);
 		}else if(acts[0]=="showLocationDescription"){
-			var currentRoomState =  this.#getLocationState(this.#gameState.currentRoom);
+			var currentRoomState =  this.#getLocationState(this.#gameState.currentLocation);
 			this.#writeLocationDescription(currentRoomState.objects);
 		}else if(acts[0]=="inventoryAdd"){
 			console.log("Add or replace inventory item: " + acts[1]);
@@ -291,7 +291,7 @@ class textAdventureEngine {
 	}
 	
 	#checkForObject(words){
-		var locationState = this.#getLocationState(this.#gameState.currentRoom);
+		var locationState = this.#getLocationState(this.#gameState.currentLocation);
 		let objectName = undefined;
 	
 		// Check room Items
@@ -335,7 +335,7 @@ class textAdventureEngine {
 
 	// disabled for now:
 	#checkForSecondObject(words){
-		var locationState = this.#getLocationState(this.#gameState.currentRoom);
+		var locationState = this.#getLocationState(this.#gameState.currentLocation);
 		console.log("checking for seconds object");
 		var value = undefined;
 		var founds = 0;
@@ -370,6 +370,17 @@ class textAdventureEngine {
 			}
 		}
 		return value;
+	}
+
+	devGetGameState(){
+		return this.#gameState;
+	}
+	devResetRoom(){
+		this.#gameState.locations[this.#gameState.currentLocation] = 
+			JSON.parse(JSON.stringify(
+				this.#database.locations[this.#gameState.currentLocation]
+			)); // deep copy
+		this.#praseCommand('look');
 	}
 	
 	#getObjectIndexByName(name){
