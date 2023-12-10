@@ -157,12 +157,12 @@ class textAdventureEngine {
 			//Do a regular Action (verb)
 			if(verb!=undefined && object != undefined){
 				console.log("Action: "+ verb.words);
-				console.log("Object: "+ object.name);
+				console.log("Object: "+ objectName);
 				var result = object.actions[verbName];
 				if(this.TBA_DEBUG==true){
 					console.log(result);
 					this.#writeOutputLines("Action: "+ verbName);
-					this.#writeOutputLines("Object: "+ object.name);
+					this.#writeOutputLines("Object: "+ objectName);
 				}
 	
 				if(result != undefined){
@@ -381,18 +381,5 @@ class textAdventureEngine {
 				this.#database.locations[this.#gameState.currentLocation]
 			)); // deep copy
 		this.#praseCommand('look');
-	}
-	
-	#getObjectIndexByName(name){
-		console.log("checking for object id");
-		var value = undefined;
-		$.each(this.#database.objects, function( index, val ) {
-			if(val.name==name){
-				value = index;
-				return;
-			}
-		});
-	
-		return value;
 	}
 }
