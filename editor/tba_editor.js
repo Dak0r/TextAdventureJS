@@ -304,7 +304,7 @@ function generateUiForVerbElement(verbName, verb) {
 	let nameOptions = $('<span/>');
 
 	let removeButton = button('Remove', 'btn-error');
-	removeButton.click(function() { delete TBA_DATABASE.verbs[verbName]; onTypeChanged(); });
+	removeButton.click(function() { delete TBA_DATABASE.verbs[verbName]; onTypeChanged(); }); //TODO: Also delete from all Objects
 	nameOptions.append(removeButton);
 
 	let duplicateButton = button('Duplicate');
@@ -328,7 +328,7 @@ function generateUiForObjectElement(objectName, object) {
 
 	let nameOptions = $('<span/>');
 	let removeButton = button('Remove', 'btn-error');
-	removeButton.click(function() { delete TBA_DATABASE.objects[objectName]; onTypeChanged(); });
+	removeButton.click(function() { delete TBA_DATABASE.objects[objectName]; onTypeChanged(); }); //TODO: Also delete from all locations
 	nameOptions.append(removeButton);
 
 	let duplicateButton = button('Duplicate');
@@ -509,7 +509,14 @@ function generateNewButton(onClick) {
 	let elementNameInput = $('<input placeholder="New Element" id="newElement" type="text" value="" class="left-pair-element"/>');
 	
 	let addButton = button('Add');
-	addButton.click(function() { onClick(elementNameInput.val()); });
+	addButton.click(function() { 
+		let name = elementNameInput.val();
+		if(name !== undefined || name.length < 1) {
+			alert("Every element must have a unique name.");
+			return;
+		}
+		onClick(elementNameInput.val());
+	});
 	editorGui.append(elementNameInput);
 	editorGui.append(addButton);
 	return editorGui;
