@@ -12,7 +12,7 @@ var previewInputButton = undefined;
 var previewRestartButton = undefined;
 var previewReloadButton = undefined;
 
-const NEWLINE = "&#13;";
+const NEWLINE = "\n"; //"&#13;";
 
 var type;
 
@@ -47,7 +47,7 @@ $( document ).ready(function() {
 		reader.readAsText(file);
 	});
 	$("#btn-save").click(() => {
-		download(JSON.stringify(TBA_DATABASE), filename, 'text/plain');
+		download(JSON.stringify(TBA_DATABASE, null, 2), filename, 'text/plain');
 	});
 	$("#btn-close").click(() => {
 		TBA_DATABASE = undefined;

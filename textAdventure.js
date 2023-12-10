@@ -224,7 +224,7 @@ class textAdventureEngine {
 		if(acts[0]=="objectState") {
 			console.error("objectState was removed. Use objectReplaceInLocation instead!");
 		}else if(acts[0]=="objectRemoveFromLocation"){
-			console.log("removing Object from Location:"+acts[1]);
+			console.log("removing Object from Location: "+acts[1]);
 			var index = this.#getLocationState(this.#gameState.currentLocation).objects.indexOf(acts[1]);
 			if (index > -1) {
 				this.#getLocationState(this.#gameState.currentLocation).objects.splice(index, 1);
