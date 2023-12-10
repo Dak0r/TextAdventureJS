@@ -593,7 +593,7 @@ function getNewObject(name){
 	var newObject = {};
 	newObject["words"] = [name];
 	newObject["locationDescription"] = "";
-	newObject["actions"] = [];
+	newObject["actions"] = {};
 	return newObject;
 }
 
