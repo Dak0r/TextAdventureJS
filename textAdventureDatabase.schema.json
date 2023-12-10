@@ -102,8 +102,7 @@
         "required": [
           "words",
           "locationDescription",
-          "actions",
-          "useableObjects"
+          "actions"
         ],
         "properties": {
           "words": {
