@@ -511,7 +511,7 @@ function generateNewButton(onClick) {
 	let addButton = button('Add');
 	addButton.click(function() { 
 		let name = elementNameInput.val();
-		if(name !== undefined || name.length < 1) {
+		if(name === undefined || name.length < 1) {
 			alert("Every element must have a unique name.");
 			return;
 		}
