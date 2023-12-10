@@ -99,7 +99,9 @@ function tba_init(json){
 }
 
 function onTypeChanged(typeParam){
-	type = typeParam;
+	if(typeParam!==undefined){
+		type = typeParam;
+	}
 	if(type===null || type === undefined){ type="general"; }
 
 	$("#elementSelection").html("");
