@@ -241,6 +241,69 @@ html {
     border: 1px solid rgba(255,255,255,0.04);
   }
 
+  /* Modern textarea used in editor forms */
+  .modern-textarea {
+    width: 100%;
+    min-height: 36px; /* single-line default */
+    max-height: 400px; /* sensible upper bound */
+    overflow: hidden; /* hide scrollbars, we'll auto expand */
+    resize: none;
+    padding: 8px 10px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    color: var(--font-color);
+    line-height: 1.4;
+    font-family: var(--mono-font-stack);
+    transition: box-shadow 0.12s ease, border-color 0.12s ease;
+  }
+  .modern-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 6px 18px rgba(98,196,255,0.08);
+  }
+
+  /* Modern single-line inputs that match textarea styling */
+  .modern-input {
+    width: 100%;
+    height: 36px;
+    padding: 8px 10px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    color: var(--font-color);
+    box-sizing: border-box;
+    line-height: 1.4;
+    font-family: var(--mono-font-stack);
+    transition: box-shadow 0.12s ease, border-color 0.12s ease;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .modern-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 6px 18px rgba(98,196,255,0.08);
+  }
+
+  /* Ensure selects with modern-input and textarea match and override terminal defaults */
+  input.modern-input, select.modern-input, textarea.modern-textarea {
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  input.modern-input:focus,
+  select.modern-input:focus,
+  textarea.modern-textarea:focus,
+  input.modern-input:focus-visible,
+  select.modern-input:focus-visible,
+  textarea.modern-textarea:focus-visible {
+    outline: none;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 6px 18px rgba(98,196,255,0.08) !important;
+  }
+
   #validationResults { padding:8px; border-radius:6px; margin-top:6px; }
   #validationResults ul { margin:6px 0 0 18px; }
   #validationResults div { font-weight:bold; }

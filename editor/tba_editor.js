@@ -580,7 +580,7 @@ function getAvailableVerbName(verbName) {
 
 function generateNewButton(onClick) {
 	let editorGui = $('<div class="input-pair-container"/>');
-	let elementNameInput = $('<input placeholder="New Element" id="newElement" type="text" value="" class="left-pair-element"/>');
+	let elementNameInput = $('<input placeholder="New Element" id="newElement" type="text" value="" class="left-pair-element modern-input"/>');
 	
 	let addButton = button('Add');
 	addButton.click(function() { 
@@ -598,7 +598,7 @@ function generateNewButton(onClick) {
 
 function generateNewActionButton(existingActions, onClick) {
 	let editorGui = $('<div class="input-pair-container"/>');
-	let selectNewAction = $('<select class="left-pair-element" id="selectNewAction" />');
+		let selectNewAction = $('<select class="left-pair-element modern-input" id="selectNewAction" />');
 	$.each(TBA_DATABASE.verbs, function( verb ) {
 		if(existingActions[verb] !== undefined) { return; }
 		selectNewAction.append($('<option/>').val(verb).html(verb));
@@ -614,7 +614,7 @@ function generateNewActionButton(existingActions, onClick) {
 function generateNewObjectForLocationButton(existingObjects, onClick) {
 	let editorGui = $('<td/>');
 	let container = $('<div class="input-pair-container"/>');
-	let selectNewObject = $('<select class="left-pair-element" id="selectNewObject" />');
+		let selectNewObject = $('<select class="left-pair-element modern-input" id="selectNewObject" />');
 	$.each(TBA_DATABASE.objects, function( obj ) {
 		if(existingObjects[obj] !== undefined) { return; }
 		selectNewObject.append($('<option/>').val(obj).html(obj));
@@ -631,7 +631,7 @@ function generateNewObjectForLocationButton(existingObjects, onClick) {
 function generateInput(name, value, onChange){
 	let inputFieldArea = $('<tr/>');
 	inputFieldArea.append('<td><label for="'+name+'">'+name+'</label></td>');
-	let inputField = $('<input id="'+name+'" type="text" size="30" value="'+value+'"/>');
+	let inputField = $('<input id="'+name+'" type="text" size="30" value="'+value+'" class="modern-input"/>');
 	inputField.on( "change", function() {
 		onChange(inputField.val());
 		onDatabaseChanged();
@@ -646,13 +646,32 @@ function generateTextArea(name, value, onChange){
 	let inputFieldArea = $('<tr/>');
 	inputFieldArea.append('<td><label for="'+name+'">'+name+'</label></td>');
 	let valueTableField = $('<td/>');
-	let inputField = $('<textarea id="'+name+'" name="'+name+'" cols="40" rows="5">'+value+'</textarea>');
-	inputField.on( "change", function() {
+	let inputField = $('<textarea id="'+name+'" name="'+name+'" cols="40" rows="1" class="modern-textarea"></textarea>');
+
+	// Auto-resize on input and persist changes
+	inputField.on('input', function() {
+		this.style.height = 'auto';
+		this.style.height = (this.scrollHeight) + 'px';
+		onChange(inputField.val());
+		onDatabaseChanged();
+	});
+
+	// Also handle change event (blur) for compatibility
+	inputField.on( 'change', function() {
 		onChange(inputField.val());
 		onDatabaseChanged();
 	} );
+
 	valueTableField.append(inputField);
 	inputFieldArea.append(valueTableField);
+	inputField.val(value);
+
+	// Firefox may not compute scrollHeight correctly until the element is in the DOM,
+	// so run a delayed resize to ensure the textarea height matches its content.
+	setTimeout(function(){
+		inputField.each(function(){ this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px'; });
+	}, 0);
+
 	return inputFieldArea;
 }
 
