@@ -140,6 +140,11 @@ function onTypeChanged(typeParam){
 	}
 	if(type===null || type === undefined){ type="general"; }
 
+	// Highlight the active tab
+	$('.editor-tab').removeClass('active');
+	let tabId = 'tab' + type.charAt(0).toUpperCase() + type.slice(1);
+	$('#' + tabId).addClass('active');
+
 	$("#elementSelection").html("");
 	if(type=="general") {
 		$("#elementEditor").html(generateUiForGeneral(TBA_DATABASE.general));
@@ -224,6 +229,7 @@ function generateUiForPreview() {
 		previewRestartButton = button('Restart Game');
 		previewReloadButton = button('Reload Current Room');
 		buttonBar.append(previewReloadButton);
+		buttonBar.append(' ');
 		buttonBar.append(previewRestartButton);
 
 		previewContainer.append(buttonBar);
@@ -335,19 +341,21 @@ function generateUiForGeneral(general) {
 
 function generateUiForVerbElement(verbName, verb) {
 	let editorGui = $('<table class="w100"/>');
-	let name = $('<span><h2>'+verbName+' </h2></span>');
+	let title = $('<span><h2>Verb</h2></span>');
 
 	let nameOptions = $('<span/>');
 
 	let removeButton = button('Remove', 'btn-error');
+	nameOptions.append('<b>'+verbName+'</b>');
+	nameOptions.append(' ');
 	removeButton.click(function() { delete TBA_DATABASE.verbs[verbName]; onTypeChanged(); }); //TODO: Also delete from all Objects
 	nameOptions.append(removeButton);
-
+	nameOptions.append(' ');
 	let duplicateButton = button('Duplicate');
 	duplicateButton.click(function() { TBA_DATABASE.verbs[getAvailableVerbName(verbName)] = clone(verb); onTypeChanged(); });
 	nameOptions.append(duplicateButton);
 
-	editorGui.append(tableRow2(name, nameOptions));
+	editorGui.append(tableRow2(title, nameOptions));
 	editorGui.append(generateInput("Failure", verb.failure, function(value){ verb.failure = value; }));
 	editorGui.append(generateInput("Words", verb.words.join(", "), 
 		function(value){
@@ -360,18 +368,20 @@ function generateUiForVerbElement(verbName, verb) {
 
 function generateUiForObjectElement(objectName, object) {
 	let editorGui = $('<table class="w100"/>');
-	let name = $('<span><h2>'+objectName+' </h2></span>');
+	let title = $('<span><h2>Object</h2></span>');
 
 	let nameOptions = $('<span/>');
 	let removeButton = button('Remove', 'btn-error');
+	nameOptions.append('<b>'+objectName+'</b>');
+	nameOptions.append(' ');
 	removeButton.click(function() { delete TBA_DATABASE.objects[objectName]; onTypeChanged(); }); //TODO: Also delete from all locations
 	nameOptions.append(removeButton);
-
+	nameOptions.append(' ');
 	let duplicateButton = button('Duplicate');
 	duplicateButton.click(function() { TBA_DATABASE.objects[getAvailableObjectName(objectName)] = clone(object); onTypeChanged(); });
 	nameOptions.append(duplicateButton);
 
-	editorGui.append(tableRow2(name, nameOptions));
+	editorGui.append(tableRow2(title, nameOptions));
 
 	editorGui.append(generateInput("Location Description", object.locationDescription, function(value){ object.locationDescription = value; }));
 	editorGui.append(generateInput("Words", object.words.join(", "), 
@@ -389,7 +399,7 @@ function generateUiForObjectElement(objectName, object) {
 			action.action = value.split(NEWLINE).map(function(item) { return item.trim(); }).filter(e => e);
 		}));
 	});	
-	editorGui.append(tableRow2("<h5>Add Action</h5>", generateNewActionButton(object.actions, function(verb){
+	editorGui.append(tableRow2("<h4>Add Action</h4>", generateNewActionButton(object.actions, function(verb){
 		if(object.actions[name]!==undefined){
 			alert("An action with this verb already exists for this object.");
 			return;
@@ -404,62 +414,90 @@ function generateUiForObjectElement(objectName, object) {
 
 function generateUiForLocationElement(locationName, location) {
 	let editorGui = $('<table class="w100"/>');
-	let name = $('<span><h2>'+locationName+' </h2></span>');
+	let title = $('<span><h2>Location</h2></span>');
 
 	let nameOptions = $('<span/>');
 	let removeButton = button('Remove', 'btn-error');
+	nameOptions.append('<b>'+locationName+'</b>');
+	nameOptions.append(' ');
 	removeButton.click(function() { delete TBA_DATABASE.locations[locationName]; onTypeChanged(); });
 	nameOptions.append(removeButton);
-
+	nameOptions.append(' ');
 	let duplicateButton = button('Duplicate');
 	duplicateButton.click(function() { TBA_DATABASE.locations[getAvailableLocationName(locationName)] = clone(location); onTypeChanged(); });
 	nameOptions.append(duplicateButton);
-
-	editorGui.append(tableRow2(name, nameOptions));
+	
+	editorGui.append(tableRow2(title, nameOptions));
 	editorGui.append(tableH3('Objects'));
+
+	let previewRow = $('<tr/>');
+	let previewHeadline = $('<td>Preview Location Description</td>');
+	let previewCell = $('<td/>');
+	
+	editorGui.append(previewRow);
+	previewRow.append(previewHeadline);
+	previewRow.append(previewCell);
+
+	function updatePreviewLocationText() {
+		let text = "";
+		$.each(location.objects, function(index, objectName) {
+			if(text.length > 0) { text += " "; }
+			text += TBA_DATABASE.objects[objectName].locationDescription;
+		});
+		previewCell.text(text);
+	}
+	updatePreviewLocationText();
+
 	let rowSelector = $('<tr/>');
-	let leftCellSelector = $('<td/>');
-	let objSelector = $('<select size="'+location.objects.length+'" style="min-height: 200px;" />');
-	$.each(location.objects, function(index, object) {
-		let option = $('<option value="'+index+'">'+object+'</option>');
-		objSelector.append(option);
-	});	
-	leftCellSelector.append(objSelector);
+	let leftCellSelector = $('<td colspan="2"/>');
+
+	// Render a table where each object has its own Move Up / Move Down / Remove buttons
+	let objList = $('<table class="w100 object-list" border="0"/>');
+	$.each(location.objects, function(index, objectName) {
+		let tr = $('<tr/>');
+		tr.append($('<td/>').text(objectName));
+		let btnsTd = $('<td/>');
+
+		let moveUpButton = button('Move Up');
+		moveUpButton.click(function() {
+			if(index > 0) {
+				moveArrayElement(location.objects, index, index-1);
+				onElementChanged();
+			}
+		});
+		if(index === 0) { moveUpButton.prop('disabled', true); }
+
+		let moveDownButton = button('Move Down');
+		moveDownButton.click(function() {
+			if(index < location.objects.length - 1) {
+				moveArrayElement(location.objects, index, index+1);
+				onElementChanged();
+			}
+		});
+		if(index === location.objects.length - 1) { moveDownButton.prop('disabled', true); }
+
+		let removeObjectButton = button('Remove', 'btn-error btn-ghost');
+		removeObjectButton.click(function() {
+			if(confirm('Remove "'+objectName+'"?')) {
+				location.objects.splice(index, 1);
+				onElementChanged();
+			}
+		});
+
+		// Put buttons inline in a small button group
+		let btnGroup = $('<div class="btn-group-inline"/>');
+		btnGroup.append(moveUpButton);
+		btnGroup.append(moveDownButton);
+		btnGroup.append(removeObjectButton);
+		btnsTd.append(btnGroup);
+		tr.append(btnsTd);
+		objList.append(tr);
+	});
+
+	leftCellSelector.append(objList);
 	rowSelector.append(leftCellSelector);
-	let rightCellSelector = $('<td/>');
-	let removeObjectButton = button('Remove Object', 'btn-error btn-ghost');
-	removeObjectButton.click(function() { 
-		let index = objSelector.val();
-		if(index === null || index < 0) { alert("No object selected"); return; }
-		delete location.objects.splice(index, 1); 
-		onElementChanged();
-	});
-	let moveUpButton = button('Move Up');
-	moveUpButton.click(function() { 
-		let index = objSelector.val();
-		if(index === null || index < 0) { alert("No object selected"); return; }
-		const indexInt = parseInt(index);
-		if(indexInt > 0) {
-			moveArrayElement(location.objects, indexInt, indexInt-1);
-			onElementChanged();
-		}
-	});
-	let moveDownButton = button('Move Down');
-	moveDownButton.click(function() { 
-		let index = objSelector.val();
-		if(index === null || index < 0) { alert("No object selected"); return; }
-		const indexInt = parseInt(index);
-		if (indexInt < location.objects.length-1 ) {
-			moveArrayElement(location.objects, indexInt, indexInt+1);
-			onElementChanged();
-		}
-	});
-	rightCellSelector.append(paragraph(moveUpButton));
-	rightCellSelector.append(paragraph(moveDownButton));
-	rightCellSelector.append(paragraph(removeObjectButton));
-	rowSelector.append(rightCellSelector);
 	editorGui.append(rowSelector);
-	let rowNewObject = $('<tr><td><h5>Add Object</h5></td></tr>');
+	let rowNewObject = $('<tr><td><h4>Add Object</h4></td></tr>');
 	rowNewObject.append(generateNewObjectForLocationButton(location.objects, function(obj){
 		location.objects.push(obj);
 		onElementChanged();
@@ -488,7 +526,7 @@ function tableRow(element){
 }
 function tableRow2(left, right){
 	let r = $('<tr/>');
-	let el = $('<td/>');
+	let el = $('<td class="left-col"/>');
 	el.append(left);
 	let er = $('<td/>')
 	er.append(right);
