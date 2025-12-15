@@ -174,7 +174,7 @@ html {
 
   /* Make selects readable on dark background */
   select, select option, select optgroup {
-    background: rgb(60, 60, 60);
+    background: rgb(35, 35, 35);
     color: var(--font-color);
     border: 1px solid rgba(255,255,255,0.04);
     padding:6px 8px;
@@ -289,10 +289,12 @@ html {
   input.modern-input, select.modern-input, textarea.modern-textarea {
     -webkit-appearance: none;
     appearance: none;
+    -moz-appearance: none;
     outline: none;
     background: rgba(255,255,255,0.02);
     border: 1px solid rgba(255,255,255,0.06);
   }
+
   input.modern-input:focus,
   select.modern-input:focus,
   textarea.modern-textarea:focus,
