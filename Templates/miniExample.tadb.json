@@ -4,26 +4,26 @@
     "title": "TextAdventureJS Database Mini Example",
     "author": "Daniel Korgel",
     "version": "0.1",
-    "request": [ "", "What do you do?" ],
+    "request": ["", "What do you do?"],
     "start": {
-      "text": "Welcome to the textAdventureJS Mini Example",
-      "action": [ "gotoLocation template_room" ]
+      "text": ["Welcome to the textAdventureJS Mini Example"],
+      "action": ["gotoLocation template_room"]
     }
   },
-  "ignored_words": [ "to", "through", "on", "off", "from", "around", "at" ],
+  "ignored_words": ["to", "through", "on", "off", "from", "around", "at"],
   "verbs": {
     "pickup": {
       "failure": "Sorry you can't see that.",
-      "words": [ "pick", "lift", "take", "get" ]
+      "words": ["pick", "lift", "take", "get"]
     }
   },
   "objects": {
     "template_object": {
-      "words": [ "pillow", "pill" ],
+      "words": ["pillow", "pill"],
       "locationDescription": "A pillow is lying on the floor",
       "actions": {
         "pickup": {
-          "text": "okay got it",
+          "text": ["okay got it"],
           "action": [
             "objectRemoveFromLocation template_object",
             "objectState pickedUp",
@@ -31,18 +31,18 @@
           ]
         },
         "look": {
-          "text": "soft and comfy",
+          "text": ["soft and comfy"],
           "action": []
         }
       },
-      "useableObjects": { }
+      "useableObjects": {}
     },
     "template_object_pickedUp": {
-      "words": [ "pillow", "pill" ],
+      "words": ["pillow", "pill"],
       "locationDescription": "You are holding pillow in your hand.",
       "actions": {
         "drop": {
-          "text": "okay dropped it",
+          "text": ["okay dropped it"],
           "action": [
             "objectAddToLocation template_object",
             "objectState default",
@@ -50,18 +50,16 @@
           ]
         },
         "look": {
-          "text": "soft and comfy",
+          "text": ["soft and comfy"],
           "action": []
         }
       },
-      "useableObjects": { }
+      "useableObjects": {}
     }
   },
   "locations": {
     "template_room": {
-      "objects": [
-        "template_object"
-      ]
+      "objects": ["template_object"]
     }
   }
 }

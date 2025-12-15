@@ -24,42 +24,62 @@ $( document ).ready(function() {
 	  
 	$(".file-drop-area").on('drop', async (e) => {
 		e.preventDefault();
-	  
-		/*const fileHandlesPromises = [...e.originalEvent.dataTransfer.items]
-		  .filter((item) => item.kind === 'file')
-		  .map((item) => item.getAsFileSystemHandle()); // not supported in Firefox, but would allow writing
-	  
-		for await (const handle of fileHandlesPromises) {
-		  if (handle.kind === 'directory') {
-			console.log(`Directory: ${handle.name}`);
-		  } else {
-			console.log(`File: ${handle.name}`);
-		  }
-		}*/
 
 		var file = e.originalEvent.dataTransfer.files[0];
-        reader = new FileReader();
-    	reader.onload = function(event) {
-       		console.log(event.target);
-			tba_init(event.target.result);
-    	};
-		filename = file.name;
-		reader.readAsText(file);
+		importFile(file);
+
+	});
+	$("#btn-new").click(() => {
+		// Load the inlined default database JSON
+		const defaultJson = getDefaultProjectJson();
+		if (defaultJson) {
+			tba_init(defaultJson);
+		} else {
+			alert('Default project JSON not available.');
+		}
 	});
 	$("#btn-save").click(() => {
 		download(JSON.stringify(TBA_DATABASE, null, 2), filename, 'text/plain');
 	});
 	$("#btn-close").click(() => {
 		TBA_DATABASE = undefined;
+		textAdv = undefined;
 		deleteDatabaseFromStorage();
 		updateEditorState();
 	});
 	loadToDatabaseFromStorage();
 	updateEditorState();
-	if(TBA_DATABASE != undefined){
+	if (TBA_DATABASE != undefined) {
 		onTypeChanged();
 	}
 });
+
+function importFile(file) {
+		reader = new FileReader();
+
+		// Handle successful read and catch JSON/initialization errors
+		reader.onload = function(event) {
+			try {
+				console.log(event.target);
+				tba_init(event.target.result);
+			} catch (err) {
+				console.error("Error initializing database from file:", err);
+				alert("Error loading file '" + (file && file.name ? file.name : '') + "': " + (err && err.message ? err.message : err));
+			}
+		};
+
+		// Inform the user if reading the file fails or is aborted
+		reader.onerror = function() {
+			console.error("FileReader error:", reader.error);
+			alert("Error reading file '" + (file && file.name ? file.name : '') + "': " + ((reader.error && reader.error.message) ? reader.error.message : 'Unknown error'));
+		};
+		reader.onabort = function() {
+			alert("File read aborted.");
+		};
+
+		filename = file.name;
+		reader.readAsText(file);
+}
 
 function download(content, fileName, contentType) {
     var a = document.createElement("a");
@@ -82,6 +102,17 @@ function deleteDatabaseFromStorage(){
 	localStorage.removeItem("database");
 }
 
+function getDefaultProjectJson() {
+	try {
+		const el = document.getElementById('default-db');
+		if (!el) return null;
+		return el.textContent.trim();
+	} catch (err) {
+		console.error('Failed to read default DB:', err);
+		return null;
+	}
+}
+
 function updateEditorState() {
 	if(TBA_DATABASE !== undefined) {
 		$("#drop-area").hide();
@@ -93,9 +124,14 @@ function updateEditorState() {
 }
 
 function tba_init(json){
-	TBA_DATABASE = JSON.parse(json);
-	updateEditorState();
-	onTypeChanged();
+	try {
+		TBA_DATABASE = JSON.parse(json);
+		updateEditorState();
+		onTypeChanged();
+	} catch (err) {
+		console.error("Failed to initialize database:", err);
+		alert("Error parsing database JSON: " + (err && err.message ? err.message : err));
+	}
 }
 
 function onTypeChanged(typeParam){
@@ -348,7 +384,7 @@ function generateUiForObjectElement(objectName, object) {
 		let removeActionButton = button('Remove', 'btn-error btn-ghost')
 		removeActionButton.click(function() { delete object.actions[verb]; onElementChanged(); });
 		editorGui.append(tableRow2(name, removeActionButton));
-		editorGui.append(generateInput("Text", action.text, function(value){ action.text = value; }));
+		editorGui.append(generateTextArea("Text", action.text.join(NEWLINE), function(value){ action.text = value.split(NEWLINE); }));
 		editorGui.append(generateTextArea("Functions", action.action.join(NEWLINE), function(value){
 			action.action = value.split(NEWLINE).map(function(item) { return item.trim(); }).filter(e => e);
 		}));

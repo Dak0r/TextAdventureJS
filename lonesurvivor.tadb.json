@@ -68,21 +68,21 @@
       "locationDescription": "",
       "actions": {
         "pickup": {
-          "text": "okay got it",
+          "text": [ "okay got it" ],
           "action": [ "inventoryAdd template_object" ]
         },
         "look": {
-          "text": "soft and comfy",
+          "text": [ "soft and comfy" ],
           "action": []
         }
       },
       "useableObjects": {
         "bedroom_desk": {
-          "text": "soft and comfy",
+          "text": [ "soft and comfy" ],
           "action": []
         },
         "test": {
-          "text": "works",
+          "text": [ "works" ],
           "action": []
         }
       }
@@ -92,15 +92,15 @@
       "locationDescription": "Plaster is crumbling from the WALLS.",
       "actions": {
         "look": {
-          "text": "Plaster is crumbling from the walls. Something seems off, but it's too dark to have a closer look.",
+          "text": [ "Plaster is crumbling from the walls. Something seems off, but it's too dark to have a closer look." ],
           "action": []
         },
         "touch": {
-          "text": "The plaster feels wet and is crumbling in your hands as you touch it.",
+          "text": [ "The plaster feels wet and is crumbling in your hands as you touch it." ],
           "action": []
         },
         "break": {
-          "text": "Why would you do that?",
+          "text": [ "Why would you do that?" ],
           "action": []
         }
       },
@@ -111,11 +111,11 @@
       "locationDescription": "Plaster is crumbling from the WALLS.",
       "actions": {
         "look": {
-          "text": "You notice some rusty metal emerging behind the crumbling PLASTER of one wall.",
+          "text": [ "You notice some rusty metal emerging behind the crumbling PLASTER of one wall." ],
           "action": []
         },
         "remove": {
-          "text": "You break the loose plaster of the wall. Piece by piece it reveals an old RUSTY METAL DOOR.",
+          "text": [ "You break the loose plaster of the wall. Piece by piece it reveals an old RUSTY METAL DOOR." ],
           "action": [
             "objectReplaceInLocation plaster_wall_door_unidentified plaster_wall_door_door_found",
             "objectRemoveFromLocation metal_behind_plaster"
@@ -129,15 +129,15 @@
       "locationDescription": "On the other side for the room is a RUSTY METAL DOOR.",
       "actions": {
         "look": {
-          "text": "A heavy metal door that was hidden under the plaster.",
+          "text": [ "A heavy metal door that was hidden under the plaster." ],
           "action": []
         },
         "go": {
-          "text": "You open the rusty door and enter a hallway.",
+          "text": [ "You open the rusty door and enter a hallway." ],
           "action": [ "gotoLocation long_hallway" ]
         },
         "open": {
-          "text": "You open the rusty door and enter a hallway.",
+          "text": [ "You open the rusty door and enter a hallway." ],
           "action": [ "gotoLocation long_hallway" ]
         }
       },
@@ -148,15 +148,15 @@
       "locationDescription": "",
       "actions": {
         "look": {
-          "text": "It looks like a rusty metal object is hidden behind the crumbling plaster.",
+          "text": [ "It looks like a rusty metal object is hidden behind the crumbling plaster." ],
           "action": []
         },
         "touch": {
-          "text": "The plaster feels loose, you might be able to remove it with your hands.",
+          "text": [ "The plaster feels loose, you might be able to remove it with your hands." ],
           "action": []
         },
         "remove": {
-          "text": "You break the loose plaster of the wall. Piece by piece it reveals an old RUSTY METAL DOOR.",
+          "text": [ "You break the loose plaster of the wall. Piece by piece it reveals an old RUSTY METAL DOOR." ],
           "action": [
             "objectReplaceInLocation plaster_wall_door_door_visible plaster_wall_door_door_found",
             "objectRemoveFromLocation metal_behind_plaster"
@@ -182,7 +182,7 @@
           "action": [ "showLocationDescription" ]
         },
         "light": {
-          "text": "If only you'd had something to enlighten the room with...",
+          "text": [ "If only you'd had something to enlighten the room with..." ],
           "action": []
         }
       },
@@ -199,7 +199,7 @@
           "action": [ "showLocationDescription" ]
         },
         "light": {
-          "text": "The room is already slightly illuminated.",
+          "text": [ "The room is already slightly illuminated." ],
           "action": []
         }
       },
@@ -212,14 +212,14 @@
       "locationDescription": "You see a small BOX near you.",
       "actions": {
         "pickup": {
-          "text": "You got it. It's a box of matches!",
+          "text": [ "You got it. It's a box of matches!" ],
           "action": [
             "objectRemoveFromLocation box_matches_unidentified",
             "inventoryAdd box_matches_pickedUp"
           ]
         },
         "look": {
-          "text": "It's too dark to see the small box properly. You could probably reach it.",
+          "text": [ "It's too dark to see the small box properly. You could probably reach it." ],
           "action": []
         }
       },
@@ -230,7 +230,7 @@
       "locationDescription": "You are holding the box of MATCHES.",
       "actions": {
         "use": {
-          "text": "You light the last match. The room is now slightly illumanted.",
+          "text": [ "You light the last match. The room is now slightly illumanted." ],
           "action": [
             "objectReplaceInLocation plaster_wall_door_unidentified plaster_wall_door_door_visible",
             "objectReplaceInLocation room_start_chamber_dark room_start_chamber_enlighted",
@@ -239,7 +239,7 @@
           ]
         },
         "light": {
-          "text": "You light the last match. The room is now slightly illumanted.",
+          "text": [ "You light the last match. The room is now slightly illumanted." ],
           "action": [
             "objectReplaceInLocation plaster_wall_door_unidentified plaster_wall_door_door_visible",
             "objectReplaceInLocation room_start_chamber_dark room_start_chamber_enlighted",
@@ -248,14 +248,14 @@
           ]
         },
         "drop": {
-          "text": "You dropped the box of matches",
+          "text": [ "You dropped the box of matches" ],
           "action": [
             "objectAddToLocation box_matches_dropped",
             "inventoryRemove box_matches_pickedUp"
           ]
         },
         "look": {
-          "text": "An almost empty box of matches.",
+          "text": [ "An almost empty box of matches." ],
           "action": []
         }
       },
@@ -266,14 +266,14 @@
       "locationDescription": "You dropped the the box of MATCHES here.",
       "actions": {
         "pickup": {
-          "text": "You picked up the Box of Matches again!",
+          "text": [ "You picked up the Box of Matches again!" ],
           "action": [
             "objectRemoveFromLocation box_matches_dropped",
             "inventoryAdd box_matches_pickedUp"
           ]
         },
         "look": {
-          "text": "A small box of matches, that you dropped here...",
+          "text": [ "A small box of matches, that you dropped here..." ],
           "action": []
         }
       },
@@ -284,7 +284,7 @@
       "locationDescription": "The long corridor has cold stone walls.",
       "actions": {
         "look": {
-          "text": "",
+          "text": [ "" ],
           "action": []
         }
       },
@@ -295,11 +295,11 @@
       "locationDescription": "You see LIGHT at the other end of the hallway.",
       "actions": {
         "look": {
-          "text": "It seems to be sunlight that enlightens the end of the hallway.",
+          "text": [ "It seems to be sunlight that enlightens the end of the hallway." ],
           "action": []
         },
         "go": {
-          "text": "You walk towards the light, but you don't seem to get any closer. A gust of wind blows the LEAFLET to you.",
+          "text": [ "You walk towards the light, but you don't seem to get any closer. A gust of wind blows the LEAFLET to you." ],
           "action": []
         }
       },
@@ -310,11 +310,11 @@
       "locationDescription": "You see LIGHT at the other end of the hallway.",
       "actions": {
         "look": {
-          "text": "It seems to be sunlight that enlightens the end of the hallway.",
+          "text": [ "It seems to be sunlight that enlightens the end of the hallway." ],
           "action": []
         },
         "go": {
-          "text": "You walk towards the light, but you don't seem to get any closer.",
+          "text": [ "You walk towards the light, but you don't seem to get any closer." ],
           "action": []
         }
       },
@@ -325,11 +325,11 @@
       "locationDescription": "A LEAFLET is lying on the ground.",
       "actions": {
         "look": {
-          "text": "The text is too small to read the LEAFLET, while it's on the ground.",
+          "text": [ "The text is too small to read the LEAFLET, while it's on the ground." ],
           "action": []
         },
         "pickup": {
-          "text": "You take the leaflet.",
+          "text": [ "You take the leaflet." ],
           "action": [
             "objectReplaceInLocation exit_light exit_light_without_leaflet",
             "objectRemoveFromLocation dev_leaflet_on_ground",
@@ -351,7 +351,7 @@
           "action": []
         },
         "drop": {
-          "text": "You dropped the leaflet.",
+          "text": [ "You dropped the leaflet." ],
           "action": [
             "objectReplaceInLocation exit_light_without_leaflet exit_light",
             "objectAddToLocation dev_leaflet_on_ground",
