@@ -73,32 +73,43 @@ Now you can use the `objectReplaceInLocation` function in `chest`s `open` action
 
 To close the chest again, you can use `objectReplaceInLocation` again in `chest_opened`s `close` action.
 
+#### Object specific failure texts
+If the user tries to do soemthing with an object and the action is not defined, the engine will output the default verb failure sentance. In some cases you might find it more immersive to have an object specfic failure text, though verbs have no object specifc failures, as they usually will vary by object. 
+
+So In this case, you simply have to add the verb as an action to the object and add your failure message as text to the action.
+
 ### Functions
 Functions can be used in actions to modify the current location or the plazers inventory.
 
+#### 'this' in function parameters
+If the function should affect the object that the action is defined on, you can refer to it using `this` instead of its nanme.
+
 #### objectRemoveFromLocation
  ```
-objectRemoveFromLocation {objectId}
+objectRemoveFromLocation {objectName}
+objectRemoveFromLocation this
  ```
 Removes the given object from the current location
 
 #### objectAddToLocation
  ```
-objectAddToLocation {objectId}
+objectAddToLocation {objectName}
+objectAddToLocation this
  ```
 Adds a given object to the current location
 
 #### objectReplaceInLocation
  ```
-objectReplaceInLocation {objectIdToRemove} {objectIdToAdd}
+objectReplaceInLocation {objectNameToRemove} {objectNameToAdd}
+objectReplaceInLocation this {objectNameToAdd}
  ```
-Removes `{objectIdToRemove}` and adds `{objectIdToAdd}`. Shorthand for sequentially calling `objectRemoveFromLocation` and `objectAddToLocation`.
+Removes `{objectNameToRemove}` and adds `{objectNameToAdd}`. Shorthand for sequentially calling `objectRemoveFromLocation` and `objectAddToLocation`.
 
 Useful if an object transitions into a different one like `chest_closed` to `chest_opened`.
 
 #### gotoLocation
  ```
-gotoLocation {locationId}
+gotoLocation {locationName}
  ```
 Changes the current location to a different one
 
@@ -110,13 +121,15 @@ Automatically shows the current location description, as if the user typed 'look
 
 #### inventoryAdd
  ```
-inventoryAdd {objectId}
+inventoryAdd {objectName}
+inventoryAdd this
  ```
 Adds the item to users inventory. 
 The user can have multiple items in his inventory, the location descriptions will be listed below each other.
 
 #### inventoryRemove
  ```
-inventoryRemove {objectId}
+inventoryRemove {objectName}
+inventoryRemove this
  ```
 Removes the item from users inventory

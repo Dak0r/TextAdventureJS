@@ -12,9 +12,17 @@
   },
   "ignored_words": ["to", "through", "on", "off", "from", "around", "at"],
   "verbs": {
+    "look": {
+      "failure": "Sorry you can't see that.",
+      "words": [ "look", "view", "watch", "read", "search" ]
+    },
     "pickup": {
       "failure": "Sorry you can't see that.",
       "words": ["pick", "lift", "take", "get"]
+    },
+    "drop": {
+      "failure": "How do you want to drop that?",
+      "words": [ "drop", "let go" ]
     }
   },
   "objects": {
@@ -25,9 +33,8 @@
         "pickup": {
           "text": ["okay got it"],
           "action": [
-            "objectRemoveFromLocation template_object",
-            "objectState pickedUp",
-            "inventoryAdd template_object"
+            "objectRemoveFromLocation this",
+            "inventoryAdd template_object_pickedUp"
           ]
         },
         "look": {
@@ -45,8 +52,7 @@
           "text": ["okay dropped it"],
           "action": [
             "objectAddToLocation template_object",
-            "objectState default",
-            "inventoryRemove template_object"
+            "inventoryRemove this"
           ]
         },
         "look": {

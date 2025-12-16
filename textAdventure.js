@@ -133,7 +133,7 @@ class textAdventureEngine {
 	
 			//no action
 			if(verb == undefined && object != undefined){
-				this.#writeOutputLines("Unknown verb, please try to rephrase your command."); //TODO: Improve
+				this.#writeOutputLines("Unknown verb, please try to rephrase your command."); //TODO: Move to Game Database
 				this.#showRequest();
 				return;
 			}
@@ -166,16 +166,16 @@ class textAdventureEngine {
 				}
 	
 				if(result != undefined){
-					let objectStateVerbDefinition = object.actions[verbName];
-					this.#writeOutputLines(objectStateVerbDefinition.text);
-					this.#runActions(object, objectStateVerbDefinition.action);
+					let objectVerbAction = object.actions[verbName];
+					this.#writeOutputLines(objectVerbAction.text);
+					this.#runActions(objectName, objectVerbAction.action);
 				}else{
-					this.#writeOutputLines(verb.failure); //TODO: Could be improved, verb doesn't work with object
+					this.#writeOutputLines(verb.failure);
 				}
 				this.#showRequest();
 				return;
 			}
-			this.#writeOutputLines("Please try to rephrase your command."); //TODO: Replace with something more immersive
+			this.#writeOutputLines("Please try to rephrase your command."); //TODO: Move to Game Database
 		}
 		this.#showRequest();
 	}
@@ -203,27 +203,35 @@ class textAdventureEngine {
 		}
 	}
 
-	#runActions(callingObject, actions){
+	#runActions(callingObjectName, actions){
 		if(actions === undefined){
 			return;
 		}
 		if($.isArray(actions)) {
 			for(var i=0; i<actions.length; i++){
-				this.#parseActionString(callingObject, actions[i]);
+				this.#parseActionString(callingObjectName, actions[i]);
 			}
 		}else{
-			this.#parseActionString(callingObject, actions);
+			this.#parseActionString(callingObjectName, actions);
 		}
 	}
 
-	#parseActionString(callingObject, actionString){
+	#parseActionString(callingObjectName, actionString){
 		if(actionString === undefined){
 			return;
 		}
 		var acts = actionString.split(" ");
-		if(acts[0]=="objectState") {
-			console.error("objectState was removed. Use objectReplaceInLocation instead!");
-		}else if(acts[0]=="objectRemoveFromLocation"){
+		for(var i=1; i<acts.length; i++){
+			if(acts[i].trim() == "this"){
+				if(callingObjectName != undefined){
+					acts[i] = callingObjectName;
+				}else{
+					console.error("Action "+acts[0]+" had parameter 'this' but no calling object name was defined!");
+					return;
+				}
+			}
+		}
+		if(acts[0]=="objectRemoveFromLocation"){
 			console.log("removing Object from Location: "+acts[1]);
 			var index = this.#getLocationState(this.#gameState.currentLocation).objects.indexOf(acts[1]);
 			if (index > -1) {
