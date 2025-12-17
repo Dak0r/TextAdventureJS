@@ -620,7 +620,7 @@ function generateUiForLocationElement(locationName, location) {
 			}, 0);
 			});
 
-			let removeObjectButton = button('✖', 'btn-error btn-ghost small-btn');
+			let removeObjectButton = button('Remove', 'btn-error btn-ghost small-btn');
 		removeObjectButton.attr('title','Remove').attr('aria-label','Remove');
 		removeObjectButton.click(function() {
 			if(confirm('Remove "'+objectName+'"?')) {
