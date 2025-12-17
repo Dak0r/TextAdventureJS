@@ -26,19 +26,46 @@ const FUNCTIONS = {
 
 var type;
 
-$( document ).ready(function() {
-	$(".file-drop-area").on('dragover', (e) => {
-		// Prevent navigation.
+$( document ).ready(function() {		// Create a hidden file input to support click-to-open
+		if ($('#fileInput').length === 0) {
+			const hiddenFileInput = $('<input type="file" id="fileInput" accept=".json,.tadb.json" style="display:none" />');
+			$('body').append(hiddenFileInput);
+			hiddenFileInput.on('change', function() { const file = this.files && this.files[0]; if (file) importFile(file); this.value = null; });
+		}	$(".file-drop-area").on('dragenter', (e) => {
+		// highlight
 		e.preventDefault();
+		$(".file-drop-area").addClass('drag-active');
 	});
+
+		$(".file-drop-area").on('dragover', (e) => {
+			// Prevent navigation and keep highlight
+			e.preventDefault();
+			$(".file-drop-area").addClass('drag-active');
+		});
+
+		$(".file-drop-area").on('dragleave', (e) => {
+			// remove highlight
+			$(".file-drop-area").removeClass('drag-active');
+		});
 	  
 	$(".file-drop-area").on('drop', async (e) => {
 		e.preventDefault();
+		$(".file-drop-area").removeClass('drag-active');
 
 		var file = e.originalEvent.dataTransfer.files[0];
 		importFile(file);
 
 	});
+
+		// allow clicking the area to open a file picker (hidden input appended below)
+		$('.file-drop-area').on('click', function() { $('#fileInput').click(); });
+		// keyboard support: Enter or Space opens file picker when area is focused
+		$('.file-drop-area').on('keypress', function(e) {
+			if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) {
+				e.preventDefault();
+				$('#fileInput').click();
+			}
+		});
 	$("#btn-new").click(() => {
 		// Load the inlined default database JSON
 		const defaultJson = getDefaultProjectJson();
