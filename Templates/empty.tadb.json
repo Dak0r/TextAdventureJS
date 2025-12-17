@@ -10,9 +10,9 @@
       "text": ["Welcome to the Empty Template"],
       "inventory": "",
       "action": ["gotoLocation first_room"]
-    }
+    },
+    "ignored_words": []
   },
-  "ignored_words": [],
   "verbs": {},
   "objects": {},
   "locations": {

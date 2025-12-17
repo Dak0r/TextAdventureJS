@@ -8,9 +8,9 @@
     "start": {
       "text": [ "", "", "", "You wake up with a headache..." ],
       "action": [ "gotoLocation start_chamber" ]
-    }
+    },
+    "ignored_words": [ "to", "through", "on", "off", "from", "around", "at" ]
   },
-  "ignored_words": [ "to", "through", "on", "off", "from", "around", "at" ],
   "verbs": {
     "pickup": {
       "failure": "Sorry you can't see that.",

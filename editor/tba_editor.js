@@ -385,6 +385,7 @@ function generateUiForGeneral(general) {
 	table.append(generateInput("Version", general.version, function(value){ general.version = value; }));
 	table.append(tableH3('Game Settings'));
 	table.append(generateTextArea("Request", general.request.join(NEWLINE), function(value){ general.request = value.split(NEWLINE); }));
+	table.append(generateInput("Parser Ignored Words", general.ignored_words.join(", "), function(value){ general.ignored_words = value.split(",").map(function(item) { return item.trim(); }); }));
 	table.append(tableH3('Game Start'));
 	table.append(generateTextArea("Introduction", general.start.text.join(NEWLINE), function(value){ general.start.text = value.split(NEWLINE); }));
 	table.append(generateTextArea("Functions", general.start.action.join(NEWLINE), function(value){

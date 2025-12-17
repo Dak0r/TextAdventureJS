@@ -89,7 +89,7 @@ class textAdventureEngine {
 		cmd = cmd.toLowerCase();
 	
 		// remove ignored words from command
-		cmd = this.#removeFromString(this.#database.ignored_words, cmd);
+		cmd = this.#removeFromString(this.#database.general.ignored_words, cmd);
 		cmd = cmd.trim();
 		console.log("Stripped command of parser: '"+cmd+"'");
 	

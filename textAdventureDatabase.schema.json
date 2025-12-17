@@ -58,14 +58,14 @@
           "$ref": "#/definitions/action_definition"
         }
       },
-      "required": ["title", "author", "version", "request", "start"]
-    },
-    "ignored_words": {
-      "description": "Words that will be ignored when parsing an user input. This prevent that they get interpreted as verbs or objects (Note: Thus objects and names can't have this as on of their 'words')",
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
+      "ignored_words": {
+        "description": "Words that will be ignored when parsing an user input. This prevent that they get interpreted as verbs or objects (Note: Thus objects and names can't have this as on of their 'words')",
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "required": ["title", "author", "version", "request", "start", "ignored_words"]
     },
     "verbs": {
       "description": "List of verbs that are available throughout the game",
@@ -141,5 +141,5 @@
       }
     }
   },
-  "required": ["general", "ignored_words", "verbs", "objects", "locations"]
+  "required": ["general", "verbs", "objects", "locations"]
 }
