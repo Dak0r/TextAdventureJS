@@ -401,10 +401,26 @@ function generateUiForVerbElement(verbName, verb) {
 
 	let nameOptions = $('<span/>');
 
-	let removeButton = button('Remove', 'btn-error');
+	let removeButton = button('Delete', 'btn-error');
 	nameOptions.append('<b>'+verbName+'</b>');
 	nameOptions.append(' ');
-	removeButton.click(function() { delete TBA_DATABASE.verbs[verbName]; onTypeChanged(); }); //TODO: Also delete from all Objects
+	removeButton.click(function() { 
+		if (!TBA_DATABASE.verbs || Object.keys(TBA_DATABASE.verbs).length <= 1) {
+			alert('Cannot remove the only verb.');
+			return;
+		}
+		if(confirm('Delete verb "'+verbName+' and also all usages"?')) {
+			delete TBA_DATABASE.verbs[verbName];
+			$.each(TBA_DATABASE.objects, function(objectName, object) {
+				$.each(object.actions, function(action_name, action) {
+					if(action_name === verbName) {
+						delete TBA_DATABASE.objects[objectName].actions[action_name];
+					}
+				});
+			});
+			onTypeChanged();
+		}
+	});
 	nameOptions.append(removeButton);
 	nameOptions.append(' ');
 	let duplicateButton = button('Duplicate');
@@ -427,10 +443,41 @@ function generateUiForObjectElement(objectName, object) {
 	let title = $('<span><h2>Object</h2></span>');
 
 	let nameOptions = $('<span/>');
-	let removeButton = button('Remove', 'btn-error');
+	let removeButton = button('Delete', 'btn-error');
 	nameOptions.append('<b>'+objectName+'</b>');
 	nameOptions.append(' ');
-	removeButton.click(function() { delete TBA_DATABASE.objects[objectName]; onTypeChanged(); }); //TODO: Also delete from all locations
+	removeButton.click(function() { 
+		if (!TBA_DATABASE.objects || Object.keys(TBA_DATABASE.objects).length <= 1) {
+			alert('Cannot remove the only object.');
+			return;
+		}
+		if(confirm('Delete object "'+objectName+' and also all usages"?')) {
+			delete TBA_DATABASE.objects[objectName]; 
+			// delete object from all locations
+			$.each(TBA_DATABASE.locations, function( locationName, location ) {
+				let index = location.objects.indexOf(objectName);
+				if(index !== -1){
+					TBA_DATABASE.locations[locationName].objects.splice(index, 1);
+				}
+			});
+			// delete all actions that reference this object
+			$.each(TBA_DATABASE.general.start.action, function(index, action) {
+				if (action && action.includes(objectName)) {
+					TBA_DATABASE.general.start.action.splice(index, 1);
+				}
+			});
+			$.each(TBA_DATABASE.objects, function(dbObjectName, object) {
+				$.each(object.actions, function(action_name, action_info) {
+					$.each(action_info.action, function(index, action_string) {
+						if (action_string && action_string.includes(objectName)) {
+							TBA_DATABASE.objects[dbObjectName].actions[action_name].action.splice(index, 1);
+						}
+					});
+				});
+			});
+			onTypeChanged(); 
+		}
+	});
 	nameOptions.append(removeButton);
 	nameOptions.append(' ');
 	let duplicateButton = button('Duplicate');
@@ -471,10 +518,34 @@ function generateUiForLocationElement(locationName, location) {
 	let title = $('<span><h2>Location</h2></span>');
 
 	let nameOptions = $('<span/>');
-	let removeButton = button('Remove', 'btn-error');
+	let removeButton = button('Delete', 'btn-error');
 	nameOptions.append('<b>'+locationName+'</b>');
 	nameOptions.append(' ');
-	removeButton.click(function() { delete TBA_DATABASE.locations[locationName]; onTypeChanged(); });
+	removeButton.click(function() { 
+		if (!TBA_DATABASE.locations || Object.keys(TBA_DATABASE.locations).length <= 1) {
+			alert('Cannot remove the only location.');
+			return;
+		}
+		if(confirm('Delete location "'+locationName+' and also all usages"?')) {
+			delete TBA_DATABASE.locations[locationName];
+			// delete all actions that reference this location
+			$.each(TBA_DATABASE.general.start.action, function(index, action) {
+				if (action && action.includes(locationName)) {
+					TBA_DATABASE.general.start.action.splice(index, 1);
+				}
+			});
+			$.each(TBA_DATABASE.objects, function(objectName, object) {
+				$.each(object.actions, function(action_name, action_info) {
+					$.each(action_info.action, function(index, action_string) {
+						if (action_string && action_string.includes(locationName)) {
+							TBA_DATABASE.objects[objectName].actions[action_name].action.splice(index, 1);
+						}
+					});
+				});
+			});
+			onTypeChanged();
+		}
+	});
 	nameOptions.append(removeButton);
 	nameOptions.append(' ');
 	let duplicateButton = button('Duplicate');
