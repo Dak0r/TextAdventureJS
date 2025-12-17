@@ -57,6 +57,10 @@ $( document ).ready(function() {
 		deleteDatabaseFromStorage();
 		updateEditorState();
 	});
+	// Make Save / Close buttons more prominent for quick access
+	$('#btn-save').addClass('btn-primary large-action');
+	$('#btn-close').addClass('btn-error large-action');
+
 	loadToDatabaseFromStorage();
 	updateEditorState();
 	if (TBA_DATABASE != undefined) {

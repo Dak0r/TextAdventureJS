@@ -228,9 +228,17 @@ html {
   /* Buttons */
   .btn { background: transparent; color: var(--font-color); border: 1px solid rgba(255,255,255,0.08); padding:8px 12px; border-radius:6px; cursor:pointer; }
   .btn:hover { opacity:0.95; }
-  .btn-primary { background: var(--primary-color); color: var(--invert-font-color); border: none; }
-  .btn-error { background: var(--error-color); color: var(--invert-font-color); border: none; }
+  .btn-primary { background: var(--primary-color); color: var(--font-color); border: none; }
+  .btn-error { background: var(--error-color); color: var(--font-color); border: none; }
   .btn-default { background: rgba(255,255,255,0.03); }
+
+  /* Prominent action buttons (Save / Close) */
+  .large-action { padding: 10px 16px; font-weight:700; font-size:1rem; border-radius:8px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); transition: transform 0.08s ease, box-shadow 0.08s ease; }
+  #btn-save.large-action { background: var(--primary-color); color: var(--font-color); border: none; }
+  #btn-close.large-action { background: var(--error-color); color: var(--font-color); border: none; }
+  #btn-save.large-action:hover, #btn-close.large-action:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(0,0,0,0.28); }
+  /* Slight spacing so they don't blend into the menu */
+  #btn-save, #btn-close { margin-left: 8px; }
 
   /* Tabs */
   .editor-tab { color: var(--secondary-color); cursor: pointer; text-decoration: none; padding: 4px 8px; border-radius:6px; transition: background 0.12s ease, color 0.12s ease; }
