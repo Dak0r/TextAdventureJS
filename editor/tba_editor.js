@@ -14,6 +14,16 @@ var previewReloadButton = undefined;
 
 const NEWLINE = "\n"; //"&#13;";
 
+const FUNCTIONS = {
+	showLocationDescription: [ ],
+	gotoLocation: [ "location" ],
+	objectRemoveFromLocation: [ "object" ],
+	objectAddToLocation: [ "object" ],
+	objectReplaceInLocation: [ "object", "object"],
+	inventoryAdd: [ "object" ],
+	inventoryRemove: [ "object" ],
+}
+
 var type;
 
 $( document ).ready(function() {
@@ -395,9 +405,7 @@ function generateUiForObjectElement(objectName, object) {
 		removeActionButton.click(function() { delete object.actions[verb]; onElementChanged(); });
 		editorGui.append(tableRow2(name, removeActionButton));
 		editorGui.append(generateTextArea("Text", action.text.join(NEWLINE), function(value){ action.text = value.split(NEWLINE); }));
-		editorGui.append(generateTextArea("Functions", action.action.join(NEWLINE), function(value){
-			action.action = value.split(NEWLINE).map(function(item) { return item.trim(); }).filter(e => e);
-		}));
+		editorGui.append(generateFunctionsUI(action.action));
 	});	
 	editorGui.append(tableRow2("<h4>Add Action</h4>", generateNewActionButton(object.actions, function(verb){
 		if(object.actions[name]!==undefined){
@@ -458,25 +466,28 @@ function generateUiForLocationElement(locationName, location) {
 		tr.append($('<td/>').text(objectName));
 		let btnsTd = $('<td/>');
 
-		let moveUpButton = button('Move Up');
-		moveUpButton.click(function() {
-			if(index > 0) {
-				moveArrayElement(location.objects, index, index-1);
-				onElementChanged();
-			}
-		});
-		if(index === 0) { moveUpButton.prop('disabled', true); }
+let moveUpButton = button('▲', 'btn-default small-btn');
+			moveUpButton.attr('title', 'Move Up').attr('aria-label', 'Move up');
+			moveUpButton.click(function() {
+				if(index > 0) {
+					moveArrayElement(location.objects, index, index-1);
+					onElementChanged();
+				}
+			});
+			if(index === 0) { moveUpButton.prop('disabled', true); }
 
-		let moveDownButton = button('Move Down');
-		moveDownButton.click(function() {
-			if(index < location.objects.length - 1) {
-				moveArrayElement(location.objects, index, index+1);
-				onElementChanged();
-			}
-		});
-		if(index === location.objects.length - 1) { moveDownButton.prop('disabled', true); }
+			let moveDownButton = button('▼', 'btn-default small-btn');
+			moveDownButton.attr('title', 'Move Down').attr('aria-label', 'Move down');
+			moveDownButton.click(function() {
+				if(index < location.objects.length - 1) {
+					moveArrayElement(location.objects, index, index+1);
+					onElementChanged();
+				}
+			});
+			if(index === location.objects.length - 1) { moveDownButton.prop('disabled', true); }
 
-		let removeObjectButton = button('Remove', 'btn-error btn-ghost');
+			let removeObjectButton = button('✖', 'btn-error btn-ghost small-btn');
+			removeObjectButton.attr('title','Remove').attr('aria-label','Remove');
 		removeObjectButton.click(function() {
 			if(confirm('Remove "'+objectName+'"?')) {
 				location.objects.splice(index, 1);
@@ -508,7 +519,7 @@ function generateUiForLocationElement(locationName, location) {
 }
 
 function button(text, btnClasses = 'btn-default') {
-	return $('<button class="btn '+btnClasses+'">'+text+'</button>');
+	return $('<button type="button" class="btn '+btnClasses+'">'+text+'</button>');
 }
 
 function paragraph(element) {
@@ -625,6 +636,112 @@ function generateNewObjectForLocationButton(existingObjects, onClick) {
 	container.append(selectNewObject);
 	container.append(addButton);
 	editorGui.append(container);
+	return editorGui;
+}
+
+function generateFunctionsUI(actions) {
+	const editorGui = $('<tr/>');
+	const col1 = $('<td>Functions</td>');
+	const col2 = $('<td/>');
+	editorGui.append(col1);
+	editorGui.append(col2);
+
+	const existingFunctionsTable = $('<table class="w100 function-list-table" border="0"/>');
+	if (!actions || actions.length === 0) {
+		const tr = $('<tr/>');
+		tr.append($('<td colspan="2">(no functions)</td>'));
+		existingFunctionsTable.append(tr);
+	} else {
+		$.each(actions, function(index, actionString) {
+			const tr = $('<tr/>');
+			const tdText = $('<td/>');
+			const span = $('<span class="func-text"/>').text(actionString);
+			tdText.append(span);
+			const tdBtns = $('<td/>');
+			const btnGroup = $('<div class="btn-group-inline"/>');
+
+			const moveUpButton = button('▲', 'btn-default small-btn');
+			moveUpButton.attr('title', 'Move Up').attr('aria-label', 'Move up');
+			moveUpButton.click(function() {
+				if (index > 0) {
+					moveArrayElement(actions, index, index - 1);
+					onElementChanged();
+				}
+			});
+			if (index === 0) { moveUpButton.prop('disabled', true); }
+
+			const moveDownButton = button('▼', 'btn-default small-btn');
+			moveDownButton.attr('title', 'Move Down').attr('aria-label', 'Move down');
+			moveDownButton.click(function() {
+				if (index < actions.length - 1) {
+					moveArrayElement(actions, index, index + 1);
+					onElementChanged();
+				}
+			});
+			if (index === actions.length - 1) { moveDownButton.prop('disabled', true); }
+
+			const removeButton = button('✖', 'btn-error btn-ghost small-btn');
+			removeButton.attr('title','Remove').attr('aria-label','Remove');
+			removeButton.click(function() {
+				if (confirm('Remove "'+actionString+'"?')) {
+					actions.splice(index, 1);
+					onElementChanged();
+				}
+			});
+
+			btnGroup.append(moveUpButton);
+			btnGroup.append(moveDownButton);
+			btnGroup.append(removeButton);
+			tdBtns.append(btnGroup);
+
+			tr.append(tdText);
+			tr.append(tdBtns);
+			existingFunctionsTable.append(tr);
+		});
+	}
+	col2.append(existingFunctionsTable);
+
+	const container = $('<div class="input-pair-container"/>');
+	const paramsContainer = $('<div class="input-pair-container"/>');
+	const selectedFunction = $('<select class="left-pair-element modern-input" id="selectedFunction" />');
+	$.each(FUNCTIONS, function( funcName, params ) {
+		selectedFunction.append($('<option/>').val(funcName).html(funcName));
+	});
+	selectedFunction.change(function() {
+		paramsContainer.empty();
+		const funcName = selectedFunction.val();
+		const params = FUNCTIONS[funcName];
+		$.each(params, function(index, paramName) {
+			const parameter = $('<select class="left-pair-element modern-input" id="parameter'+index+'" />');
+			if(paramName === "location") {
+				$.each(TBA_DATABASE.locations, function( locName, loc ) {
+					parameter.append($('<option/>').val(locName).html(locName));
+				});
+			}else if(paramName === "object") {
+				parameter.append($('<option/>').val("this").html("this"));
+				$.each(TBA_DATABASE.objects, function( objName, obj ) {
+					parameter.append($('<option/>').val(objName).html(objName));
+				});
+			}
+			paramsContainer.append(parameter);
+		});
+	});
+	container.append(selectedFunction);
+	container.append(paramsContainer);
+	const addButton = button('Add');
+	container.append(addButton);
+	col2.append(container);
+	addButton.click(function() { 
+		const funcName = selectedFunction.val();
+		const params = FUNCTIONS[funcName];
+		let actionString = funcName;
+		$.each(params, function(index, paramName) {
+			const parameter = $('#parameter'+index);
+			actionString += " " + parameter.val();
+		});
+		actions.push(actionString);
+		onElementChanged();
+	});
 	return editorGui;
 }
 

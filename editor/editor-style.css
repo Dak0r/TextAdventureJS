@@ -204,6 +204,15 @@ html {
   .object-list .btn-group-inline { display:flex; gap:8px; align-items:center; }
   .object-list td { vertical-align: middle; }
   .object-list td:first-child { width:25%; max-width:25%; white-space: normal; overflow-wrap: break-word; word-break: break-word; }
+
+  /* Functions list: render as a two-column table (function text + buttons) */
+  .function-list-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .function-list-table td { padding:8px 10px; vertical-align: middle; border-bottom:1px solid rgba(255,255,255,0.03); }
+  .function-list-table td:first-child { width: 75%; max-width: 75%; white-space: normal; overflow-wrap: break-word; word-break: break-word; }
+  .function-list-table .func-text { display:block; }
+  .function-list-table .btn-group-inline { display:flex; gap:8px; align-items:center; justify-content:flex-end; }
+  .function-list-table tr:first-child td { padding-top:4px; }
+  .function-list-table tr:last-child td { padding-bottom:4px; }
   /* Generic left column class for other tables */
   .left-col { width:25%; max-width:25%; white-space: normal; overflow-wrap: break-word; word-break: break-word; }
 
