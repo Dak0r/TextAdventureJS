@@ -19,7 +19,7 @@ const FUNCTIONS = {
 	gotoLocation: [ "location" ],
 	objectRemoveFromLocation: [ "object" ],
 	objectAddToLocation: [ "object" ],
-	objectReplaceInLocation: [ "object", "object"],
+	objectReplaceInLocation: [ "object", "object" ],
 	inventoryAdd: [ "object" ],
 	inventoryRemove: [ "object" ],
 }
