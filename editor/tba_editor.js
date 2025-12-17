@@ -183,7 +183,7 @@ function onTypeChanged(typeParam){
 
 	// Highlight the active tab
 	$('.editor-tab').removeClass('active');
-	let tabId = 'tab' + type.charAt(0).toUpperCase() + type.slice(1);
+	const tabId = 'tab' + type.charAt(0).toUpperCase() + type.slice(1);
 	$('#' + tabId).addClass('active');
 
 	$("#elementSelection").html("");
@@ -202,7 +202,7 @@ function onTypeChanged(typeParam){
 					alert("A verb with this name already exists.");
 					return;
 				}
-				let newVerb = getNewVerb(name);
+				const newVerb = getNewVerb(name);
 				TBA_DATABASE.verbs[name]=newVerb;
 				onTypeChanged();
 			}));
@@ -226,7 +226,7 @@ function onTypeChanged(typeParam){
 			}));
 		}
 
-		let elementSelector = $('<select id="element" onchange="onElementChanged()" size="30" class="w100"><select>');
+		const elementSelector = $('<select id="element" onchange="onElementChanged()" size="30" class="w100"><select>');
 		$.each( TBA_DATABASE[type], function( key, val ) {
 			elementSelector.append($('<option value="'+key+'">'+key+'</option>'));
 		});	
@@ -241,7 +241,10 @@ function onElementChanged(){
 	onDatabaseChanged();
 	let gui = undefined;
 	let element = $('#element').val();
-	if(element===null){ element=$("#element option:first").val(); $('#element').val(element);}
+	if(element===null){
+		element = $("#element option:first").val();
+		$('#element').val(element);
+	}
 
 	if(type=="verbs"){
 		gui = generateUiForVerbElement(element, TBA_DATABASE.verbs[element]);
@@ -266,7 +269,7 @@ function generateUiForPreview() {
 		previewInputText = $('<input id="inputText" type="text"  style="width: 500px;"/>');
 		previewInputButton = $('<input id="inputButton" type="button" value="Send"/>');
 
-		let buttonBar = $('<p />');
+		const buttonBar = $('<p />');
 		previewRestartButton = button('Restart Game');
 		previewReloadButton = button('Reset Current Room');
 		buttonBar.append(previewReloadButton);
@@ -328,7 +331,7 @@ function clearArea(){
 function readUserInput(){
 	previewInputButton.prop("disabled",true);
 	previewInputText.prop('readonly', true);
-	let input = previewInputText.val();
+	const input = previewInputText.val();
 	witeLine("> "+input);
 	textAdv.input(input);
 	previewInputText.val("");
@@ -336,9 +339,9 @@ function readUserInput(){
 }
 
 function updatePreviewSideBar() {
-	let gameState = textAdv.devGetGameState();
+	const gameState = textAdv.devGetGameState();
 	$("#elementSelection").html("");
-	let inventoryList = $('<ul />');
+		const inventoryList = $('<ul />');
 	const inv = gameState.inventory;
 	if (!inv || (Array.isArray(inv) ? inv.length === 0 : Object.keys(inv).length === 0)) {
 		inventoryList.append($('<li>(empty)</li>'));
@@ -355,15 +358,15 @@ function updatePreviewSideBar() {
 	}
 	$("#elementSelection").append($('<h2>Inventory</h2>'));
 	$("#elementSelection").append(inventoryList);
-	let locations = $('<ul />');
+	const locations = $('<ul />');
 	$.each(gameState.locations, function( locationName, locationObj ) {
-		let location = $('<li/>');
+		const location = $('<li/>');
 		if(locationName == gameState.currentLocation) {
 			location.append('<b><u>'+locationName+'</u></b> (current)');
 		}else{
 			location.append('<b>'+locationName+'</b>');
 		}
-		let locationObjs = $('<ul />');
+		const locationObjs = $('<ul />');
 		$.each(locationObj.objects, function( index, objectName ) {
 			locationObjs.append($('<li>'+objectName+'</li>'));
 		});	
@@ -376,8 +379,9 @@ function updatePreviewSideBar() {
 }
 
 function generateUiForGeneral(general) {
-	let editorGui = $('<div/>');	
-	let table = $('<table class="w100"/>');
+	const editorGui = $('<div/>');
+	
+	const table = $('<table class="w100"/>');
 	editorGui.append(table);
 	table.append(tableH3('Info'));
 	table.append(generateInput("Title", general.title, function(value){ general.title = value; }));
@@ -396,12 +400,12 @@ function generateUiForGeneral(general) {
 }
 
 function generateUiForVerbElement(verbName, verb) {
-	let editorGui = $('<table class="w100"/>');
-	let title = $('<span><h2>Verb</h2></span>');
+	const editorGui = $('<table class="w100"/>');
+	const title = $('<span><h2>Verb</h2></span>');
 
-	let nameOptions = $('<span/>');
+	const nameOptions = $('<span/>');
 
-	let removeButton = button('Delete', 'btn-error');
+	const removeButton = button('Delete', 'btn-error');
 	nameOptions.append('<b>'+verbName+'</b>');
 	nameOptions.append(' ');
 	removeButton.click(function() { 
@@ -423,7 +427,7 @@ function generateUiForVerbElement(verbName, verb) {
 	});
 	nameOptions.append(removeButton);
 	nameOptions.append(' ');
-	let duplicateButton = button('Duplicate');
+	const duplicateButton = button('Duplicate');
 	duplicateButton.click(function() { TBA_DATABASE.verbs[getAvailableVerbName(verbName)] = clone(verb); onTypeChanged(); });
 	nameOptions.append(duplicateButton);
 
@@ -439,11 +443,11 @@ function generateUiForVerbElement(verbName, verb) {
 }
 
 function generateUiForObjectElement(objectName, object) {
-	let editorGui = $('<table class="w100"/>');
-	let title = $('<span><h2>Object</h2></span>');
+	const editorGui = $('<table class="w100"/>');
+	const title = $('<span><h2>Object</h2></span>');
 
-	let nameOptions = $('<span/>');
-	let removeButton = button('Delete', 'btn-error');
+	const nameOptions = $('<span/>');
+	const removeButton = button('Delete', 'btn-error');
 	nameOptions.append('<b>'+objectName+'</b>');
 	nameOptions.append(' ');
 	removeButton.click(function() { 
@@ -455,21 +459,21 @@ function generateUiForObjectElement(objectName, object) {
 			delete TBA_DATABASE.objects[objectName]; 
 			// delete object from all locations
 			$.each(TBA_DATABASE.locations, function( locationName, location ) {
-				let index = location.objects.indexOf(objectName);
+				const index = location.objects.indexOf(objectName);
 				if(index !== -1){
 					TBA_DATABASE.locations[locationName].objects.splice(index, 1);
 				}
 			});
 			// delete all actions that reference this object
 			$.each(TBA_DATABASE.general.start.commands, function(index, call) {
-				if (call.includes(objectName)) {
+				if (call &&call.includes(objectName)) {
 					TBA_DATABASE.general.start.commands.splice(index, 1);
 				}
 			});
 			$.each(TBA_DATABASE.objects, function(dbObjectName, object) {
 				$.each(object.actions, function(action_name, action_info) {
 					$.each(action_info.commands, function(index, call) {
-						if (call.includes(objectName)) {
+						if (call && call.includes(objectName)) {
 							TBA_DATABASE.objects[dbObjectName].actions[action_name].commands.splice(index, 1);
 						}
 					});
@@ -480,7 +484,7 @@ function generateUiForObjectElement(objectName, object) {
 	});
 	nameOptions.append(removeButton);
 	nameOptions.append(' ');
-	let duplicateButton = button('Duplicate');
+	const duplicateButton = button('Duplicate');
 	duplicateButton.click(function() { TBA_DATABASE.objects[getAvailableObjectName(objectName)] = clone(object); onTypeChanged(); });
 	nameOptions.append(duplicateButton);
 
@@ -493,8 +497,8 @@ function generateUiForObjectElement(objectName, object) {
 		}));
 	editorGui.append(tableH3('Actions'));
 	$.each(object.actions, function( verb, action ) {
-		let name = $('<h4><i>'+verb+'</i></h4>');
-		let removeActionButton = button('Remove', 'btn-error btn-ghost')
+		const name = $('<h4><i>'+verb+'</i></h4>');
+		const removeActionButton = button('Remove', 'btn-error btn-ghost')
 		removeActionButton.click(function() { delete object.actions[verb]; onElementChanged(); });
 		editorGui.append(tableRow2(name, removeActionButton));
 		editorGui.append(generateTextArea("Text", action.text.join(NEWLINE), function(value){ action.text = value.split(NEWLINE); }));
@@ -505,7 +509,7 @@ function generateUiForObjectElement(objectName, object) {
 			alert("An action with this verb already exists for this object.");
 			return;
 		}
-		let newAction = getNewObjectAction();
+		const newAction = getNewObjectAction();
 		object.actions[verb]=newAction;
 		onElementChanged();
 	})));
@@ -514,11 +518,11 @@ function generateUiForObjectElement(objectName, object) {
 }
 
 function generateUiForLocationElement(locationName, location) {
-	let editorGui = $('<table class="w100"/>');
-	let title = $('<span><h2>Location</h2></span>');
+	const editorGui = $('<table class="w100"/>');
+	const title = $('<span><h2>Location</h2></span>');
 
-	let nameOptions = $('<span/>');
-	let removeButton = button('Delete', 'btn-error');
+	const nameOptions = $('<span/>');
+	const removeButton = button('Delete', 'btn-error');
 	nameOptions.append('<b>'+locationName+'</b>');
 	nameOptions.append(' ');
 	removeButton.click(function() { 
@@ -530,14 +534,14 @@ function generateUiForLocationElement(locationName, location) {
 			delete TBA_DATABASE.locations[locationName];
 			// delete all actions that reference this location
 			$.each(TBA_DATABASE.general.start.commands, function(index, call) {
-				if (call.includes(locationName)) {
+				if (call && call.includes(locationName)) {
 					TBA_DATABASE.general.start.commands.splice(index, 1);
 				}
 			});
 			$.each(TBA_DATABASE.objects, function(objectName, object) {
 				$.each(object.actions, function(action_name, action_info) {
 					$.each(action_info.commands, function(index, call) {
-						if (call.includes(locationName)) {
+						if (call && call.includes(locationName)) {
 							TBA_DATABASE.objects[objectName].actions[action_name].commands.splice(index, 1);
 						}
 					});
@@ -548,16 +552,16 @@ function generateUiForLocationElement(locationName, location) {
 	});
 	nameOptions.append(removeButton);
 	nameOptions.append(' ');
-	let duplicateButton = button('Duplicate');
+	const duplicateButton = button('Duplicate');
 	duplicateButton.click(function() { TBA_DATABASE.locations[getAvailableLocationName(locationName)] = clone(location); onTypeChanged(); });
 	nameOptions.append(duplicateButton);
 	
 	editorGui.append(tableRow2(title, nameOptions));
 	editorGui.append(tableH3('Objects'));
 
-	let previewRow = $('<tr/>');
-	let previewHeadline = $('<td>Preview Location Description</td>');
-	let previewCell = $('<td/>');
+	const previewRow = $('<tr/>');
+	const previewHeadline = $('<td>Preview Location Description</td>');
+	const previewCell = $('<td/>');
 	
 	editorGui.append(previewRow);
 	previewRow.append(previewHeadline);
@@ -573,17 +577,17 @@ function generateUiForLocationElement(locationName, location) {
 	}
 	updatePreviewLocationText();
 
-	let rowSelector = $('<tr/>');
-	let leftCellSelector = $('<td colspan="2"/>');
+	const rowSelector = $('<tr/>');
+	const leftCellSelector = $('<td colspan="2"/>');
 
 	// Render a table where each object has its own Move Up / Move Down / Remove buttons
-	let objList = $('<table class="w100 object-list" border="0"/>');
+	const objList = $('<table class="w100 object-list" border="0"/>');
 	$.each(location.objects, function(index, objectName) {
-		let tr = $('<tr/>');
+		const tr = $('<tr/>');
 		tr.append($('<td/>').text(objectName));
-		let btnsTd = $('<td/>');
+		const btnsTd = $('<td/>');
 
-		let moveUpButton = button('▲', 'btn-default small-btn');
+		const moveUpButton = button('▲', 'btn-default small-btn');
 			moveUpButton.attr('title', 'Move Up').attr('aria-label', 'Move up');
 			moveUpButton.click(function() {
 				if(index > 0) {
@@ -593,7 +597,7 @@ function generateUiForLocationElement(locationName, location) {
 			});
 			if(index === 0) { moveUpButton.prop('disabled', true); }
 
-			let moveDownButton = button('▼', 'btn-default small-btn');
+			const moveDownButton = button('▼', 'btn-default small-btn');
 			moveDownButton.attr('title', 'Move Down').attr('aria-label', 'Move down');
 			moveDownButton.click(function() {
 				if(index < location.objects.length - 1) {
@@ -603,24 +607,24 @@ function generateUiForLocationElement(locationName, location) {
 			});
 			if(index === location.objects.length - 1) { moveDownButton.prop('disabled', true); }
 
-			let editObjectButton = button('Edit', 'btn-default small-btn');
+			const editObjectButton = button('Edit', 'btn-default small-btn');
 			editObjectButton.attr('title','Edit object').attr('aria-label','Edit object');
 			editObjectButton.click(function() {
 				// Switch to Objects tab and select this object
 				onTypeChanged('objects');
 			// Ensure DOM is updated, then select the element, focus it, and scroll into view
 			setTimeout(function(){
-				var sel = $('#element');
+				const sel = $('#element');
 				sel.val(objectName);
 				onElementChanged();
 				// Bring the selected option into view and focus the select for accessibility
 				sel.focus();
-				var opt = sel.find('option[value="'+objectName+'"]')[0];
+				const opt = sel.find('option[value="'+objectName+'"]')[0];
 				if(opt && sel[0]) { sel[0].scrollTop = opt.offsetTop - (sel.height() / 2); }
 			}, 0);
 			});
 
-			let removeObjectButton = button('Remove', 'btn-error btn-ghost small-btn');
+			const removeObjectButton = button('Remove', 'btn-error btn-ghost small-btn');
 		removeObjectButton.attr('title','Remove').attr('aria-label','Remove');
 		removeObjectButton.click(function() {
 			if(confirm('Remove "'+objectName+'"?')) {
@@ -630,7 +634,7 @@ function generateUiForLocationElement(locationName, location) {
 		});
 
 			// Put buttons inline in a small button group
-			let btnGroup = $('<div class="btn-group-inline"/>');
+			const btnGroup = $('<div class="btn-group-inline"/>');
 			btnGroup.append(moveUpButton);
 			btnGroup.append(moveDownButton);
 			btnGroup.append(editObjectButton);
@@ -643,7 +647,7 @@ function generateUiForLocationElement(locationName, location) {
 	leftCellSelector.append(objList);
 	rowSelector.append(leftCellSelector);
 	editorGui.append(rowSelector);
-	let rowNewObject = $('<tr><td><h4>Add Object</h4></td></tr>');
+	const rowNewObject = $('<tr><td><h4>Add Object</h4></td></tr>');
 	rowNewObject.append(generateNewObjectForLocationButton(location.objects, function(obj){
 		location.objects.push(obj);
 		onElementChanged();
@@ -658,7 +662,7 @@ function button(text, btnClasses = 'btn-default') {
 }
 
 function paragraph(element) {
-	let p = $('<p/>');
+	const p = $('<p/>');
 	p.append(element);
 	return p;
 }
@@ -666,15 +670,15 @@ function tableH3(title){
 	return $('<tr><td colspan="2"><h3>'+title+' </h3></td></tr>');
 }
 function tableRow(element){
-	let e = $('<tr/>');
+	const e = $('<tr/>');
 	e.append(element);
 	return e;
 }
 function tableRow2(left, right){
-	let r = $('<tr/>');
-	let el = $('<td class="left-col"/>');
+	const r = $('<tr/>');
+	const el = $('<td class="left-col"/>');
 	el.append(left);
-	let er = $('<td/>')
+	const er = $('<td/>')
 	er.append(right);
 	r.append(el);
 	r.append(er);
@@ -725,12 +729,12 @@ function getAvailableVerbName(verbName) {
 }
 
 function generateNewButton(name, onClick) {
-	let editorGui = $('<div class="input-pair-container"/>');
-	let elementNameInput = $('<input placeholder="New '+name+'" id="newElement" type="text" value="" class="left-pair-element modern-input"/>');
+	const editorGui = $('<div class="input-pair-container"/>');
+	const elementNameInput = $('<input placeholder="New '+name+'" id="newElement" type="text" value="" class="left-pair-element modern-input"/>');
 	
-	let addButton = button('Add');
+	const addButton = button('Add');
 	addButton.click(function() { 
-		let name = elementNameInput.val();
+		const name = elementNameInput.val();
 		if(name === undefined || name.length < 1) {
 			alert("Every element must have a unique name.");
 			return;
@@ -743,14 +747,14 @@ function generateNewButton(name, onClick) {
 }
 
 function generateNewActionButton(existingActions, onClick) {
-	let editorGui = $('<div class="input-pair-container"/>');
-		let selectNewAction = $('<select class="left-pair-element modern-input" id="selectNewAction" />');
+	const editorGui = $('<div class="input-pair-container"/>');
+		const selectNewAction = $('<select class="left-pair-element modern-input" id="selectNewAction" />');
 	$.each(TBA_DATABASE.verbs, function( verb ) {
 		if(existingActions[verb] !== undefined) { return; }
 		selectNewAction.append($('<option/>').val(verb).html(verb));
 	});
 	
-	let addButton = button('Add');
+	const addButton = button('Add');
 	addButton.click(function() { onClick(selectNewAction.val()); });
 	editorGui.append(selectNewAction);
 	editorGui.append(addButton);
@@ -758,15 +762,15 @@ function generateNewActionButton(existingActions, onClick) {
 }
 
 function generateNewObjectForLocationButton(existingObjects, onClick) {
-	let editorGui = $('<td/>');
-	let container = $('<div class="input-pair-container"/>');
-		let selectNewObject = $('<select class="left-pair-element modern-input" id="selectNewObject" />');
+	const editorGui = $('<td/>');
+	const container = $('<div class="input-pair-container"/>');
+		const selectNewObject = $('<select class="left-pair-element modern-input" id="selectNewObject" />');
 	$.each(TBA_DATABASE.objects, function( obj ) {
 		if(existingObjects[obj] !== undefined) { return; }
 		selectNewObject.append($('<option/>').val(obj).html(obj));
 	});
 	
-	let addButton = button('Add');
+	const addButton = button('Add');
 	addButton.click(function() { onClick(selectNewObject.val()); });
 	container.append(selectNewObject);
 	container.append(addButton);
@@ -881,24 +885,24 @@ function generateFunctionsUI(actions) {
 }
 
 function generateInput(name, value, onChange){
-	let inputFieldArea = $('<tr/>');
+	const inputFieldArea = $('<tr/>');
 	inputFieldArea.append('<td><label for="'+name+'">'+name+'</label></td>');
-	let inputField = $('<input id="'+name+'" type="text" size="30" value="'+value+'" class="modern-input"/>');
+	const inputField = $('<input id="'+name+'" type="text" size="30" value="'+value+'" class="modern-input"/>');
 	inputField.on( "change", function() {
 		onChange(inputField.val());
 		onDatabaseChanged();
 	} );
-	let valueTableField = $('<td/>');
+	const valueTableField = $('<td/>');
 	valueTableField.append(inputField);
 	inputFieldArea.append(valueTableField);
 	return inputFieldArea;
 }
 
 function generateTextArea(name, value, onChange){
-	let inputFieldArea = $('<tr/>');
+	const inputFieldArea = $('<tr/>');
 	inputFieldArea.append('<td><label for="'+name+'">'+name+'</label></td>');
-	let valueTableField = $('<td/>');
-	let inputField = $('<textarea id="'+name+'" name="'+name+'" cols="40" rows="1" class="modern-textarea"></textarea>');
+	const valueTableField = $('<td/>');
+	const inputField = $('<textarea id="'+name+'" name="'+name+'" cols="40" rows="1" class="modern-textarea"></textarea>');
 
 	// Auto-resize on input and persist changes
 	inputField.on('input', function() {
