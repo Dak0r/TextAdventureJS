@@ -237,7 +237,7 @@ function generateUiForPreview() {
 
 		let buttonBar = $('<p />');
 		previewRestartButton = button('Restart Game');
-		previewReloadButton = button('Reload Current Room');
+		previewReloadButton = button('Reset Current Room');
 		buttonBar.append(previewReloadButton);
 		buttonBar.append(' ');
 		buttonBar.append(previewRestartButton);
@@ -307,17 +307,31 @@ function readUserInput(){
 function updatePreviewSideBar() {
 	let gameState = textAdv.devGetGameState();
 	$("#elementSelection").html("");
-	let currentLocation = $('<p><b>Current Location:</b> '+gameState.currentLocation+'</p>');
-	$("#elementSelection").append(currentLocation);
 	let inventoryList = $('<ul />');
-	$.each(gameState.inventory, function( objectName ) {
-		inventoryList.append($('<li>'+objectName+'</li>'));
-	});	
-	$("#elementSelection").append($('<p><b>Inventory</b></p>'));
+	const inv = gameState.inventory;
+	if (!inv || (Array.isArray(inv) ? inv.length === 0 : Object.keys(inv).length === 0)) {
+		inventoryList.append($('<li>(empty)</li>'));
+	} else {
+		if (Array.isArray(inv)) {
+			$.each(inv, function(index, objectName) {
+				inventoryList.append($('<li>'+objectName+'</li>'));
+			});
+		} else {
+			$.each(Object.keys(inv), function(i, objectName) {
+				inventoryList.append($('<li>'+objectName+'</li>'));
+			});
+		}
+	}
+	$("#elementSelection").append($('<h2>Inventory</h2>'));
 	$("#elementSelection").append(inventoryList);
 	let locations = $('<ul />');
 	$.each(gameState.locations, function( locationName, locationObj ) {
-		let location = $('<li><b>'+locationName+'</b></li>');
+		let location = $('<li/>');
+		if(locationName == gameState.currentLocation) {
+			location.append('<b><u>'+locationName+'</u></b> (current)');
+		}else{
+			location.append('<b>'+locationName+'</b>');
+		}
 		let locationObjs = $('<ul />');
 		$.each(locationObj.objects, function( index, objectName ) {
 			locationObjs.append($('<li>'+objectName+'</li>'));
@@ -325,7 +339,7 @@ function updatePreviewSideBar() {
 		location.append(locationObjs);
 		locations.append(location);
 	});
-	$("#elementSelection").append($('<p>Locations</p>'));
+	$("#elementSelection").append($('<h2>Location States</h2>'));
 	
 	$("#elementSelection").append(locations);
 }
