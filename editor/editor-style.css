@@ -209,6 +209,13 @@ html {
     padding:6px 8px;
   }
 
+  /* Ensure selected option is clearly highlighted even when select is not focused */
+  #elementSelection select option:checked,
+  #elementSelection select option[selected] {
+    background: var(--primary-color);
+    color: #fff;
+  }
+
   select::-ms-expand { display: none; }
 
   .modal-action-row { padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.03); }

@@ -583,7 +583,7 @@ function generateUiForLocationElement(locationName, location) {
 		tr.append($('<td/>').text(objectName));
 		let btnsTd = $('<td/>');
 
-let moveUpButton = button('▲', 'btn-default small-btn');
+		let moveUpButton = button('▲', 'btn-default small-btn');
 			moveUpButton.attr('title', 'Move Up').attr('aria-label', 'Move up');
 			moveUpButton.click(function() {
 				if(index > 0) {
@@ -603,8 +603,25 @@ let moveUpButton = button('▲', 'btn-default small-btn');
 			});
 			if(index === location.objects.length - 1) { moveDownButton.prop('disabled', true); }
 
+			let editObjectButton = button('Edit', 'btn-default small-btn');
+			editObjectButton.attr('title','Edit object').attr('aria-label','Edit object');
+			editObjectButton.click(function() {
+				// Switch to Objects tab and select this object
+				onTypeChanged('objects');
+			// Ensure DOM is updated, then select the element, focus it, and scroll into view
+			setTimeout(function(){
+				var sel = $('#element');
+				sel.val(objectName);
+				onElementChanged();
+				// Bring the selected option into view and focus the select for accessibility
+				sel.focus();
+				var opt = sel.find('option[value="'+objectName+'"]')[0];
+				if(opt && sel[0]) { sel[0].scrollTop = opt.offsetTop - (sel.height() / 2); }
+			}, 0);
+			});
+
 			let removeObjectButton = button('✖', 'btn-error btn-ghost small-btn');
-			removeObjectButton.attr('title','Remove').attr('aria-label','Remove');
+		removeObjectButton.attr('title','Remove').attr('aria-label','Remove');
 		removeObjectButton.click(function() {
 			if(confirm('Remove "'+objectName+'"?')) {
 				location.objects.splice(index, 1);
@@ -612,14 +629,15 @@ let moveUpButton = button('▲', 'btn-default small-btn');
 			}
 		});
 
-		// Put buttons inline in a small button group
-		let btnGroup = $('<div class="btn-group-inline"/>');
-		btnGroup.append(moveUpButton);
-		btnGroup.append(moveDownButton);
-		btnGroup.append(removeObjectButton);
-		btnsTd.append(btnGroup);
-		tr.append(btnsTd);
-		objList.append(tr);
+			// Put buttons inline in a small button group
+			let btnGroup = $('<div class="btn-group-inline"/>');
+			btnGroup.append(moveUpButton);
+			btnGroup.append(moveDownButton);
+			btnGroup.append(editObjectButton);
+			btnGroup.append(removeObjectButton);
+			btnsTd.append(btnGroup);
+			tr.append(btnsTd);
+			objList.append(tr);
 	});
 
 	leftCellSelector.append(objList);
