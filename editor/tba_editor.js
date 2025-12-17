@@ -197,7 +197,7 @@ function onTypeChanged(typeParam){
 		var newArea = $('<div class="w100" />');
 		$("#elementSelection").append(newArea);
 		if(type==="verbs") {
-			newArea.append(generateNewButton(function(name){
+			newArea.append(generateNewButton("Verb", function(name){
 				if(TBA_DATABASE.verbs[name]!==undefined){
 					alert("A verb with this name already exists.");
 					return;
@@ -207,7 +207,7 @@ function onTypeChanged(typeParam){
 				onTypeChanged();
 			}));
 		}else if(type==="objects"){
-			newArea.append(generateNewButton(function(name){
+			newArea.append(generateNewButton("Object", function(name){
 				if(TBA_DATABASE.objects[name]!==undefined){
 					alert("An object with this name already exists.");
 					return;
@@ -216,7 +216,7 @@ function onTypeChanged(typeParam){
 				onTypeChanged();
 			}));
 		}else if(type==="locations"){
-			newArea.append(generateNewButton(function(name){
+			newArea.append(generateNewButton("Location", function(name){
 				if(TBA_DATABASE.locations[name]!==undefined){
 					alert("A location with this name already exists.");
 					return;
@@ -706,9 +706,9 @@ function getAvailableVerbName(verbName) {
 	return testName;
 }
 
-function generateNewButton(onClick) {
+function generateNewButton(name, onClick) {
 	let editorGui = $('<div class="input-pair-container"/>');
-	let elementNameInput = $('<input placeholder="New Element" id="newElement" type="text" value="" class="left-pair-element modern-input"/>');
+	let elementNameInput = $('<input placeholder="New '+name+'" id="newElement" type="text" value="" class="left-pair-element modern-input"/>');
 	
 	let addButton = button('Add');
 	addButton.click(function() { 
