@@ -61,7 +61,7 @@ Each object has...
 - a list of `actions` which describes the `verbs` that can be used with this object. \
     each of these actions has...
     - a `text` that will be shown if the verb is used with this object
-    - zero, one or more functions listed under `action`, which can be used to change the current location and its objects (see Functions)
+    - zero, one or more functions listed under `commands`, which can be used to change the current location and its objects (see Commands)
     - a list of 'usableObjects' *which is currently unused*. \
      It is designed to implement usage of object with other objects.
 
@@ -78,8 +78,8 @@ If the user tries to do soemthing with an object and the action is not defined, 
 
 So In this case, you simply have to add the verb as an action to the object and add your failure message as text to the action.
 
-### Functions
-Functions can be used in actions to modify the current location or the plazers inventory.
+### Commands
+Commands can be used in actions to modify the current location or the plazers inventory.
 
 #### 'this' in function parameters
 If the function should affect the object that the action is defined on, you can refer to it using `this` instead of its nanme.

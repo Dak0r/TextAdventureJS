@@ -9,7 +9,7 @@
     "start": {
       "text": ["Welcome to the Empty Template"],
       "inventory": "",
-      "action": []
+      "commands": []
     },
     "parser_ignored_words": [],
     "parser_error_text": "Sorry, I didn't understand that.",

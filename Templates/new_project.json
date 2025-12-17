@@ -12,7 +12,7 @@
       "text": [
         "Welcome to the textAdventureJS Mini Example"
       ],
-      "action": [
+      "commands": [
         "gotoLocation first_room"
       ]
     },
@@ -133,7 +133,7 @@
           "text": [
             "Okay got it."
           ],
-          "action": [
+          "commands": [
             "objectRemoveFromLocation this",
             "inventoryAdd template_object_pickedUp"
           ]
@@ -142,7 +142,7 @@
           "text": [
             "A mysterious object."
           ],
-          "action": []
+          "commands": []
         }
       },
       "useableObjects": {}
@@ -158,7 +158,7 @@
           "text": [
             "Okay dropped it."
           ],
-          "action": [
+          "commands": [
             "objectAddToLocation template_object",
             "inventoryRemove this"
           ]
@@ -167,7 +167,7 @@
           "text": [
             "A mysterious object."
           ],
-          "action": []
+          "commands": []
         }
       },
       "useableObjects": {}

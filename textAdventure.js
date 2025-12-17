@@ -66,9 +66,10 @@ class textAdventureEngine {
 		}
 		if(showGameName){
 			this.outputClear();
-			this.#writeOutputLines(["", "", 
+			this.#writeOutputLines([
 				"'"+this.#database.general.title+"' by "+this.#database.general.author,
-				"Version: "+this.#database.general.version]);
+				"Version: "+this.#database.general.version,
+				""]);
 		}else{
 			this.outputClear();
 		}
@@ -98,7 +99,7 @@ class textAdventureEngine {
 			if(this.#database.general.start.text.length > 0){
 				this.#writeOutputLines(this.#database.general.start.text);
 			}
-			this.#runActions(undefined, this.#database.general.start.action);
+			this.#runActions(undefined, this.#database.general.start.commands);
 		}else if(cmd == "debug"){
 			if(this.TBA_DEBUG==true){
 				this.TBA_DEBUG = true;
@@ -167,7 +168,7 @@ class textAdventureEngine {
 				if(result != undefined){
 					let objectVerbAction = object.actions[verbName];
 					this.#writeOutputLines(objectVerbAction.text);
-					this.#runActions(objectName, objectVerbAction.action);
+					this.#runActions(objectName, objectVerbAction.commands);
 				}else{
 					this.#writeOutputLines(verb.failure);
 				}

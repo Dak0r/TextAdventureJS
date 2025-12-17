@@ -7,7 +7,7 @@
     "action_definition": {
       "description": "Defines what happens if a verb is used (with this object / in this location)",
       "type": "object",
-      "required": ["text", "action"],
+      "required": ["text", "commands"],
       "properties": {
         "text": {
           "type": "array",
@@ -16,7 +16,7 @@
             "type": "string"
           }
         },
-        "action": {
+        "commands": {
           "type": "array",
           "items": {
             "type": "string"

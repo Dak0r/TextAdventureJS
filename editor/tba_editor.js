@@ -390,7 +390,7 @@ function generateUiForGeneral(general) {
 	table.append(generateInput("Parser Error Text", general.parser_error_text, function(value){ general.parser_error_text = value; }));
 	table.append(tableH3('Game Start'));
 	table.append(generateTextArea("Introduction", general.start.text.join(NEWLINE), function(value){ general.start.text = value.split(NEWLINE); }));
-	table.append(generateFunctionsUI(general.start.action));
+	table.append(generateFunctionsUI(general.start.commands));
 
 	return editorGui;
 }
@@ -461,16 +461,16 @@ function generateUiForObjectElement(objectName, object) {
 				}
 			});
 			// delete all actions that reference this object
-			$.each(TBA_DATABASE.general.start.action, function(index, action) {
-				if (action && action.includes(objectName)) {
-					TBA_DATABASE.general.start.action.splice(index, 1);
+			$.each(TBA_DATABASE.general.start.commands, function(index, call) {
+				if (call.includes(objectName)) {
+					TBA_DATABASE.general.start.commands.splice(index, 1);
 				}
 			});
 			$.each(TBA_DATABASE.objects, function(dbObjectName, object) {
 				$.each(object.actions, function(action_name, action_info) {
-					$.each(action_info.action, function(index, action_string) {
-						if (action_string && action_string.includes(objectName)) {
-							TBA_DATABASE.objects[dbObjectName].actions[action_name].action.splice(index, 1);
+					$.each(action_info.commands, function(index, call) {
+						if (call.includes(objectName)) {
+							TBA_DATABASE.objects[dbObjectName].actions[action_name].commands.splice(index, 1);
 						}
 					});
 				});
@@ -498,7 +498,7 @@ function generateUiForObjectElement(objectName, object) {
 		removeActionButton.click(function() { delete object.actions[verb]; onElementChanged(); });
 		editorGui.append(tableRow2(name, removeActionButton));
 		editorGui.append(generateTextArea("Text", action.text.join(NEWLINE), function(value){ action.text = value.split(NEWLINE); }));
-		editorGui.append(generateFunctionsUI(action.action));
+		editorGui.append(generateFunctionsUI(action.commands));
 	});	
 	editorGui.append(tableRow2("<h4>Add Action</h4>", generateNewActionButton(object.actions, function(verb){
 		if(object.actions[name]!==undefined){
@@ -529,16 +529,16 @@ function generateUiForLocationElement(locationName, location) {
 		if(confirm('Delete location "'+locationName+' and also all usages"?')) {
 			delete TBA_DATABASE.locations[locationName];
 			// delete all actions that reference this location
-			$.each(TBA_DATABASE.general.start.action, function(index, action) {
-				if (action && action.includes(locationName)) {
-					TBA_DATABASE.general.start.action.splice(index, 1);
+			$.each(TBA_DATABASE.general.start.commands, function(index, call) {
+				if (call.includes(locationName)) {
+					TBA_DATABASE.general.start.commands.splice(index, 1);
 				}
 			});
 			$.each(TBA_DATABASE.objects, function(objectName, object) {
 				$.each(object.actions, function(action_name, action_info) {
-					$.each(action_info.action, function(index, action_string) {
-						if (action_string && action_string.includes(locationName)) {
-							TBA_DATABASE.objects[objectName].actions[action_name].action.splice(index, 1);
+					$.each(action_info.commands, function(index, call) {
+						if (call.includes(locationName)) {
+							TBA_DATABASE.objects[objectName].actions[action_name].commands.splice(index, 1);
 						}
 					});
 				});
@@ -776,7 +776,7 @@ function generateNewObjectForLocationButton(existingObjects, onClick) {
 
 function generateFunctionsUI(actions) {
 	const editorGui = $('<tr/>');
-	const col1 = $('<td>Functions</td>');
+	const col1 = $('<td>Commands</td>');
 	const col2 = $('<td/>');
 	editorGui.append(col1);
 	editorGui.append(col2);
@@ -945,7 +945,7 @@ function getNewObject(name){
 function getNewObjectAction(){
 	var newAction = {};
 	newAction["text"] = "That worked!";
-	newAction["action"] = [];
+	newAction["commands"] = [];
 	return newAction;
 }
 
