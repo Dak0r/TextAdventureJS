@@ -9,7 +9,9 @@
       "text": [ "", "", "", "You wake up with a headache..." ],
       "action": [ "gotoLocation start_chamber" ]
     },
-    "ignored_words": [ "to", "through", "on", "off", "from", "around", "at" ]
+    "parser_ignored_words": [ "to", "through", "on", "off", "from", "around", "at" ],
+    "parser_error_text": "Sorry, I didn't understand that.",
+    "parser_unknown_verb_text": "Sorry, I don't know how to do that."
   },
   "verbs": {
     "pickup": {

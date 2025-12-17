@@ -13,10 +13,10 @@
         "Welcome to the textAdventureJS Mini Example"
       ],
       "action": [
-        "gotoLocation template_room"
+        "gotoLocation first_room"
       ]
     },
-    "ignored_words": [
+    "parser_ignored_words": [
       "to",
       "through",
       "on",
@@ -24,7 +24,9 @@
       "from",
       "around",
       "at"
-    ]
+    ],
+    "parser_error_text": "Sorry, I didn't understand that.",
+    "parser_unknown_verb_text": "Sorry, I don't know how to do that."
   },
   "verbs": {
     "look": {
@@ -122,8 +124,8 @@
   "objects": {
     "template_object": {
       "words": [
-        "pillow",
-        "pill"
+        "object",
+        "obj"
       ],
       "locationDescription": "An object is lying on the floor.",
       "actions": {
@@ -147,10 +149,10 @@
     },
     "template_object_pickedUp": {
       "words": [
-        "pillow",
-        "pill"
+        "object",
+        "obj"
       ],
-      "locationDescription": "You are holding pillow in your hand.",
+      "locationDescription": "An object is lying on the floor.",
       "actions": {
         "drop": {
           "text": [

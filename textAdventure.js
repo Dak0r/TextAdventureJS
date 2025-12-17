@@ -89,7 +89,7 @@ class textAdventureEngine {
 		cmd = cmd.toLowerCase();
 	
 		// remove ignored words from command
-		cmd = this.#removeFromString(this.#database.general.ignored_words, cmd);
+		cmd = this.#removeFromString(this.#database.general.parser_ignored_words, cmd);
 		cmd = cmd.trim();
 		console.log("Stripped command of parser: '"+cmd+"'");
 	
@@ -133,8 +133,7 @@ class textAdventureEngine {
 	
 			//no action
 			if(verb == undefined && object != undefined){
-				this.#writeOutputLines("Unknown verb, please try to rephrase your command."); //TODO: Move to Game Database
-				this.#showRequest();
+				this.#writeOutputLines(this.#database.general.parser_unknown_verb_text);
 				return;
 			}
 	
@@ -175,7 +174,7 @@ class textAdventureEngine {
 				this.#showRequest();
 				return;
 			}
-			this.#writeOutputLines("Please try to rephrase your command."); //TODO: Move to Game Database
+			this.#writeOutputLines(this.#database.general.parser_error_text);
 		}
 		this.#showRequest();
 	}

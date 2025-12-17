@@ -385,12 +385,12 @@ function generateUiForGeneral(general) {
 	table.append(generateInput("Version", general.version, function(value){ general.version = value; }));
 	table.append(tableH3('Game Settings'));
 	table.append(generateTextArea("Request", general.request.join(NEWLINE), function(value){ general.request = value.split(NEWLINE); }));
-	table.append(generateInput("Parser Ignored Words", general.ignored_words.join(", "), function(value){ general.ignored_words = value.split(",").map(function(item) { return item.trim(); }); }));
+	table.append(generateInput("Parser Ignored Words", general.parser_ignored_words.join(", "), function(value){ general.parser_ignored_words = value.split(",").map(function(item) { return item.trim(); }); }));
+	table.append(generateInput("Parser Unknown Verb", general.parser_unknown_verb_text, function(value){ general.parser_unknown_verb_text = value; }));
+	table.append(generateInput("Parser Error Text", general.parser_error_text, function(value){ general.parser_error_text = value; }));
 	table.append(tableH3('Game Start'));
 	table.append(generateTextArea("Introduction", general.start.text.join(NEWLINE), function(value){ general.start.text = value.split(NEWLINE); }));
-	table.append(generateTextArea("Functions", general.start.action.join(NEWLINE), function(value){
-		general.start.action = value.split(NEWLINE).map(function(item) { return item.trim(); }).filter(e => e);
-	}));
+	table.append(generateFunctionsUI(general.start.action));
 
 	return editorGui;
 }

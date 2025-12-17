@@ -9,9 +9,11 @@
     "start": {
       "text": ["Welcome to the Empty Template"],
       "inventory": "",
-      "action": ["gotoLocation first_room"]
+      "action": []
     },
-    "ignored_words": []
+    "parser_ignored_words": [],
+    "parser_error_text": "Sorry, I didn't understand that.",
+    "parser_unknown_verb_text": "Sorry, I don't know how to do that."
   },
   "verbs": {},
   "objects": {},
