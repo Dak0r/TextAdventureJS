@@ -66,12 +66,21 @@
         }
       },
       "parser_error_text": {
-          "type": "string"
+        "type": "string"
       },
       "parser_unknown_verb_text": {
-          "type": "string"
+        "type": "string"
       },
-      "required": ["title", "author", "version", "request", "start", "parser_ignored_words", "parser_error_text", "parser_unknown_verb_text"]
+      "required": [
+        "title",
+        "author",
+        "version",
+        "request",
+        "start",
+        "parser_ignored_words",
+        "parser_error_text",
+        "parser_unknown_verb_text"
+      ]
     },
     "verbs": {
       "description": "List of verbs that are available throughout the game",

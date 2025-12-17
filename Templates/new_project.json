@@ -4,17 +4,10 @@
     "title": "New TextAdventureJS Game",
     "author": "Your Name",
     "version": "0.1",
-    "request": [
-      "",
-      "What do you do?"
-    ],
+    "request": ["", "What do you do?"],
     "start": {
-      "text": [
-        "Welcome to the textAdventureJS Mini Example"
-      ],
-      "commands": [
-        "gotoLocation first_room"
-      ]
+      "text": ["Welcome to the textAdventureJS Mini Example"],
+      "commands": ["gotoLocation first_room"]
     },
     "parser_ignored_words": [
       "to",
@@ -31,142 +24,81 @@
   "verbs": {
     "look": {
       "failure": "Sorry you can't see that.",
-      "words": [
-        "look",
-        "view",
-        "watch",
-        "read",
-        "search"
-      ]
+      "words": ["look", "view", "watch", "read", "search"]
     },
     "pickup": {
       "failure": "Sorry you can't see that.",
-      "words": [
-        "pick",
-        "pickup",
-        "lift",
-        "take",
-        "get",
-        "reach"
-      ]
+      "words": ["pick", "pickup", "lift", "take", "get", "reach"]
     },
     "drop": {
       "failure": "How do you want to drop that?",
-      "words": [
-        "drop",
-        "let go"
-      ]
+      "words": ["drop", "let go"]
     },
     "activate": {
       "failure": "Sorry you can't do that.",
-      "words": [
-        "turn",
-        "power",
-        "switch"
-      ]
+      "words": ["turn", "power", "switch"]
     },
     "go": {
       "failure": "Sorry you can't go there.",
-      "words": [
-        "go",
-        "walk",
-        "run",
-        "goto"
-      ]
+      "words": ["go", "walk", "run", "goto"]
     },
     "open": {
       "failure": "Sorry you can't open that.",
-      "words": [
-        "open",
-        "break"
-      ]
+      "words": ["open", "break"]
     },
     "close": {
       "failure": "Sorry you can't close that.",
-      "words": [
-        "close",
-        "shut"
-      ]
+      "words": ["close", "shut"]
     },
     "jump": {
       "failure": "Sorry this is not possible.",
-      "words": [
-        "jump"
-      ]
+      "words": ["jump"]
     },
     "use": {
       "failure": "Well.. this does not work.",
-      "words": [
-        "use",
-        "combine",
-        "throw",
-        "attack"
-      ]
+      "words": ["use", "combine", "throw", "attack"]
     },
     "light": {
       "failure": "Well.. this does not work.",
-      "words": [
-        "light",
-        "burn",
-        "fire"
-      ]
+      "words": ["light", "burn", "fire"]
     },
     "remove": {
       "failure": "Well.. this does not work.",
-      "words": [
-        "remove",
-        "break",
-        "split",
-        "destroy"
-      ]
+      "words": ["remove", "break", "split", "destroy"]
     }
   },
   "objects": {
     "template_object": {
-      "words": [
-        "object",
-        "obj"
-      ],
+      "words": ["object", "obj"],
       "locationDescription": "An object is lying on the floor.",
       "actions": {
         "pickup": {
-          "text": [
-            "Okay got it."
-          ],
+          "text": ["Okay got it."],
           "commands": [
             "objectRemoveFromLocation this",
             "inventoryAdd template_object_pickedUp"
           ]
         },
         "look": {
-          "text": [
-            "A mysterious object."
-          ],
+          "text": ["A mysterious object."],
           "commands": []
         }
       },
       "useableObjects": {}
     },
     "template_object_pickedUp": {
-      "words": [
-        "object",
-        "obj"
-      ],
+      "words": ["object", "obj"],
       "locationDescription": "An object is lying on the floor.",
       "actions": {
         "drop": {
-          "text": [
-            "Okay dropped it."
-          ],
+          "text": ["Okay dropped it."],
           "commands": [
             "objectAddToLocation template_object",
             "inventoryRemove this"
           ]
         },
         "look": {
-          "text": [
-            "A mysterious object."
-          ],
+          "text": ["A mysterious object."],
           "commands": []
         }
       },
@@ -175,9 +107,7 @@
   },
   "locations": {
     "first_room": {
-      "objects": [
-        "template_object"
-      ]
+      "objects": ["template_object"]
     }
   }
 }
