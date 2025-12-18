@@ -88,7 +88,7 @@
     },
     "template_object_pickedUp": {
       "words": ["object", "obj"],
-      "locationDescription": "An object is lying on the floor.",
+      "locationDescription": "You are holding an object in your hands.",
       "actions": {
         "drop": {
           "text": ["Okay dropped it."],

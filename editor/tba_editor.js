@@ -402,25 +402,42 @@ function updatePreviewSideBar() {
     ) {
         inventoryList.append($("<li>(empty)</li>"));
     } else {
-        if (Array.isArray(inv)) {
-            $.each(inv, function (index, objectName) {
-                inventoryList.append($("<li>" + objectName + "</li>"));
+        $.each(Object.keys(inv), function (i, objectName) {
+            const invObj = $("<li>" + objectName + "</li>");
+            const removeButton = button("✖", "btn-error btn-ghost small-btn");
+            removeButton.click(function () {
+                delete gameState.inventory[objectName];
+                updatePreviewSideBar();
             });
-        } else {
-            $.each(Object.keys(inv), function (i, objectName) {
-                inventoryList.append($("<li>" + objectName + "</li>"));
-            });
-        }
+            invObj.append(removeButton);
+            inventoryList.append(invObj);
+        });
     }
+    const addToInv = generateNewObjectForLocationButton(gameState.inventory, function (obj) {
+        gameState.inventory[obj] = TBA_DATABASE.objects[obj];
+        updatePreviewSideBar();
+    })
     $("#elementSelection").append($("<h2>Inventory</h2>"));
     $("#elementSelection").append(inventoryList);
+    $("#elementSelection").append(addToInv);
+    $("#elementSelection").append($("<hr/>"));
+
+
+
     const locations = $("<ul />");
     $.each(gameState.locations, function (locationName, locationObj) {
         const location = $("<li/>");
         if (locationName == gameState.currentLocation) {
             location.append("<b><u>" + locationName + "</u></b> (current)");
         } else {
-            location.append("<b>" + locationName + "</b>");
+            const notCurrentLocation = $("<b>" + locationName + "</b> ");
+            const goButton = button("Go", "btn-default small-btn");
+            goButton.click(function () {
+                gameState.currentLocation = locationName;
+                updatePreviewSideBar();
+            });
+            notCurrentLocation.append(goButton);
+            location.append(notCurrentLocation);
         }
         const locationObjs = $("<ul />");
         $.each(locationObj.objects, function (index, objectName) {
@@ -525,7 +542,7 @@ function generateUiForVerbElement(verbName, verb) {
             !TBA_DATABASE.verbs ||
             Object.keys(TBA_DATABASE.verbs).length <= 1
         ) {
-            alert("Cannot remove the only verb.");
+            alert("Cannot delete the only verb.");
             return;
         }
         if (confirm('Delete verb "' + verbName + ' and also all usages"?')) {
@@ -580,7 +597,7 @@ function generateUiForObjectElement(objectName, object) {
             !TBA_DATABASE.objects ||
             Object.keys(TBA_DATABASE.objects).length <= 1
         ) {
-            alert("Cannot remove the only object.");
+            alert("Cannot delete the only object.");
             return;
         }
         if (
@@ -698,7 +715,7 @@ function generateUiForLocationElement(locationName, location) {
             !TBA_DATABASE.locations ||
             Object.keys(TBA_DATABASE.locations).length <= 1
         ) {
-            alert("Cannot remove the only location.");
+            alert("Cannot delete the only location.");
             return;
         }
         if (

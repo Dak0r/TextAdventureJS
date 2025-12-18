@@ -1,547 +1,547 @@
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-    position: relative;
-    min-height: 100%;
+  position: relative;
+  min-height: 100%;
 }
 
 .container {
-    width: auto;
-    padding: 0 15px;
+  width: auto;
+  padding: 0 15px;
 }
 
 .input-pair-container {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
 }
 .left-pair-element {
-    flex-grow: 1;
-    margin-right: 10px;
+  flex-grow: 1;
+  margin-right: 10px;
 }
 
 /* Form table styles: stronger separators, subtle zebra, no hover highlighting */
 table.w100 {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 table.w100 td {
-    padding: 8px 10px;
-    border: none; /* remove any visible white borders */
-    vertical-align: middle;
+  padding: 8px 10px;
+  border: none; /* remove any visible white borders */
+  vertical-align: middle;
 }
 table.w100 tr {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
 }
 table.w100 tr.section-title td {
-    padding: 12px 8px 8px;
-    background: transparent;
+  padding: 12px 8px 8px;
+  background: transparent;
 }
 
 /* Headline variants for headings inside tables */
 table.w100 tr.section-title td h1,
 table.w100 td h1 {
-    margin: 0;
-    display: inline-block;
-    background: rgba(98, 196, 255, 0.9);
-    color: var(--invert-font-color);
-    padding: 8px 14px;
-    border-radius: 10px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
-    font-size: 1.15em;
-    font-weight: 700;
+  margin: 0;
+  display: inline-block;
+  background: rgba(98, 196, 255, 0.9);
+  color: var(--invert-font-color);
+  padding: 8px 14px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+  font-size: 1.15em;
+  font-weight: 700;
 }
 
 table.w100 tr.section-title td h2,
 table.w100 td h2 {
-    margin: 0;
-    display: inline-block;
-    background: rgb(75, 151, 198);
-    color: var(--font-color);
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 1em;
-    font-weight: 600;
+  margin: 0;
+  display: inline-block;
+  background: rgb(75, 151, 198);
+  color: var(--font-color);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: 600;
 }
 
 table.w100 tr.section-title td h3,
 table.w100 td h3 {
-    margin: 0;
-    display: inline-block;
-    background: rgb(171, 66, 115);
-    color: var(--font-color);
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 1em;
-    font-weight: 600;
+  margin: 0;
+  display: inline-block;
+  background: rgb(171, 66, 115);
+  color: var(--font-color);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: 600;
 }
 
 table.w100 tr.section-title td h4,
 table.w100 td h4 {
-    margin: 0;
-    display: inline-block;
-    background: rgb(16, 94, 98);
-    color: var(--font-color);
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 1em;
-    font-weight: 600;
+  margin: 0;
+  display: inline-block;
+  background: rgb(16, 94, 98);
+  color: var(--font-color);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: 600;
 }
 
 table.w100 tr.section-title td h5,
 table.w100 td h5 {
-    margin: 0;
-    display: inline-block;
-    background: linear-gradient(
-        90deg,
-        var(--error-color),
-        rgba(255, 60, 116, 0.95)
-    );
-    color: var(--invert-font-color);
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 0.95em;
-    font-weight: 600;
+  margin: 0;
+  display: inline-block;
+  background: linear-gradient(
+    90deg,
+    var(--error-color),
+    rgba(255, 60, 116, 0.95)
+  );
+  color: var(--invert-font-color);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.95em;
+  font-weight: 600;
 }
 table.w100 tr:nth-child(odd) {
-    background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .w100 {
-    width: 100%;
+  width: 100%;
 }
 .w90 {
-    width: 90%;
+  width: 90%;
 }
 .w80 {
-    width: 80%;
+  width: 80%;
 }
 .w70 {
-    width: 70%;
+  width: 70%;
 }
 .w60 {
-    width: 60%;
+  width: 60%;
 }
 .w50 {
-    width: 50%;
+  width: 50%;
 }
 .w40 {
-    width: 40%;
+  width: 40%;
 }
 .w30 {
-    width: 30%;
+  width: 30%;
 }
 .w20 {
-    width: 20%;
+  width: 20%;
 }
 .w15 {
-    width: 15%;
+  width: 15%;
 }
 .w10 {
-    width: 10%;
+  width: 10%;
 }
 
 #editor {
-    display: grid;
-    grid-template-areas: "sidebar main";
-    grid-template-columns: 300px auto;
-    width: 100%;
+  display: grid;
+  grid-template-areas: "sidebar main";
+  grid-template-columns: 300px auto;
+  width: 100%;
 }
 
 /* Sidebar and main area should scroll and size with viewport */
 #elementSelection {
-    grid-area: sidebar;
-    min-height: calc(100vh - 220px);
-    overflow: auto;
-    background: rgba(255, 255, 255, 0.02);
-    padding: 8px;
-    border-right: 1px solid rgba(255, 255, 255, 0.04);
+  grid-area: sidebar;
+  min-height: calc(100vh - 220px);
+  overflow: auto;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 8px;
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 /* Drag & drop area */
 .file-drop-area {
-    margin: 18px 0;
-    padding: 36px 24px;
-    border-radius: 12px;
-    border: 2px dashed rgba(255, 255, 255, 0.06);
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.01),
-        rgba(255, 255, 255, 0)
-    );
-    text-align: center;
-    transition: box-shadow 0.12s ease, transform 0.06s ease,
-        border-color 0.12s ease, background 0.12s ease;
-    cursor: pointer;
+  margin: 18px 0;
+  padding: 36px 24px;
+  border-radius: 12px;
+  border: 2px dashed rgba(255, 255, 255, 0.06);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.01),
+    rgba(255, 255, 255, 0)
+  );
+  text-align: center;
+  transition: box-shadow 0.12s ease, transform 0.06s ease,
+    border-color 0.12s ease, background 0.12s ease;
+  cursor: pointer;
 }
 .file-drop-area h1 {
-    margin: 0 0 12px 0;
-    font-size: 1.05rem;
-    color: var(--primary-color);
-    letter-spacing: 1px;
+  margin: 0 0 12px 0;
+  font-size: 1.05rem;
+  color: var(--primary-color);
+  letter-spacing: 1px;
 }
 .file-drop-area .muted {
-    color: var(--secondary-color);
-    font-weight: 600;
-    font-size: 0.95rem;
+  color: var(--secondary-color);
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 .file-drop-area p {
-    margin: 0;
-    color: var(--secondary-color);
+  margin: 0;
+  color: var(--secondary-color);
 }
 .file-drop-area .btn {
-    margin-top: 12px;
+  margin-top: 12px;
 }
 
 .file-drop-area.drag-active {
-    box-shadow: 0 10px 40px rgba(98, 196, 255, 0.06);
-    border-color: rgba(98, 196, 255, 0.9);
-    background: linear-gradient(
-        180deg,
-        rgba(98, 196, 255, 0.03),
-        rgba(98, 196, 255, 0.01)
-    );
-    transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(98, 196, 255, 0.06);
+  border-color: rgba(98, 196, 255, 0.9);
+  background: linear-gradient(
+    180deg,
+    rgba(98, 196, 255, 0.03),
+    rgba(98, 196, 255, 0.01)
+  );
+  transform: translateY(-2px);
 }
 .file-drop-area:hover {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-    border-color: rgba(255, 255, 255, 0.08);
-    transform: translateY(-1px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
 }
 
 /* Small helper text for the drop area */
 .file-drop-area .hint {
-    display: block;
-    margin-top: 8px;
-    color: var(--secondary-color);
-    font-size: 0.95rem;
+  display: block;
+  margin-top: 8px;
+  color: var(--secondary-color);
+  font-size: 0.95rem;
 }
 .file-drop-area:focus {
-    outline: none;
-    box-shadow: 0 10px 40px rgba(98, 196, 255, 0.06);
+  outline: none;
+  box-shadow: 0 10px 40px rgba(98, 196, 255, 0.06);
 }
 
 #elementEditor {
-    padding: 20px;
-    grid-area: main;
-    min-height: calc(100vh - 220px);
-    overflow: auto;
-    background: transparent;
+  padding: 20px;
+  grid-area: main;
+  min-height: calc(100vh - 220px);
+  overflow: auto;
+  background: transparent;
 }
 
 /* Simple modal form styles */
 #editModalDialog input[type="text"],
 #editModalDialog textarea,
 #editModalDialog select {
-    width: 100%;
-    padding: 6px 8px;
-    margin: 6px 0 12px 0;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 6px 8px;
+  margin: 6px 0 12px 0;
+  box-sizing: border-box;
 }
 
 /* Make selects readable on dark background */
 select,
 select option,
 select optgroup {
-    background: rgb(35, 35, 35);
-    color: var(--font-color);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    padding: 6px 8px;
+  background: rgb(35, 35, 35);
+  color: var(--font-color);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 6px 8px;
 }
 
 /* Ensure selected option is clearly highlighted even when select is not focused */
 #elementSelection select option:checked,
 #elementSelection select option[selected] {
-    background: var(--primary-color);
-    color: #fff;
+  background: var(--primary-color);
+  color: #fff;
 }
 
 select::-ms-expand {
-    display: none;
+  display: none;
 }
 
 .modal-action-row {
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 .modal-action-row:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .list-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    background: transparent;
-    color: var(--font-color);
-    transition: background 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  background: transparent;
+  color: var(--font-color);
+  transition: background 0.15s ease;
 }
 .list-item .label {
-    flex: 1;
+  flex: 1;
 }
 .list-item .actions {
-    margin-left: 8px;
+  margin-left: 8px;
 }
 .small-btn {
-    padding: 6px 8px;
-    font-size: 0.9em;
-    border-radius: 4px;
-    margin-left: 6px;
+  padding: 6px 8px;
+  font-size: 0.9em;
+  border-radius: 4px;
+  margin-left: 6px;
 }
 
 /* Inline group for per-object buttons */
 .object-list {
-    table-layout: fixed;
+  table-layout: fixed;
 }
 .object-list .btn-group-inline {
-    display: flex;
-    gap: 8px;
-    align-items: center;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 .object-list td {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 .object-list td:first-child {
-    width: 25%;
-    max-width: 25%;
-    white-space: normal;
-    overflow-wrap: break-word;
-    word-break: break-word;
+  width: 25%;
+  max-width: 25%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* Functions list: render as a two-column table (function text + buttons) */
 .function-list-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 .function-list-table td {
-    padding: 8px 10px;
-    vertical-align: middle;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 8px 10px;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 .function-list-table td:first-child {
-    width: 75%;
-    max-width: 75%;
-    white-space: normal;
-    overflow-wrap: break-word;
-    word-break: break-word;
+  width: 75%;
+  max-width: 75%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .function-list-table .func-text {
-    display: block;
+  display: block;
 }
 .function-list-table .btn-group-inline {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: flex-end;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
 }
 .function-list-table tr:first-child td {
-    padding-top: 4px;
+  padding-top: 4px;
 }
 .function-list-table tr:last-child td {
-    padding-bottom: 4px;
+  padding-bottom: 4px;
 }
 /* Generic left column class for other tables */
 .left-col {
-    width: 25%;
-    max-width: 25%;
-    white-space: normal;
-    overflow-wrap: break-word;
-    word-break: break-word;
+  width: 25%;
+  max-width: 25%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .list-item:hover {
-    background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 /* Modal styles */
 .modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
+  display: none;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 .modal-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
 }
 .modal-dialog {
-    position: relative;
-    background: var(--code-bg-color);
-    color: var(--font-color);
-    max-width: 900px;
-    width: min(900px, 95%);
-    padding: 18px;
-    border-radius: 8px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-    max-height: 80vh;
-    overflow: auto;
+  position: relative;
+  background: var(--code-bg-color);
+  color: var(--font-color);
+  max-width: 900px;
+  width: min(900px, 95%);
+  padding: 18px;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  max-height: 80vh;
+  overflow: auto;
 }
 .modal-body {
-    margin-top: 8px;
+  margin-top: 8px;
 }
 .modal-actions {
-    margin-top: 12px;
-    text-align: right;
+  margin-top: 12px;
+  text-align: right;
 }
 
 /* Buttons */
 .btn {
-    background: transparent;
-    color: var(--font-color);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
+  background: transparent;
+  color: var(--font-color);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 .btn:hover {
-    opacity: 0.95;
+  opacity: 0.95;
 }
 .btn-primary {
-    background: var(--primary-color);
-    color: var(--font-color);
-    border: none;
+  background: var(--primary-color);
+  color: var(--font-color);
+  border: none;
 }
 .btn-error {
-    background: var(--error-color);
-    color: var(--font-color);
-    border: none;
+  background: var(--error-color);
+  color: var(--font-color);
+  border: none;
 }
 .btn-default {
-    background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 /* Prominent action buttons (Save / Close) */
 .large-action {
-    padding: 10px 16px;
-    font-weight: 700;
-    font-size: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-    transition: transform 0.08s ease, box-shadow 0.08s ease;
+  padding: 10px 16px;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
 }
 #btn-save.large-action {
-    background: var(--primary-color);
-    color: var(--font-color);
-    border: none;
+  background: var(--primary-color);
+  color: var(--font-color);
+  border: none;
 }
 #btn-close.large-action {
-    background: var(--error-color);
-    color: var(--font-color);
-    border: none;
+  background: var(--error-color);
+  color: var(--font-color);
+  border: none;
 }
 #btn-save.large-action:hover,
 #btn-close.large-action:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
 }
 /* Slight spacing so they don't blend into the menu */
 #btn-save,
 #btn-close {
-    margin-left: 8px;
+  margin-left: 8px;
 }
 
 /* Tabs */
 .editor-tab {
-    color: var(--secondary-color);
-    cursor: pointer;
-    text-decoration: none;
-    padding: 4px 8px;
-    border-radius: 6px;
-    transition: background 0.12s ease, color 0.12s ease;
+  color: var(--secondary-color);
+  cursor: pointer;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.12s ease, color 0.12s ease;
 }
 .editor-tab:hover {
-    color: var(--font-color);
-    background: rgba(255, 255, 255, 0.03);
+  color: var(--font-color);
+  background: rgba(255, 255, 255, 0.03);
 }
 .editor-tab.active {
-    background: var(--primary-color);
-    color: var(--invert-font-color);
-    font-weight: 600;
-    text-decoration: none;
+  background: var(--primary-color);
+  color: var(--invert-font-color);
+  font-weight: 600;
+  text-decoration: none;
 }
 .editor-tab.active:hover {
-    background: var(--primary-color);
-    color: var(--invert-font-color);
+  background: var(--primary-color);
+  color: var(--invert-font-color);
 }
 .editor-tab + .editor-tab {
-    margin-left: 8px;
+  margin-left: 8px;
 }
 
 /* Inputs in modal—dark friendly */
 #editModalDialog input[type="text"],
 #editModalDialog textarea,
 #editModalDialog select {
-    width: 100%;
-    padding: 8px 10px;
-    margin: 6px 0 12px 0;
-    box-sizing: border-box;
-    background: rgba(255, 255, 255, 0.03);
-    color: var(--font-color);
-    border: 1px solid rgba(255, 255, 255, 0.04);
+  width: 100%;
+  padding: 8px 10px;
+  margin: 6px 0 12px 0;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--font-color);
+  border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 /* Modern textarea used in editor forms */
 .modern-textarea {
-    width: 100%;
-    min-height: 36px; /* single-line default */
-    max-height: 400px; /* sensible upper bound */
-    overflow: hidden; /* hide scrollbars, we'll auto expand */
-    resize: none;
-    padding: 8px 10px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 6px;
-    color: var(--font-color);
-    line-height: 1.4;
-    font-family: var(--mono-font-stack);
-    transition: box-shadow 0.12s ease, border-color 0.12s ease;
+  width: 100%;
+  min-height: 36px; /* single-line default */
+  max-height: 400px; /* sensible upper bound */
+  overflow: hidden; /* hide scrollbars, we'll auto expand */
+  resize: none;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  color: var(--font-color);
+  line-height: 1.4;
+  font-family: var(--mono-font-stack);
+  transition: box-shadow 0.12s ease, border-color 0.12s ease;
 }
 .modern-textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 6px 18px rgba(98, 196, 255, 0.08);
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 6px 18px rgba(98, 196, 255, 0.08);
 }
 
 /* Modern single-line inputs that match textarea styling */
 .modern-input {
-    width: 100%;
-    height: 36px;
-    padding: 8px 10px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 6px;
-    color: var(--font-color);
-    box-sizing: border-box;
-    line-height: 1.4;
-    font-family: var(--mono-font-stack);
-    transition: box-shadow 0.12s ease, border-color 0.12s ease;
-    -webkit-appearance: none;
-    appearance: none;
+  width: 100%;
+  height: 36px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  color: var(--font-color);
+  box-sizing: border-box;
+  line-height: 1.4;
+  font-family: var(--mono-font-stack);
+  transition: box-shadow 0.12s ease, border-color 0.12s ease;
+  -webkit-appearance: none;
+  appearance: none;
 }
 .modern-input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 6px 18px rgba(98, 196, 255, 0.08);
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 6px 18px rgba(98, 196, 255, 0.08);
 }
 
 /* Ensure selects with modern-input and textarea match and override terminal defaults */
 input.modern-input,
 select.modern-input,
 textarea.modern-textarea {
-    -webkit-appearance: none;
-    appearance: none;
-    -moz-appearance: none;
-    outline: none;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+  -webkit-appearance: none;
+  appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 input.modern-input:focus,
@@ -550,34 +550,34 @@ textarea.modern-textarea:focus,
 input.modern-input:focus-visible,
 select.modern-input:focus-visible,
 textarea.modern-textarea:focus-visible {
-    outline: none;
-    border-color: var(--primary-color) !important;
-    box-shadow: 0 6px 18px rgba(98, 196, 255, 0.08) !important;
+  outline: none;
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 6px 18px rgba(98, 196, 255, 0.08) !important;
 }
 
 #validationResults {
-    padding: 8px;
-    border-radius: 6px;
-    margin-top: 6px;
+  padding: 8px;
+  border-radius: 6px;
+  margin-top: 6px;
 }
 #validationResults ul {
-    margin: 6px 0 0 18px;
+  margin: 6px 0 0 18px;
 }
 #validationResults div {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 /* responsive */
 @media (max-width: 700px) {
-    #editor {
-        grid-template-columns: 1fr;
-        grid-template-areas: "main";
-    }
-    #elementSelection {
-        order: 2;
-        min-height: 200px;
-    }
-    #elementEditor {
-        order: 1;
-    }
+  #editor {
+    grid-template-columns: 1fr;
+    grid-template-areas: "main";
+  }
+  #elementSelection {
+    order: 2;
+    min-height: 200px;
+  }
+  #elementEditor {
+    order: 1;
+  }
 }

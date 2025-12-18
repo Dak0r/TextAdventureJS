@@ -1,14 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>testAdventureJS Editor</title>
-<script src="ext/jquery-3.4.1.min.js"> </script>
-<script src="../textAdventure.js"></script>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>testAdventureJS Editor</title>
+    <script src="ext/jquery-3.4.1.min.js"></script>
+    <script src="../textAdventure.js"></script>
 
-<link rel="stylesheet" href="ext/terminal0.7.2_.min.css" />
-<style>
-	:root {
+    <link rel="stylesheet" href="ext/terminal0.7.2_.min.css" />
+    <style>
+      :root {
         --global-font-size: 15px;
         --global-line-height: 1.4em;
         --global-space: 10px;
@@ -32,150 +32,195 @@
         --input-style: solid;
         --display-h1-decoration: none;
       }
-</style>
+    </style>
 
-<link href="editor-style.css" rel="stylesheet">
-<script id="default-db" type="application/json">
-{
-  "$schema": "../textAdventureDatabase.schema.json",
-  "general": {
-    "title": "New TextAdventureJS Game",
-    "author": "Your Name",
-    "version": "0.1",
-    "request": ["", "What do you do?"],
-    "start": {
-      "text": ["Welcome to the textAdventureJS Mini Example"],
-      "commands": ["gotoLocation first_room"]
-    },
-    "parser_ignored_words": [
-      "to",
-      "through",
-      "on",
-      "off",
-      "from",
-      "around",
-      "at"
-    ],
-    "parser_error_text": "Sorry, I didn't understand that.",
-    "parser_unknown_verb_text": "Sorry, I don't know how to do that."
-  },
-  "verbs": {
-    "look": {
-      "failure": "Sorry you can't see that.",
-      "words": ["look", "view", "watch", "read", "search"]
-    },
-    "pickup": {
-      "failure": "Sorry you can't see that.",
-      "words": ["pick", "pickup", "lift", "take", "get", "reach"]
-    },
-    "drop": {
-      "failure": "How do you want to drop that?",
-      "words": ["drop", "let go"]
-    },
-    "activate": {
-      "failure": "Sorry you can't do that.",
-      "words": ["turn", "power", "switch"]
-    },
-    "go": {
-      "failure": "Sorry you can't go there.",
-      "words": ["go", "walk", "run", "goto"]
-    },
-    "open": {
-      "failure": "Sorry you can't open that.",
-      "words": ["open", "break"]
-    },
-    "close": {
-      "failure": "Sorry you can't close that.",
-      "words": ["close", "shut"]
-    },
-    "jump": {
-      "failure": "Sorry this is not possible.",
-      "words": ["jump"]
-    },
-    "use": {
-      "failure": "Well.. this does not work.",
-      "words": ["use", "combine", "throw", "attack"]
-    },
-    "light": {
-      "failure": "Well.. this does not work.",
-      "words": ["light", "burn", "fire"]
-    },
-    "remove": {
-      "failure": "Well.. this does not work.",
-      "words": ["remove", "break", "split", "destroy"]
-    }
-  },
-  "objects": {
-    "template_object": {
-      "words": ["object", "obj"],
-      "locationDescription": "An object is lying on the floor.",
-      "actions": {
-        "pickup": {
-          "text": ["Okay got it."],
-          "commands": [
-            "objectRemoveFromLocation this",
-            "inventoryAdd template_object_pickedUp"
-          ]
+    <link href="editor-style.css" rel="stylesheet" />
+    <script id="default-db" type="application/json">
+      {
+        "$schema": "../textAdventureDatabase.schema.json",
+        "general": {
+          "title": "New TextAdventureJS Game",
+          "author": "Your Name",
+          "version": "0.1",
+          "request": ["", "What do you do?"],
+          "start": {
+            "text": ["Welcome to the textAdventureJS Mini Example"],
+            "commands": ["gotoLocation first_room"]
+          },
+          "parser_ignored_words": [
+            "to",
+            "through",
+            "on",
+            "off",
+            "from",
+            "around",
+            "at"
+          ],
+          "parser_error_text": "Sorry, I didn't understand that.",
+          "parser_unknown_verb_text": "Sorry, I don't know how to do that."
         },
-        "look": {
-          "text": ["A mysterious object."],
-          "commands": []
-        }
-      },
-      "useableObjects": {}
-    },
-    "template_object_pickedUp": {
-      "words": ["object", "obj"],
-      "locationDescription": "An object is lying on the floor.",
-      "actions": {
-        "drop": {
-          "text": ["Okay dropped it."],
-          "commands": [
-            "objectAddToLocation template_object",
-            "inventoryRemove this"
-          ]
+        "verbs": {
+          "look": {
+            "failure": "Sorry you can't see that.",
+            "words": ["look", "view", "watch", "read", "search"]
+          },
+          "pickup": {
+            "failure": "Sorry you can't see that.",
+            "words": ["pick", "pickup", "lift", "take", "get", "reach"]
+          },
+          "drop": {
+            "failure": "How do you want to drop that?",
+            "words": ["drop", "let go"]
+          },
+          "activate": {
+            "failure": "Sorry you can't do that.",
+            "words": ["turn", "power", "switch"]
+          },
+          "go": {
+            "failure": "Sorry you can't go there.",
+            "words": ["go", "walk", "run", "goto"]
+          },
+          "open": {
+            "failure": "Sorry you can't open that.",
+            "words": ["open", "break"]
+          },
+          "close": {
+            "failure": "Sorry you can't close that.",
+            "words": ["close", "shut"]
+          },
+          "jump": {
+            "failure": "Sorry this is not possible.",
+            "words": ["jump"]
+          },
+          "use": {
+            "failure": "Well.. this does not work.",
+            "words": ["use", "combine", "throw", "attack"]
+          },
+          "light": {
+            "failure": "Well.. this does not work.",
+            "words": ["light", "burn", "fire"]
+          },
+          "remove": {
+            "failure": "Well.. this does not work.",
+            "words": ["remove", "break", "split", "destroy"]
+          }
         },
-        "look": {
-          "text": ["A mysterious object."],
-          "commands": []
+        "objects": {
+          "template_object": {
+            "words": ["object", "obj"],
+            "locationDescription": "An object is lying on the floor.",
+            "actions": {
+              "pickup": {
+                "text": ["Okay got it."],
+                "commands": [
+                  "objectRemoveFromLocation this",
+                  "inventoryAdd template_object_pickedUp"
+                ]
+              },
+              "look": {
+                "text": ["A mysterious object."],
+                "commands": []
+              }
+            },
+            "useableObjects": {}
+          },
+          "template_object_pickedUp": {
+            "words": ["object", "obj"],
+            "locationDescription": "You are holding an object in your hands.",
+            "actions": {
+              "drop": {
+                "text": ["Okay dropped it."],
+                "commands": [
+                  "objectAddToLocation template_object",
+                  "inventoryRemove this"
+                ]
+              },
+              "look": {
+                "text": ["A mysterious object."],
+                "commands": []
+              }
+            },
+            "useableObjects": {}
+          }
+        },
+        "locations": {
+          "first_room": {
+            "objects": ["template_object"]
+          }
         }
-      },
-      "useableObjects": {}
-    }
-  },
-  "locations": {
-    "first_room": {
-      "objects": ["template_object"]
-    }
-  }
-}
+      }
+    </script>
+    <script src="tba_editor.js"></script>
+  </head>
 
-</script>
-<script src="tba_editor.js"></script>
-
-</head>
-
-<body>
-	<main role="main" class="container">
-		<h1 class="mt-5">textAdventureJS Game Database Editor</h1>
-    <div id="drop-area">
-      <button class="btn btn-primary" id="btn-new">New Project</button>
-      <div class="file-drop-area" id="drop-area-load" tabindex="0" role="button" aria-label="Drop or click to open a project file">
-        <p>DRAG & DROP <span class="muted">*.tadb.json</span> HERE</p>
-        <p class="hint">or click to browse files</p>
+  <body>
+    <main role="main" class="container">
+      <h1 class="mt-5">textAdventureJS Game Database Editor</h1>
+      <div id="drop-area">
+        <button class="btn btn-primary" id="btn-new">New Project</button>
+        <div
+          class="file-drop-area"
+          id="drop-area-load"
+          tabindex="0"
+          role="button"
+          aria-label="Drop or click to open a project file"
+        >
+          <p>DRAG & DROP <span class="muted">*.tadb.json</span> HERE</p>
+          <p class="hint">or click to browse files</p>
+        </div>
       </div>
-    </div>
-		<div id="editor-aera">
-      <div id="editor-menu">
-        <button class="btn btn-primary" id="btn-save">Save</button> <button class="btn btn-error" id="btn-close">Close</button>
-        <p></p>
-		  <h2><a class="editor-tab" href="#" id="tabGeneral" onclick="onTypeChanged('general')">General</a> | <a class="editor-tab" href="#" id="tabVerbs" onclick="onTypeChanged('verbs')">Verbs</a> | <a class="editor-tab" href="#" id="tabObjects" onclick="onTypeChanged('objects')">Objects</a> | <a class="editor-tab" href="#" id="tabLocations" onclick="onTypeChanged('locations')">Locations</a> | <a class="editor-tab" href="#" id="tabPreview" onclick="onTypeChanged('preview')">Debugger</a></h2>
+      <div id="editor-aera">
+        <div id="editor-menu">
+          <button class="btn btn-primary" id="btn-save">Save</button>
+          <button class="btn btn-error" id="btn-close">Close</button>
+          <p></p>
+          <h2>
+            <a
+              class="editor-tab"
+              href="#"
+              id="tabGeneral"
+              onclick="onTypeChanged('general')"
+              >General</a
+            >
+            |
+            <a
+              class="editor-tab"
+              href="#"
+              id="tabVerbs"
+              onclick="onTypeChanged('verbs')"
+              >Verbs</a
+            >
+            |
+            <a
+              class="editor-tab"
+              href="#"
+              id="tabObjects"
+              onclick="onTypeChanged('objects')"
+              >Objects</a
+            >
+            |
+            <a
+              class="editor-tab"
+              href="#"
+              id="tabLocations"
+              onclick="onTypeChanged('locations')"
+              >Locations</a
+            >
+            |
+            <a
+              class="editor-tab"
+              href="#"
+              id="tabPreview"
+              onclick="onTypeChanged('preview')"
+              >Debugger</a
+            >
+          </h2>
+        </div>
+        <div id="editor">
+          <div id="elementSelection"></div>
+          <div id="elementEditor"></div>
+        </div>
       </div>
-      <div id="editor">
-				<div id="elementSelection"></div>
-				<div id="elementEditor"></div>
-			</div>
-		</div>
-	</main>	
-</body>
+    </main>
+  </body>
 </html>
