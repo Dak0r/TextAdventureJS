@@ -767,7 +767,8 @@ function generateUiForLocationElement(locationName, location) {
     const objList = $('<table class="w100 object-list" border="0"/>');
     $.each(location.objects, function (index, objectName) {
         const tr = $("<tr/>");
-        tr.append($("<td/>").text(objectName));
+        const nameTd = $("<td/>").text(objectName);
+        tr.append(nameTd);
         const btnsTd = $("<td/>");
 
         const moveUpButton = button("▲", "btn-default small-btn");
@@ -796,7 +797,7 @@ function generateUiForLocationElement(locationName, location) {
             moveDownButton.prop("disabled", true);
         }
 
-        const editObjectButton = button("Edit", "btn-default small-btn");
+        const editObjectButton = button("🖉", "btn-default small-btn");
         editObjectButton
             .attr("title", "Edit object")
             .attr("aria-label", "Edit object");
@@ -833,8 +834,9 @@ function generateUiForLocationElement(locationName, location) {
         const btnGroup = $('<div class="btn-group-inline"/>');
         btnGroup.append(moveUpButton);
         btnGroup.append(moveDownButton);
-        btnGroup.append(editObjectButton);
         btnGroup.append(removeObjectButton);
+        nameTd.append(" ");
+        nameTd.append(editObjectButton);
         btnsTd.append(btnGroup);
         tr.append(btnsTd);
         objList.append(tr);
