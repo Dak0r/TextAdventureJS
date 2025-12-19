@@ -15,11 +15,11 @@ See `example.html` for a working minimal example.
 ```js
 // Defines where to write output
 function witeLine(outputLine) {
-    $("#outputArea").append(outputLine);
+  $("#outputArea").append(outputLine);
 }
 // Clears output area
 function clearArea() {
-    $("#outputArea").val("");
+  $("#outputArea").val("");
 }
 
 // Init engine and load a game
@@ -52,10 +52,10 @@ The description text of a location soley exists of the objects which can be foun
 Verbs are commands that the user can type. \
  Each verb has a...
 
--   a name
--   list of synonyms (`words`)
--   a text that is shown, in case the verb can't be used with the object the user mentioned (`failure`) \
-    E.G. if the user tries to 'open' an object, that can't be opened.
+- a name
+- list of synonyms (`words`)
+- a text that is shown, in case the verb can't be used with the object the user mentioned (`failure`) \
+  E.G. if the user tries to 'open' an object, that can't be opened.
 
 ### Objects
 
@@ -63,15 +63,15 @@ Everything that the player can see or interact with is an object.
 
 Each object has...
 
--   a unique name
--   a list of `words` that the player can type to refer to this object
--   an optional text that is added to the location description if the object is in the players current location or in their inventory (`locationDescription`)
--   a list of `actions` which describes the `verbs` that can be used with this object. \
-     each of these actions has...
-    -   a `text` that will be shown if the verb is used with this object
-    -   zero, one or more functions listed under `commands`, which can be used to change the current location and its objects (see Commands)
-    -   a list of 'usableObjects' _which is currently unused_. \
-        It is designed to implement usage of object with other objects.
+- a unique name
+- a list of `words` that the player can type to refer to this object
+- an optional text that is added to the location description if the object is in the players current location or in their inventory (`locationDescription`)
+- a list of `actions` which describes the `verbs` that can be used with this object. \
+   each of these actions has...
+  - a `text` that will be shown if the verb is used with this object
+  - zero, one or more functions listed under `commands`, which can be used to change the current location and its objects (see Commands)
+  - a list of 'usableObjects' _which is currently unused_. \
+    It is designed to implement usage of object with other objects.
 
 #### Changing Objects
 
@@ -149,7 +149,7 @@ inventoryAdd this
 ```
 
 Adds the item to users inventory.
-The player can have multiple items in their inventory, the location description will  list them sequentially, after the objects in the location itself.
+The player can have multiple items in their inventory, the location description will list them sequentially, after the objects in the location itself.
 
 #### inventoryRemove
 
@@ -159,3 +159,31 @@ inventoryRemove this
 ```
 
 Removes the item from users inventory
+
+### Analytics
+
+TextAdventureJS does not come with any analytics. Though it allows to provide an a function which is called for pre-defined analytics related events related to the command parser.
+
+Defined events are:
+
+- `command`: a command was successfully parsed
+- `unknown_verb`: the user tried to use a verb that is not defined
+- `unknwon_object`: the user tried to use an object that is not present in the players current location or inventory.
+- `unkown_verb_for_object`: the user tried to do something with an object that is not defined
+- `unknown_command`: other parsing error
+
+Each event contains a body, that includes:
+
+- `input`: the full command the user entered
+- `currentLocation`: name of the current location
+- `location`: list of all object in the current location
+- `inventory`: list of all objects in the players inventory
+
+Example Analytics Function:
+
+```js
+function analyticsFunction(eventName, eventData) {
+  console.log("Analytics event: " + eventName);
+  console.log(eventData);
+}
+```

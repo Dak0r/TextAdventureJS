@@ -6,7 +6,11 @@
 
     <script type="application/javascript">
       $(document).ready(function () {
-        var textAdv = new textAdventureEngine(witeLine, clearArea);
+        var textAdv = new textAdventureEngine(
+          witeLine,
+          clearArea,
+          analyticsFunction
+        );
         textAdv.loadDatabaseFromFile("lonesurvivor.tadb.json");
 
         function witeLine(output) {
@@ -19,7 +23,10 @@
         function clearArea() {
           $("#outputArea").val("");
         }
-
+        function analyticsFunction(eventName, eventData) {
+          console.log("Analytics event: " + eventName);
+          console.log(eventData);
+        }
         function readUserInput() {
           $("#inputButton").prop("disabled", true);
           $("#inputText").prop("readonly", true);

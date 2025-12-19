@@ -9,9 +9,10 @@ class textAdventureEngine {
         currentLocation: null,
     };
 
-    constructor(outputFunction, clearOutputFunction) {
+    constructor(outputFunction, clearOutputFunction, analyticsFunction = null) {
         this.outputAddLines = outputFunction;
         this.outputClear = clearOutputFunction;
+        this.analyticsFunction = analyticsFunction;
     }
 
     loadDatabaseFromFile(gamedatabasePath, showGameName = true) {
@@ -26,8 +27,6 @@ class textAdventureEngine {
                 var err = textStatus + ", " + error;
                 console.log("Request Failed: " + err);
                 base.outputAddLines("Failed to Load json");
-
-                base.#showRequest();
             });
     }
 
@@ -152,6 +151,9 @@ class textAdventureEngine {
                 this.#writeOutputLines(
                     this.#database.general.parser_unknown_verb_text
                 );
+                this.#analyticsEvent("unknown_verb", {
+                    input: cmd,
+                });
                 return;
             }
 
@@ -169,6 +171,9 @@ class textAdventureEngine {
             if (verb != undefined && object == undefined) {
                 console.log("object is undefined");
                 this.#writeOutputLines(verb.failure);
+                this.#analyticsEvent("unknown_object", {
+                    input: cmd,
+                });
                 this.#showRequest();
                 return;
             }
@@ -188,15 +193,38 @@ class textAdventureEngine {
                     let objectVerbAction = object.actions[verbName];
                     this.#writeOutputLines(objectVerbAction.text);
                     this.#runActions(objectName, objectVerbAction.commands);
+                    this.#analyticsEvent("command", {
+                        input: cmd,
+                    });
                 } else {
                     this.#writeOutputLines(verb.failure);
+                    this.#analyticsEvent("unknown_verb_for_object", {
+                        input: cmd,
+                    });
                 }
                 this.#showRequest();
                 return;
             }
             this.#writeOutputLines(this.#database.general.parser_error_text);
+            this.#analyticsEvent("unknown_command", {
+                input: cmd,
+            });
         }
         this.#showRequest();
+    }
+
+    #analyticsEvent(eventName, eventData = {}) {
+        if (this.analyticsFunction) {
+            additionalData = {
+                currentLocation: this.#gameState.currentLocation,
+                location:
+                    this.#gameState.locations[this.#gameState.currentLocation]
+                        .objects,
+                inventory: Object.keys(this.#gameState.inventory), // TODO: Object.Keys not needed, once inventory only stores names
+            };
+            eventData = { ...eventData, ...additionalData };
+            this.analyticsFunction(eventName, eventData);
+        }
     }
 
     #writeLocationDescription(objectsInLocation) {
@@ -303,7 +331,7 @@ class textAdventureEngine {
         } else if (acts[0] == "inventoryAdd") {
             console.log("Add or replace inventory item: " + acts[1]);
             this.#gameState.inventory[acts[1]] =
-                this.#database.objects[acts[1]];
+                this.#database.objects[acts[1]]; //TODO: it would be enough to just store the name, just like with locations
         } else if (acts[0] == "inventoryRemove") {
             console.log("Remove inventory object, if it exists " + acts[1]);
             delete this.#gameState.inventory[acts[1]];
