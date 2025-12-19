@@ -2,17 +2,14 @@
   <head>
     <meta charset="UTF-8" />
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="textAdventure.js"></script>
+    <script src="../textAdventure.js"></script>
 
     <script type="application/javascript">
       $(document).ready(function () {
-        var textAdv = new textAdventureEngine(
-          witeLine,
-          clearArea,
-          analyticsFunction
-        );
-        textAdv.loadDatabaseFromFile("lonesurvivor.tadb.json");
-
+        /**
+         * Function that allows the text Adventure engine to output text to the user
+         * @param {string} output The output text
+         */
         function witeLine(output) {
           $("#outputArea").val($("#outputArea").val() + output + "\n");
           $("#outputArea").scrollTop($("#outputArea")[0].scrollHeight);
@@ -20,24 +17,43 @@
           $("#inputText").prop("readonly", false);
           $("#inputText").focus();
         }
+        /**
+         * Function that allows the text Adventure engine to clear the output area
+         */
         function clearArea() {
           $("#outputArea").val("");
         }
+        /**
+         * Optional function that allows the text Adventure engine to send analytics events
+         * @param {string} eventName The name of the event
+         * @param {object} eventData Additional data for the event
+         */
         function analyticsFunction(eventName, eventData) {
           console.log("Analytics event: " + eventName);
           console.log(eventData);
         }
+
+        /**
+         * Function to read user input from the input field and send it to the text adventure engine
+         */
         function readUserInput() {
           $("#inputButton").prop("disabled", true);
           $("#inputText").prop("readonly", true);
 
+          // Output the user input to the output area
+          // this is not done by the engine automatically, to allow custom formatting compared to the regular engine output
+          witeLine("> " + $("#inputText").val());
+
+
           textAdv.input($("#inputText").val());
           $("#inputText").val("");
         }
+
+        // Set up submit action for the button
         $("#inputButton").click(function () {
           readUserInput();
         });
-
+        // Set up submit action for the enter key
         $("#inputText").keypress(function (event) {
           var keycode = event.keyCode ? event.keyCode : event.which;
           if (keycode == "13") {
@@ -45,6 +61,16 @@
             readUserInput();
           }
         });
+
+        // Create the text adventure engine instance and load the game
+        var textAdv = new textAdventureEngine(
+          witeLine,
+          clearArea,
+          analyticsFunction
+        );
+        textAdv.loadDatabaseFromFile("textadventurejs_teaser.json");
+
+        // Focus the input field to allow typing right away
         $("#inputText").focus();
 
         console.log("ready!");

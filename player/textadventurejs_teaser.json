@@ -1,7 +1,7 @@
 {
-  "$schema": "./textAdventureDatabase.schema.json",
+  "$schema": "../textAdventureDatabase.schema.json",
   "general": {
-    "title": "Survivor Teaser",
+    "title": "TextAdventureJS Teaser",
     "author": "Daniel Korgel",
     "version": "0.1",
     "request": ["", "What do you do?"],
@@ -373,7 +373,7 @@
         "look": {
           "text": [
             "\"Dear Player,",
-            "Wow, you actually played this :-) I'm afraid your adventure ends here, already. This Text Based Adventure Engine was just a quick project on a rainy weekend. I hope you liked it, feel free to contact me if you did. -Daniel.\""
+            "Wow, congratulations on getting this far! I'm afraid your adventure ends here, already. This game is just a small teaser for the TextAdventureJS Engine. I hope you liked it, feel free to contact me if you did. -Daniel.\""
           ],
           "commands": []
         },

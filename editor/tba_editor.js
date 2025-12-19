@@ -93,10 +93,16 @@ $(document).ready(function () {
         download(JSON.stringify(TBA_DATABASE, null, 2), filename, "text/plain");
     });
     $("#btn-close").click(() => {
-        TBA_DATABASE = undefined;
-        textAdv = undefined;
-        deleteDatabaseFromStorage();
-        updateEditorState();
+        if (
+            confirm(
+                "Are you sure you want to close the current project? Unsaved changes will be lost."
+            )
+        ) {
+            TBA_DATABASE = undefined;
+            textAdv = undefined;
+            deleteDatabaseFromStorage();
+            updateEditorState();
+        }
     });
     // Make Save / Close buttons more prominent for quick access
     $("#btn-save").addClass("btn-primary large-action");
@@ -413,16 +419,17 @@ function updatePreviewSideBar() {
             inventoryList.append(invObj);
         });
     }
-    const addToInv = generateNewObjectForLocationButton(gameState.inventory, function (obj) {
-        gameState.inventory[obj] = TBA_DATABASE.objects[obj];
-        updatePreviewSideBar();
-    })
+    const addToInv = generateNewObjectForLocationButton(
+        gameState.inventory,
+        function (obj) {
+            gameState.inventory[obj] = TBA_DATABASE.objects[obj];
+            updatePreviewSideBar();
+        }
+    );
     $("#elementSelection").append($("<h2>Inventory</h2>"));
     $("#elementSelection").append(inventoryList);
     $("#elementSelection").append(addToInv);
     $("#elementSelection").append($("<hr/>"));
-
-
 
     const locations = $("<ul />");
     $.each(gameState.locations, function (locationName, locationObj) {
