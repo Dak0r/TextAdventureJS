@@ -317,15 +317,21 @@ function onDatabaseChanged() {
 
 function generateUiForPreview() {
     if (previewContainer === undefined) {
-        previewContainer = $('<div style="text-align: center;"/>');
+        previewContainer = $(
+            '<div style="width: 600px; margin-left: auto; margin-right: auto;"/>'
+        );
         previewLog = $(
-            '<textarea id="outputArea" readonly="readonly" style="width: 600px; height: 400px;">Loading</textarea> '
+            '<textarea id="outputArea" class="modern-textarea" readonly="readonly" style="width: 100%; height: 400px;">Loading</textarea> '
+        );
+
+        const inputDiv = $(
+            '<div style="margin-top: 10px;" class="input-container"/>'
         );
         previewInputText = $(
-            '<input id="inputText" type="text"  style="width: 500px;"/>'
+            '<input id="inputText" placeholder="Enter your command here..." class="modern-input" type="text"  style="width: 100%;"/>'
         );
         previewInputButton = $(
-            '<input id="inputButton" type="button" value="Send"/>'
+            '<button id="inputButton" class="btn"style="background: transparent; border: 0px; width: 30px; position: relative; top:-35px; left:560px;" type="button">⏎</button>'
         );
 
         const buttonBar = $("<p />");
@@ -337,8 +343,9 @@ function generateUiForPreview() {
 
         previewContainer.append(buttonBar);
         previewContainer.append(previewLog);
-        previewContainer.append(previewInputText);
-        previewContainer.append(previewInputButton);
+        inputDiv.append(previewInputText);
+        inputDiv.append(previewInputButton);
+        previewContainer.append(inputDiv);
     }
 
     previewInputButton.click(function () {
@@ -365,7 +372,10 @@ function generateUiForPreview() {
     }
     updatePreviewSideBar();
     previewLog.scrollTop(previewLog[0].scrollHeight);
-    previewInputText.focus();
+
+    setTimeout(function () {
+        previewInputText.focus();
+    }, 0);
 
     return previewContainer;
 }
