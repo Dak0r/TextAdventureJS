@@ -88,6 +88,13 @@ If the player tries to do soemthing with an object and the action is not defined
 
 So In this case, you simply have to add the verb as an action to the object and add your failure message as text to the action.
 
+### Placeholders
+When adding a text to an action, you can use predefined placeholders which will be filled in automatically when the text is written. If the placeholder does not apply in the given context, the value is not replaced.
+
+Existing placeholders are:
+- `{verb}` is replaced with the word the player used to describe the verb / action
+- `{object}` is replaced with the word the player used to describe the object
+
 ### Commands
 
 Commands can be used in actions to modify the current location or the plazers inventory.

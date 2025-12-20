@@ -22,49 +22,93 @@
     "parser_unknown_verb_text": "Sorry, I don't know how to do that."
   },
   "verbs": {
-    "pickup": {
-      "failure": "Sorry you can't see that.",
-      "words": ["pick", "pickup", "lift", "take", "get", "reach"]
-    },
     "look": {
       "failure": "Sorry you can't see that.",
-      "words": ["look", "view", "watch", "read", "search"]
+      "words": ["look", "view", "watch", "read", "search"],
+      "standalone_action": {
+        "text": ["You look around."],
+        "commands": ["showLocationDescription"]
+      }
     },
-    "activate": {
-      "failure": "Sorry you can't do that.",
-      "words": ["turn", "power", "switch"]
-    },
-    "go": {
-      "failure": "Sorry you can't go there.",
-      "words": ["go", "walk", "run", "goto"]
-    },
-    "open": {
-      "failure": "Sorry you can't open that.",
-      "words": ["open", "break"]
-    },
-    "close": {
-      "failure": "Sorry you can't close that.",
-      "words": ["close", "shut"]
-    },
-    "jump": {
-      "failure": "Sorry this is not possible.",
-      "words": ["jump"]
+    "pickup": {
+      "failure": "Sorry you can't see that.",
+      "words": ["pick", "pickup", "lift", "take", "get", "reach"],
+      "standalone_action": {
+        "text": ["What do you want to pick up?"],
+        "commands": []
+      }
     },
     "drop": {
       "failure": "How do you want to drop that?",
-      "words": ["drop", "let go"]
+      "words": ["drop", "let go"],
+      "standalone_action": {
+        "text": ["What do you want to drop?"],
+        "commands": []
+      }
+    },
+    "activate": {
+      "failure": "Sorry you can't do that.",
+      "words": ["turn", "power", "switch"],
+      "standalone_action": {
+        "text": ["What do you want to activate?"],
+        "commands": []
+      }
+    },
+    "go": {
+      "failure": "Sorry you can't go there.",
+      "words": ["go", "walk", "run", "goto"],
+      "standalone_action": {
+        "text": ["Where do you want to go?"],
+        "commands": []
+      }
+    },
+    "open": {
+      "failure": "Sorry you can't open that.",
+      "words": ["open", "break"],
+      "standalone_action": {
+        "text": ["What do you want to open?"],
+        "commands": []
+      }
+    },
+    "close": {
+      "failure": "Sorry you can't close that.",
+      "words": ["close", "shut"],
+      "standalone_action": {
+        "text": ["What do you want to close?"],
+        "commands": []
+      }
+    },
+    "jump": {
+      "failure": "Sorry this is not possible.",
+      "words": ["jump"],
+      "standalone_action": {
+        "text": ["You jump up and down."],
+        "commands": []
+      }
     },
     "use": {
       "failure": "Well.. this does not work.",
-      "words": ["use", "combine", "throw", "attack"]
+      "words": ["use", "combine", "throw", "attack"],
+      "standalone_action": {
+        "text": ["What do you want to use?"],
+        "commands": []
+      }
     },
     "light": {
       "failure": "Well.. this does not work.",
-      "words": ["light", "burn", "fire"]
+      "words": ["light", "ignite", "burn", "fire"],
+      "standalone_action": {
+        "text": ["What do you want to ignite?"],
+        "commands": []
+      }
     },
     "remove": {
       "failure": "Well.. this does not work.",
-      "words": ["remove", "break", "split", "destroy"]
+      "words": ["remove", "break", "split", "destroy"],
+      "standalone_action": {
+        "text": ["What do you want to remove?"],
+        "commands": []
+      }
     }
   },
   "objects": {

@@ -127,23 +127,23 @@ class textAdventureEngine {
                 }
             });
             this.#writeOutputLines(
-                "Enter simple directions like<br /><i>look at wall</i><br />"
+                "Enter simple directions like","<i>look at wall</i>"
             );
             this.#writeOutputLines("Commonly used verbs are: " + allVerbs);
         } else {
-            let words = cmd.split(" ");
+            const words = cmd.split(" ");
 
-            let locationState = this.#getLocationState(
-                this.#gameState.currentLocation
-            );
-            let verbName = this.#checkForVerb(words);
-            let verb = this.#database.verbs[verbName];
-            let objectName = this.#checkForObject(words);
+            // deconstruct tuple return from checkForVerb and checkForObject
+            const verbInfo = this.#checkForVerb(words);
+            const verb = this.#database.verbs[verbInfo.id];
+
+            const objectInfo = this.#checkForObject(words);
+
             let object = undefined;
-            if (this.#gameState.inventory[objectName] != undefined) {
-                object = this.#gameState.inventory[objectName];
+            if (this.#gameState.inventory[objectInfo.id] != undefined) {
+                object = this.#gameState.inventory[objectInfo.id];
             } else {
-                object = this.#database.objects[objectName];
+                object = this.#database.objects[objectInfo.id];
             }
 
             //no action
@@ -157,12 +157,14 @@ class textAdventureEngine {
                 return;
             }
 
-            // Look at room
-            if (verb != undefined && verbName == "look" && words.length === 1) {
-                locationState = this.#getLocationState(
-                    this.#gameState.currentLocation
-                );
-                this.#writeLocationDescription(locationState.objects);
+            // verb as standalone action
+            if (verb != undefined && words.length === 1) {
+                console.log("Standalone Action: " + verbInfo.id);
+                this.#writeOutputLines(this.#database.verbs[verbInfo.id].standalone_action.text, {   verb: verbInfo.word  });
+                this.#runActions(undefined, this.#database.verbs[verbInfo.id].standalone_action.commands);
+                this.#analyticsEvent("command", {
+                        input: cmd,
+                });
                 this.#showRequest();
                 return;
             }
@@ -170,7 +172,7 @@ class textAdventureEngine {
             //no object
             if (verb != undefined && object == undefined) {
                 console.log("object is undefined");
-                this.#writeOutputLines(verb.failure);
+                this.#writeOutputLines(verb.failure, { verb: verbInfo.word });
                 this.#analyticsEvent("unknown_object", {
                     input: cmd,
                 });
@@ -181,23 +183,23 @@ class textAdventureEngine {
             //Do a regular Action (verb)
             if (verb != undefined && object != undefined) {
                 console.log("Action: " + verb.words);
-                console.log("Object: " + objectName);
-                var result = object.actions[verbName];
+                console.log("Object: " + objectInfo.id);
+                var result = object.actions[verbInfo.id];
                 if (this.TBA_DEBUG == true) {
                     console.log(result);
-                    this.#writeOutputLines("Action: " + verbName);
-                    this.#writeOutputLines("Object: " + objectName);
+                    this.#writeOutputLines("Action: " + verbInfo.id);
+                    this.#writeOutputLines("Object: " + objectInfo.id);
                 }
 
                 if (result != undefined) {
-                    let objectVerbAction = object.actions[verbName];
-                    this.#writeOutputLines(objectVerbAction.text);
-                    this.#runActions(objectName, objectVerbAction.commands);
+                    let objectVerbAction = object.actions[verbInfo.id];
+                    this.#writeOutputLines(objectVerbAction.text, { verb: verbInfo.word, object: objectInfo.word });
+                    this.#runActions(objectInfo.id, objectVerbAction.commands);
                     this.#analyticsEvent("command", {
                         input: cmd,
                     });
                 } else {
-                    this.#writeOutputLines(verb.failure);
+                    this.#writeOutputLines(verb.failure, { verb: verbInfo.word, object: objectInfo.word });
                     this.#analyticsEvent("unknown_verb_for_object", {
                         input: cmd,
                     });
@@ -252,7 +254,7 @@ class textAdventureEngine {
     }
 
     #runActions(callingObjectName, actions) {
-        if (actions === undefined) {
+        if (!actions) {
             return;
         }
         if ($.isArray(actions)) {
@@ -265,7 +267,7 @@ class textAdventureEngine {
     }
 
     #parseActionString(callingObjectName, actionString) {
-        if (actionString === undefined) {
+        if (!actionString) {
             return;
         }
         var acts = actionString.split(" ");
@@ -351,28 +353,27 @@ class textAdventureEngine {
     }
 
     #checkForVerb(words) {
-        let verb = undefined;
-        for (var i = 0; i < words.length && verb === undefined; i++) {
-            //console.log( "Checking: "+words[i] );
+        let verbId = undefined;
+        let usedWord = undefined;
+        for (var i = 0; i < words.length && verbId === undefined; i++) {
             $.each(this.#database.verbs, function (key, val) {
-                //console.log( "Key: "+key+ " " + val.words[0] );
                 let test = $.inArray(words[i], val.words);
-                //console.log("test result: "+ test);
                 if (test >= 0) {
-                    verb = key;
+                    verbId = key;
+                    usedWord = words[i];
                     return;
                 }
             });
         }
-        return verb;
+        return {id: verbId, word: usedWord};
     }
 
     #checkForObject(words) {
         var locationState = this.#getLocationState(
             this.#gameState.currentLocation
         );
-        let objectName = undefined;
-
+        let objectId = undefined;
+        let usedWord = undefined;
         // Check room Items
         for (var i = 0; i < words.length; i++) {
             // Check inventory item
@@ -383,8 +384,9 @@ class textAdventureEngine {
                         this.#getObject(this.#gameState.inventory[name]).words
                     );
                     if (test >= 0) {
-                        objectName = name;
-                        return objectName;
+                        objectId = name;
+                        usedWord = words[i];
+                        return {id: objectId, word: usedWord};
                     }
                 }
             }
@@ -393,24 +395,33 @@ class textAdventureEngine {
             $.each(locationState.objects, function (index, name) {
                 let test = $.inArray(words[i], base.#getObject(name).words);
                 if (test >= 0) {
-                    objectName = name;
+                    objectId = name;
+                    usedWord = words[i];
                     return; // exit $.each loop
                 }
             });
-            if (objectName != undefined) {
+            if (objectId != undefined) {
                 break;
             }
         }
-        return objectName;
+        return {id: objectId, word: usedWord};
     }
 
-    #writeOutputLines(lines) {
-        if (!Array.isArray(lines)) {
-            this.outputAddLines(lines);
-        } else {
-            for (var i = 0; i < lines.length; i++) {
-                this.outputAddLines(lines[i]);
-            }
+    #writeOutputLines(lines, placeholderValues = {}) {
+        if (!lines) {
+            return;
+        }
+        if (!$.isArray(lines)) {
+            lines = [lines];
+        }
+        for (var i = 0; i < lines.length; i++) {
+            let line = lines[i];
+            // replace placeholders
+            $.each(placeholderValues, function (key, value) {
+                let regex = new RegExp("\\{" + key + "\\}", "gi");
+                line = line.replace(regex, value);
+            });
+            this.outputAddLines(line);
         }
     }
 

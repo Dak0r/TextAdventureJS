@@ -61,48 +61,92 @@
         },
         "verbs": {
           "look": {
-            "failure": "Sorry you can't see that.",
-            "words": ["look", "view", "watch", "read", "search"]
+            "failure": "Sorry, you can't see that.",
+            "words": ["look", "view", "watch", "read", "search"],
+            "standalone_action": {
+              "text": [],
+              "commands": ["showLocationDescription"]
+            }
           },
           "pickup": {
-            "failure": "Sorry you can't see that.",
-            "words": ["pick", "pickup", "lift", "take", "get", "reach"]
+            "failure": "Sorry, you can't see that.",
+            "words": ["pick", "pickup", "lift", "take", "get", "reach"],
+            "standalone_action": {
+              "text": ["What do you want to {verb}?"],
+              "commands": []
+            }
           },
           "drop": {
             "failure": "How do you want to drop that?",
-            "words": ["drop", "let go"]
+            "words": ["drop", "let go"],
+            "standalone_action": {
+              "text": ["What do you want to {verb}?"],
+              "commands": []
+            }
           },
           "activate": {
-            "failure": "Sorry you can't do that.",
-            "words": ["turn", "power", "switch"]
+            "failure": "Sorry, you can't do that.",
+            "words": ["turn", "power", "switch"],
+            "standalone_action": {
+              "text": ["What do you want to {verb}?"],
+              "commands": []
+            }
           },
           "go": {
-            "failure": "Sorry you can't go there.",
-            "words": ["go", "walk", "run", "goto"]
+            "failure": "Sorry, you can't go there.",
+            "words": ["go", "walk", "run", "goto"],
+            "standalone_action": {
+              "text": ["Where do you want to {verb}?"],
+              "commands": []
+            }
           },
           "open": {
-            "failure": "Sorry you can't open that.",
-            "words": ["open", "break"]
+            "failure": "Sorry, you can't open that.",
+            "words": ["open", "break"],
+            "standalone_action": {
+              "text": ["What do you want to {verb}?"],
+              "commands": []
+            }
           },
           "close": {
-            "failure": "Sorry you can't close that.",
-            "words": ["close", "shut"]
+            "failure": "Sorry, you can't close that.",
+            "words": ["close", "shut"],
+            "standalone_action": {
+              "text": ["What do you want to {verb}?"],
+              "commands": []
+            }
           },
           "jump": {
-            "failure": "Sorry this is not possible.",
-            "words": ["jump"]
+            "failure": "Sorry, this is not possible.",
+            "words": ["jump"],
+            "standalone_action": {
+              "text": ["You jump up and down."],
+              "commands": []
+            }
           },
           "use": {
             "failure": "Well.. this does not work.",
-            "words": ["use", "combine", "throw", "attack"]
+            "words": ["use", "combine", "throw", "attack"],
+            "standalone_action": {
+              "text": ["What do you want to {verb}?"],
+              "commands": []
+            }
           },
           "light": {
             "failure": "Well.. this does not work.",
-            "words": ["light", "burn", "fire"]
+            "words": ["light", "ignite", "burn", "fire"],
+            "standalone_action": {
+              "text": ["What do you want to {verb}?"],
+              "commands": []
+            }
           },
           "remove": {
             "failure": "Well.. this does not work.",
-            "words": ["remove", "break", "split", "destroy"]
+            "words": ["remove", "break", "split", "destroy"],
+            "standalone_action": {
+              "text": ["What do you want to {verb}?"],
+              "commands": []
+            }
           }
         },
         "objects": {

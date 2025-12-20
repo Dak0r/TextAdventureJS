@@ -598,6 +598,17 @@ function generateUiForVerbElement(verbName, verb) {
             });
         })
     );
+
+     editorGui.append(
+        generateTextArea(
+            "Standalone Usage Text",
+            verb.standalone_action.text.join(NEWLINE),
+            function (value) {
+                verb.standalone_action.text = value.split(NEWLINE);
+            }
+        )
+    );
+    editorGui.append(generateFunctionsUI(verb.standalone_action.commands, "Standalone Usage Commands"));
     return editorGui;
 }
 
@@ -1034,9 +1045,9 @@ function generateNewObjectForLocationButton(existingObjects, onClick) {
     return editorGui;
 }
 
-function generateFunctionsUI(actions) {
+function generateFunctionsUI(actions, title="Commands") {
     const editorGui = $("<tr/>");
-    const col1 = $("<td>Commands</td>");
+    const col1 = $("<td>" + title + "</td>");
     const col2 = $("<td/>");
     editorGui.append(col1);
     editorGui.append(col2);
