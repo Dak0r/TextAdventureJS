@@ -127,7 +127,7 @@ class textAdventureEngine {
                 }
             });
             this.#writeOutputLines(
-                "Enter simple directions like","<i>look at wall</i>"
+                ["Enter simple directions like","<i>look at wall</i>"]
             );
             this.#writeOutputLines("Commonly used verbs are: " + allVerbs);
         } else {
