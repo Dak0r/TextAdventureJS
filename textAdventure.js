@@ -217,7 +217,7 @@ class textAdventureEngine {
 
     #analyticsEvent(eventName, eventData = {}) {
         if (this.analyticsFunction) {
-            additionalData = {
+            const additionalData = {
                 currentLocation: this.#gameState.currentLocation,
                 location:
                     this.#gameState.locations[this.#gameState.currentLocation]
