@@ -1,6 +1,6 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://example.com/product.schema.json",
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://dak0r.github.io/TextAdventureJS/textAdventureGameDatabase.schema.json",
   "title": "textAdventure Game Database",
   "description": "A game database for textAdventureJS",
   "definitions": {
