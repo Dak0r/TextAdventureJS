@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -35,6 +35,7 @@
     </style>
 
     <link href="editor-style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/channel-shift.css" />
     <script id="default-db" type="application/json">
       {
         "$schema": "https://dak0r.github.io/TextAdventureJS/textAdventureGameDatabase.schema.json",
@@ -199,7 +200,9 @@
 
   <body>
     <main role="main" class="container">
-      <h1 class="mt-5">textAdventureJS Game Database Editor</h1>
+      <div class="wrapper">
+        <h1 class="channel-shift" data-text="textAdventureJS">textAdventureJS Game Database Editor</h1>
+      </div>
       <div id="drop-area">
         <button class="btn btn-primary" id="btn-new">New Project</button>
         <div
@@ -266,5 +269,13 @@
         </div>
       </div>
     </main>
+    <footer>
+      <p style="text-align: center">
+        by Daniel Korgel -
+        <a href="https://github.com/Dak0r/TextAdventureJS"
+          >https://github.com/Dak0r/TextAdventureJS</a
+        >
+      </p>
+    </footer>
   </body>
 </html>
