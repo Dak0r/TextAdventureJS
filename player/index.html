@@ -11,7 +11,7 @@
          * @param {string} output The output text
          */
         function witeLine(output) {
-          $("#outputArea").val($("#outputArea").val() + output + "\n");
+          $("#outputArea").append(output + "<br />");
           $("#outputArea").scrollTop($("#outputArea")[0].scrollHeight);
           $("#inputButton").prop("disabled", false);
           $("#inputText").prop("readonly", false);
@@ -21,7 +21,7 @@
          * Function that allows the text Adventure engine to clear the output area
          */
         function clearArea() {
-          $("#outputArea").val("");
+          $("#outputArea").html("");
         }
         /**
          * Optional function that allows the text Adventure engine to send analytics events
@@ -29,8 +29,9 @@
          * @param {object} eventData Additional data for the event
          */
         function analyticsFunction(eventName, eventData) {
-          console.log("Analytics event: " + eventName);
-          console.log(eventData);
+          console.log(
+            "Analytics event: " + eventName + " " + JSON.stringify(eventData)
+          );
         }
 
         /**
@@ -43,7 +44,6 @@
           // Output the user input to the output area
           // this is not done by the engine automatically, to allow custom formatting compared to the regular engine output
           witeLine("> " + $("#inputText").val());
-
 
           textAdv.input($("#inputText").val());
           $("#inputText").val("");
@@ -80,13 +80,21 @@
   <body style="font-family: sans-serif">
     <div style="text-align: center">
       <h1>TextAdventureJS</h1>
-      <textarea
+      <div
         id="outputArea"
-        readonly="readonly"
-        style="width: 600px; height: 400px"
+        style="
+          width: 600px;
+          height: 400px;
+          overflow-y: scroll;
+          overflow-x: wrap;
+          border: 1px solid black;
+          margin: auto;
+          text-align: left;
+          padding: 5px;
+        "
       >
-Loading</textarea
-      >
+        Loading
+      </div>
       <br />
       <input id="inputText" type="text" style="width: 500px" /><input
         id="inputButton"

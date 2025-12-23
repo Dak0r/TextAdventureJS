@@ -321,8 +321,8 @@ function generateUiForPreview() {
             '<div style="width: 600px; margin-left: auto; margin-right: auto;"/>'
         );
         previewLog = $(
-            '<textarea id="outputArea" class="modern-textarea" readonly="readonly" style="width: 100%; height: 400px;">Loading</textarea> '
-        );
+                '<div id="outputArea" class="modern-textarea" readonly="readonly" style="width: 100%; height: 400px;">Loading</div> '
+            );
 
         const inputDiv = $(
             '<div style="margin-top: 10px;" class="input-container"/>'
@@ -386,7 +386,7 @@ function startGame() {
 }
 
 function witeLine(output) {
-    previewLog.val(previewLog.val() + output + "\n");
+    previewLog.append(output + "<br />");
     previewLog.scrollTop(previewLog[0].scrollHeight);
     previewInputButton.prop("disabled", false);
     previewInputText.prop("readonly", false);
@@ -395,7 +395,7 @@ function witeLine(output) {
 }
 
 function clearArea() {
-    previewLog.val("");
+    previewLog.html("");
 }
 
 function readUserInput() {
