@@ -1,8 +1,6 @@
 # TODO
 
 1. Minimal example player
-1. Replaced textarea with a div that scrolls
-1. Fancy Player
 1. Inventory: Use ids instead of objects
 2. Progress Save Support: 
     - Add parameter to GameDatabase if it supports saving 

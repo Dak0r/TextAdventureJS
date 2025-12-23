@@ -1,106 +1,54 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <title>TextAdventureJS Player</title>
+    
+    <!-- 
+      TextAdventureJS Engine
+      Use latest release in your own copy: https://dak0r.github.io/TextAdventureJS/textAdventure.js
+     -->
     <script src="../textAdventure.js"></script>
 
+    
+    <!-- Player Interface Styles -->
+      <link rel="stylesheet" href="../css/channel-shift.css" />
+    <link rel="stylesheet" href="./textAdventurePlayer.css" />
+    <!-- Helper Functions for creating the player interface -->
+    <script src="./textAdventurePlayer.js"></script>
+
     <script type="application/javascript">
-      $(document).ready(function () {
-        /**
-         * Function that allows the text Adventure engine to output text to the user
-         * @param {string} output The output text
-         */
-        function witeLine(output) {
-          $("#outputArea").append(output + "<br />");
-          $("#outputArea").scrollTop($("#outputArea")[0].scrollHeight);
-          $("#inputButton").prop("disabled", false);
-          $("#inputText").prop("readonly", false);
-          $("#inputText").focus();
-        }
-        /**
-         * Function that allows the text Adventure engine to clear the output area
-         */
-        function clearArea() {
-          $("#outputArea").html("");
-        }
-        /**
-         * Optional function that allows the text Adventure engine to send analytics events
-         * @param {string} eventName The name of the event
-         * @param {object} eventData Additional data for the event
-         */
-        function analyticsFunction(eventName, eventData) {
-          console.log(
-            "Analytics event: " + eventName + " " + JSON.stringify(eventData)
-          );
-        }
+      var textAdvEngine = undefined; // must be global, so that the helper functions can access it
 
-        /**
-         * Function to read user input from the input field and send it to the text adventure engine
-         */
-        function readUserInput() {
-          $("#inputButton").prop("disabled", true);
-          $("#inputText").prop("readonly", true);
-
-          // Output the user input to the output area
-          // this is not done by the engine automatically, to allow custom formatting compared to the regular engine output
-          witeLine("> " + $("#inputText").val());
-
-          textAdv.input($("#inputText").val());
-          $("#inputText").val("");
+      // Non jquery replacement of jquery's $.ready function
+      function ready(fn) {
+        if (document.readyState !== "loading") {
+          fn();
+        } else {
+          document.addEventListener("DOMContentLoaded", fn);
         }
+      }
 
-        // Set up submit action for the button
-        $("#inputButton").click(function () {
-          readUserInput();
-        });
-        // Set up submit action for the enter key
-        $("#inputText").keypress(function (event) {
-          var keycode = event.keyCode ? event.keyCode : event.which;
-          if (keycode == "13") {
-            // return
-            readUserInput();
-          }
-        });
+      ready(async function () {
+        // Set up the input field and button
+        setupInputFieldEventListeners(); // from textAdventurePlayer.js
 
         // Create the text adventure engine instance and load the game
-        var textAdv = new textAdventureEngine(
-          witeLine,
-          clearArea,
-          analyticsFunction
+        textAdvEngine = new textAdventureEngine(
+          writeLine, // from textAdventurePlayer.js
+          clearArea, // from textAdventurePlayer.js
+          analyticsFunction // from textAdventurePlayer.js
         );
-        textAdv.loadDatabaseFromFile("textadventurejs_teaser.json");
-
-        // Focus the input field to allow typing right away
-        $("#inputText").focus();
-
-        console.log("ready!");
+        await textAdvEngine.loadDatabaseFromFile("textadventurejs_teaser.json");
       });
     </script>
   </head>
   <body style="font-family: sans-serif">
     <div style="text-align: center">
-      <h1>TextAdventureJS</h1>
-      <div
-        id="outputArea"
-        style="
-          width: 600px;
-          height: 400px;
-          overflow-y: scroll;
-          overflow-x: wrap;
-          border: 1px solid black;
-          margin: auto;
-          text-align: left;
-          padding: 5px;
-        "
-      >
-        Loading
-      </div>
+      <div style="display: flex; justify-content: center;"><h1 class="channel-shift" data-text="TextAdventureJS">TextAdventureJS</h1></div>
+      <div id="gameLog" class="gameLog">Loading</div>
       <br />
-      <input id="inputText" type="text" style="width: 500px" /><input
-        id="inputButton"
-        type="button"
-        value="Send"
-      />
+      <input id="playerInput" type="text" style="width: 500px" />
+      <input id="playerSubmitButton" type="button" value="Submit" />
     </div>
   </body>
 </html>

@@ -15,19 +15,13 @@ class textAdventureEngine {
         this.analyticsFunction = analyticsFunction;
     }
 
-    loadDatabaseFromFile(gamedatabasePath, showGameName = true) {
+    async loadDatabaseFromFile(gamedatabasePath, showGameName = true) {
         this.outputClear();
         this.#writeOutputLines("Initializing Text Adventure Engine...");
         let base = this;
-        $.getJSON(gamedatabasePath)
-            .done(function (json) {
-                base.#initDatbase(json, showGameName);
-            })
-            .fail(function (jqxhr, textStatus, error) {
-                var err = textStatus + ", " + error;
-                console.log("Request Failed: " + err);
-                base.outputAddLines("Failed to Load json");
-            });
+        const response = await fetch(gamedatabasePath);
+        const json = await response.json();
+        base.#initDatbase(json, showGameName);
     }
 
     loadDatabaseFromObject(json, showGameName = true) {
@@ -42,26 +36,14 @@ class textAdventureEngine {
 
     #initDatbase(gameDatabaseObject, showGameName = true) {
         this.#database = gameDatabaseObject;
-        var base = this;
+        var that = this;
 
         // init runtime locations
-        $.each(this.#database.locations, function (key, val) {
-            base.#gameState.locations[key] = JSON.parse(JSON.stringify(val)); // deep copy
+        Object.keys(this.#database.locations).forEach(function (key, index) {
+            const val = that.#database.locations[key];
+            that.#gameState.locations[key] = JSON.parse(JSON.stringify(val)); // deep copy
         });
 
-        if (this.TBA_DEBUG) {
-            $.each(this.#database.verbs, function (name, item) {
-                base.outputAddLines("Loaded Action: " + name);
-            });
-            $.each(this.#database.objects, function (name, item) {
-                base.outputAddLines("Loaded Object: " + name);
-            });
-            $.each(this.#gameState.locations, function (name, item) {
-                base.outputAddLines("Loaded Location: " + name);
-            });
-
-            this.#writeOutputLines("Loading done.");
-        }
         if (showGameName) {
             this.outputClear();
             this.#writeOutputLines([
@@ -117,7 +99,9 @@ class textAdventureEngine {
             cmd == "what do"
         ) {
             var allVerbs = "";
-            $.each(this.#database.verbs, function (name, val) {
+            const that = this;
+            Object.keys(this.#database.verbs).forEach(function (name, index) {
+                const val = that.#database.verbs[name];
                 if (allVerbs != "") {
                     allVerbs += ", " + name;
                 } else {
@@ -268,7 +252,7 @@ class textAdventureEngine {
         if (!actions) {
             return;
         }
-        if ($.isArray(actions)) {
+        if (Array.isArray(actions)) {
             for (var i = 0; i < actions.length; i++) {
                 this.#parseActionString(callingObjectName, actions[i]);
             }
@@ -366,9 +350,10 @@ class textAdventureEngine {
     #checkForVerb(words) {
         let verbId = undefined;
         let usedWord = undefined;
+        const that = this;
         for (var i = 0; i < words.length && verbId === undefined; i++) {
-            $.each(this.#database.verbs, function (key, val) {
-                let test = $.inArray(words[i], val.words);
+            Object.keys(this.#database.verbs).forEach(function (key, index) {
+                const test = that.#database.verbs[key].words.indexOf(words[i]);
                 if (test >= 0) {
                     verbId = key;
                     usedWord = words[i];
@@ -390,10 +375,9 @@ class textAdventureEngine {
             // Check inventory item
             if (Object.keys(this.#gameState.inventory).length > 0) {
                 for (var name in this.#gameState.inventory) {
-                    let test = $.inArray(
-                        words[i],
-                        this.#getObject(this.#gameState.inventory[name]).words
-                    );
+                    const test = this.#getObject(
+                        this.#gameState.inventory[name]
+                    ).words.indexOf(words[i]);
                     if (test >= 0) {
                         objectId = name;
                         usedWord = words[i];
@@ -402,13 +386,13 @@ class textAdventureEngine {
                 }
             }
             // check for objects in room
-            var base = this;
-            $.each(locationState.objects, function (index, name) {
-                let test = $.inArray(words[i], base.#getObject(name).words);
+            const that = this;
+            locationState.objects.forEach(function (name, index) {
+                const test = that.#getObject(name).words.indexOf(words[i]);
                 if (test >= 0) {
                     objectId = name;
                     usedWord = words[i];
-                    return; // exit $.each loop
+                    return; // break out of forEach
                 }
             });
             if (objectId != undefined) {
@@ -418,20 +402,22 @@ class textAdventureEngine {
         return { id: objectId, word: usedWord };
     }
 
-    #writeOutputLines(lines, placeholderValues = {}) {
+    #writeOutputLines(lines, placeholderValues = undefined) {
         if (!lines) {
             return;
         }
-        if (!$.isArray(lines)) {
+        if (!Array.isArray(lines)) {
             lines = [lines];
         }
         for (var i = 0; i < lines.length; i++) {
             let line = lines[i];
             // replace placeholders
-            $.each(placeholderValues, function (key, value) {
-                let regex = new RegExp("\\{" + key + "\\}", "gi");
-                line = line.replace(regex, value);
-            });
+            if (placeholderValues) {
+                Object.keys(placeholderValues).forEach(function (key, index) {
+                    let regex = new RegExp("\\{" + key + "\\}", "gi");
+                    line = line.replace(regex, placeholderValues[key]);
+                });
+            }
             this.outputAddLines(line);
         }
     }
@@ -450,10 +436,9 @@ class textAdventureEngine {
             // Check inventory item
             if (Object.keys(this.#gameState.inventory).length > 0) {
                 for (var index in this.#gameState.inventory) {
-                    let test = $.inArray(
-                        words[i],
-                        this.#getObject(this.#gameState.inventory[index]).words
-                    );
+                    const test = this.#getObject(
+                        this.#gameState.inventory[index]
+                    ).words.indexOf(words[i]);
                     if (test >= 0) {
                         value = this.#gameState.inventory[index];
                         founds++;
@@ -463,14 +448,13 @@ class textAdventureEngine {
             }
             if (!isInventoryItem) {
                 // check for objects in room
-                var base = this;
-                $.each(locationState.objects, function (index, val) {
-                    let test = $.inArray(
-                        words[i],
-                        base.#database.objects[val].words
+                var that = this;
+                locationState.objects.forEach(function (val, index) {
+                    const test = that.#database.objects[val].words.indexOf(
+                        words[i]
                     );
                     if (test >= 0) {
-                        value = base.#database.objects[val];
+                        value = that.#database.objects[val];
                         founds++;
                         return;
                     }

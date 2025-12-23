@@ -1,11 +1,4 @@
-.wrapper {
-  display: flex;
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-
 .channel-shift {
-  color: rgb(255, 255, 255);
   position: relative;
   padding: 0 0 0 0;
   &:before,

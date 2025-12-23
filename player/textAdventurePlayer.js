@@ -1,0 +1,94 @@
+/**
+ * TextAdventureJS Player JavaScript Helper Functions
+ *
+ * The textAdventure Engine is not modifying your page directly, the integration has to provide functions for these tasks.
+ * This file provides default implementations which can be that can be used as a reference for building your own player.
+ */
+
+/**
+ * Function that allows the text Adventure engine to output text to the player
+ * @param {string} output The output text
+ */
+function writeLine(output) {
+    const gameLog = document.getElementById("gameLog");
+
+    gameLog.innerHTML += output + "<br />";
+    // Scroll to the bottom
+    gameLog.scrollTop = gameLog.scrollHeight;
+
+    // Enforce focus on the input field, so the user can continue typing
+    const playerInput = document.getElementById("playerInput");
+    playerInput.focus();
+}
+
+/**
+ * Function that allows the text Adventure engine to clear the output area
+ */
+function clearArea() {
+    const gameLog = document.getElementById("gameLog");
+    gameLog.innerHTML = "";
+    gameLog.scrollTop = gameLog.scrollHeight;
+}
+
+/**
+ * Optional function that allows the text Adventure engine to send analytics events
+ * @param {string} eventName The name of the event
+ * @param {object} eventData Additional data for the event
+ */
+function analyticsFunction(eventName, eventData) {
+    console.log(
+        "Analytics event: " + eventName + " " + JSON.stringify(eventData)
+    );
+}
+
+/**
+ * Function to read player input from the input field and send it to the text adventure engine
+ */
+function readUserInput() {
+    const playerSubmitButton = document.getElementById("playerSubmitButton");
+    const playerInput = document.getElementById("playerInput");
+
+    const playerInputValue = playerInput.value.trim();
+    if (playerInputValue === "") {
+        // Ignore empty input
+        return;
+    }
+
+    // Disable the input field and submit button while processing the input
+    playerSubmitButton.disabled = true;
+    playerInput.readOnly = true;
+
+    // Output the user input to the output area
+    // this is not done by the engine automatically, to allow custom handling and formatting if desired
+    writeLine("> " + playerInputValue);
+
+    // Send the input to the text adventure engine for processing
+    textAdvEngine.input(playerInputValue);
+
+    // Clear the input field for the next input
+    playerInput.value = "";
+    playerSubmitButton.disabled = false;
+    playerInput.readOnly = false;
+}
+
+/**
+ * Function to set up the input field and submit button event listeners
+ */
+function setupInputFieldEventListeners() {
+    const playerSubmitButton = document.getElementById("playerSubmitButton");
+    const playerInput = document.getElementById("playerInput");
+
+    // Set up submit action for the button
+    playerSubmitButton.addEventListener("click", function () {
+        readUserInput();
+    });
+
+    // Set up submit action for the enter key, so that the button is not needed
+    playerInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            readUserInput();
+        }
+    });
+
+    playerInput.focus();
+}
