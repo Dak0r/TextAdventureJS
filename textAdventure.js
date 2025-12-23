@@ -65,11 +65,9 @@ class textAdventureEngine {
         if (showGameName) {
             this.outputClear();
             this.#writeOutputLines([
-                "'" +
-                    this.#database.general.title +
-                    "' by " +
-                    this.#database.general.author,
+                "Game: " + this.#database.general.title,
                 "Version: " + this.#database.general.version,
+                "Author: " + this.#database.general.author,
                 "",
             ]);
         } else {
@@ -126,9 +124,10 @@ class textAdventureEngine {
                     allVerbs += name;
                 }
             });
-            this.#writeOutputLines(
-                ["Enter simple directions like","<i>look at wall</i>"]
-            );
+            this.#writeOutputLines([
+                "Enter simple directions like",
+                "<i>look at wall</i>",
+            ]);
             this.#writeOutputLines("Commonly used verbs are: " + allVerbs);
         } else {
             const words = cmd.split(" ");
@@ -160,10 +159,16 @@ class textAdventureEngine {
             // verb as standalone action
             if (verb != undefined && words.length === 1) {
                 console.log("Standalone Action: " + verbInfo.id);
-                this.#writeOutputLines(this.#database.verbs[verbInfo.id].standalone_action.text, {   verb: verbInfo.word  });
-                this.#runActions(undefined, this.#database.verbs[verbInfo.id].standalone_action.commands);
+                this.#writeOutputLines(
+                    this.#database.verbs[verbInfo.id].standalone_action.text,
+                    { verb: verbInfo.word }
+                );
+                this.#runActions(
+                    undefined,
+                    this.#database.verbs[verbInfo.id].standalone_action.commands
+                );
                 this.#analyticsEvent("command", {
-                        input: cmd,
+                    input: cmd,
                 });
                 this.#showRequest();
                 return;
@@ -193,13 +198,19 @@ class textAdventureEngine {
 
                 if (result != undefined) {
                     let objectVerbAction = object.actions[verbInfo.id];
-                    this.#writeOutputLines(objectVerbAction.text, { verb: verbInfo.word, object: objectInfo.word });
+                    this.#writeOutputLines(objectVerbAction.text, {
+                        verb: verbInfo.word,
+                        object: objectInfo.word,
+                    });
                     this.#runActions(objectInfo.id, objectVerbAction.commands);
                     this.#analyticsEvent("command", {
                         input: cmd,
                     });
                 } else {
-                    this.#writeOutputLines(verb.failure, { verb: verbInfo.word, object: objectInfo.word });
+                    this.#writeOutputLines(verb.failure, {
+                        verb: verbInfo.word,
+                        object: objectInfo.word,
+                    });
                     this.#analyticsEvent("unknown_verb_for_object", {
                         input: cmd,
                     });
@@ -365,7 +376,7 @@ class textAdventureEngine {
                 }
             });
         }
-        return {id: verbId, word: usedWord};
+        return { id: verbId, word: usedWord };
     }
 
     #checkForObject(words) {
@@ -386,7 +397,7 @@ class textAdventureEngine {
                     if (test >= 0) {
                         objectId = name;
                         usedWord = words[i];
-                        return {id: objectId, word: usedWord};
+                        return { id: objectId, word: usedWord };
                     }
                 }
             }
@@ -404,7 +415,7 @@ class textAdventureEngine {
                 break;
             }
         }
-        return {id: objectId, word: usedWord};
+        return { id: objectId, word: usedWord };
     }
 
     #writeOutputLines(lines, placeholderValues = {}) {

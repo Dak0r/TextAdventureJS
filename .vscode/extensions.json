@@ -1,6 +1,8 @@
 {
     "recommendations": [
         "tberman.json-schema-validator",
-        "ms-vscode.live-server"
+        "ms-vscode.live-server",
+        "wayou.vscode-todo-highlight",
+        "esbenp.prettier-vscode"
     ]
 }
