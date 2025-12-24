@@ -30,7 +30,7 @@ $(document).ready(function () {
     // Create a hidden file input to support click-to-open
     if ($("#fileInput").length === 0) {
         const hiddenFileInput = $(
-            '<input type="file" id="fileInput" accept=".json,.tadb.json" style="display:none" />'
+            '<input type="file" id="fileInput" accept=".json" style="display:none" />'
         );
         $("body").append(hiddenFileInput);
         hiddenFileInput.on("change", function () {
@@ -381,17 +381,20 @@ function generateUiForPreview() {
 }
 
 function startGame() {
-    textAdv = new textAdventureEngine(witeLine, clearArea);
+    textAdv = new textAdventureEngine(writeLine, clearArea);
     textAdv.loadDatabaseFromObject(TBA_DATABASE);
 }
 
-function witeLine(output) {
+function writeLine(output) {
+    previewLog.delay(100).queue(function(next){
     previewLog.append(output + "<br />");
     previewLog.scrollTop(previewLog[0].scrollHeight);
     previewInputButton.prop("disabled", false);
     previewInputText.prop("readonly", false);
     previewInputText.focus();
     updatePreviewSideBar();
+    next();
+    });
 }
 
 function clearArea() {
@@ -402,7 +405,7 @@ function readUserInput() {
     previewInputButton.prop("disabled", true);
     previewInputText.prop("readonly", true);
     const input = previewInputText.val();
-    witeLine("> " + input);
+    writeLine("> " + input);
     textAdv.input(input);
     previewInputText.val("");
 }

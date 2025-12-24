@@ -2,35 +2,24 @@
   <head>
     <meta charset="UTF-8" />
     <title>TextAdventureJS Player</title>
-    
+
     <!-- 
       TextAdventureJS Engine
       Use latest release in your own copy: https://dak0r.github.io/TextAdventureJS/textAdventure.js
      -->
     <script src="../textAdventure.js"></script>
 
-    
     <!-- Player Interface Styles -->
-      <link rel="stylesheet" href="../css/channel-shift.css" />
+    <link rel="stylesheet" href="../css/channel-shift.css" />
     <link rel="stylesheet" href="./textAdventurePlayer.css" />
     <!-- Helper Functions for creating the player interface -->
     <script src="./textAdventurePlayer.js"></script>
 
     <script type="application/javascript">
-      var textAdvEngine = undefined; // must be global, so that the helper functions can access it
-
-      // Non jquery replacement of jquery's $.ready function
-      function ready(fn) {
-        if (document.readyState !== "loading") {
-          fn();
-        } else {
-          document.addEventListener("DOMContentLoaded", fn);
-        }
-      }
-
       ready(async function () {
-        // Set up the input field and button
-        setupInputFieldEventListeners(); // from textAdventurePlayer.js
+        // Functions below are dfeined in textAdventurePlayer.js
+        setupEventListenersForGameSelection(); // Set up listeners for opening a different game file
+        setupInputFieldEventListeners(); // Set up the input field and button listeners required for the game
 
         // Create the text adventure engine instance and load the game
         textAdvEngine = new textAdventureEngine(
@@ -38,17 +27,47 @@
           clearArea, // from textAdventurePlayer.js
           analyticsFunction // from textAdventurePlayer.js
         );
-        await textAdvEngine.loadDatabaseFromFile("textadventurejs_teaser.json");
+        await textAdvEngine.loadDatabaseFromFile(
+          "./textadventurejs_teaser.json"
+        );
       });
     </script>
   </head>
-  <body style="font-family: sans-serif">
-    <div style="text-align: center">
-      <div style="display: flex; justify-content: center;"><h1 class="channel-shift" data-text="TextAdventureJS">TextAdventureJS</h1></div>
-      <div id="gameLog" class="gameLog">Loading</div>
+  <body>
+    <header>
+      <h1 class="channel-shift" data-text="TextAdventureJS">TextAdventureJS</h1>
+    </header>
+    <main>
+      <!-- Ui for opening other game files-->
+      <button
+        id="loadGameFile"
+        class="btn"
+        style="height: 30px; margin: 0 auto 10 auto"
+      >
+        Load Game File
+      </button>
+      <input type="file" id="fileInput" accept=".json" style="display: none" />
+
+      <!--TextAdventure Player UI -->
+      <div id="gameLog" class="modern-textarea">Loading</div>
       <br />
-      <input id="playerInput" type="text" style="width: 500px" />
-      <input id="playerSubmitButton" type="button" value="Submit" />
-    </div>
+      <input
+        id="playerInput"
+        class="modern-input"
+        type="text"
+        style="width: 100%"
+      />
+      <button id="playerSubmitButton" class="button-in-input" type="button">
+        ⏎
+      </button>
+    </main>
+    <footer>
+      <p style="text-align: center">
+        by Daniel Korgel -
+        <a href="https://github.com/Dak0r/TextAdventureJS"
+          >https://github.com/Dak0r/TextAdventureJS</a
+        >
+      </p>
+    </footer>
   </body>
 </html>

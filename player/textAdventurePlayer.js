@@ -5,20 +5,27 @@
  * This file provides default implementations which can be that can be used as a reference for building your own player.
  */
 
+var textAdvEngine = undefined;
+var messageQueueCount = 0;
+
 /**
  * Function that allows the text Adventure engine to output text to the player
  * @param {string} output The output text
  */
 function writeLine(output) {
     const gameLog = document.getElementById("gameLog");
+    // delay messages a bit. With jQuery messageQueueCount is not needed, as you could use $(...).delay(100).queue(...) 
+    messageQueueCount++;
+    setTimeout(function () {
+        gameLog.innerHTML += output + "<br />";
+        // Scroll to the bottom
+        gameLog.scrollTop = gameLog.scrollHeight;
 
-    gameLog.innerHTML += output + "<br />";
-    // Scroll to the bottom
-    gameLog.scrollTop = gameLog.scrollHeight;
-
-    // Enforce focus on the input field, so the user can continue typing
-    const playerInput = document.getElementById("playerInput");
-    playerInput.focus();
+        // Enforce focus on the input field, so the user can continue typing
+        const playerInput = document.getElementById("playerInput");
+        playerInput.focus();
+        messageQueueCount--;
+    }, 100 * messageQueueCount);
 }
 
 /**
@@ -91,4 +98,51 @@ function setupInputFieldEventListeners() {
     });
 
     playerInput.focus();
+}
+
+/**
+ * Sets up Event Listener for opening any game file json from the UI
+ */
+function setupEventListenersForGameSelection() {
+    const fileInput = document.getElementById("fileInput");
+    fileInput.addEventListener("change", function () {
+        const file = this.files && this.files[0];
+        this.value = null;
+        if (!file) {
+            return;
+        }
+        reader = new FileReader();
+        // Handle successful read and catch JSON/initialization errors
+        reader.onload = function (event) {
+            try {
+                console.log(event.target);
+                const jsonObj = JSON.parse(event.target.result);
+                textAdvEngine.loadDatabaseFromObject(jsonObj);
+            } catch (err) {
+                console.error("Error initializing database from file:", err);
+                alert(
+                    "Error loading file '" +
+                        (file && file.name ? file.name : "") +
+                        "': " +
+                        (err && err.message ? err.message : err)
+                );
+            }
+        };
+        reader.readAsText(file);
+    });
+    const loadGameFileButton = document.getElementById("loadGameFile");
+    loadGameFileButton.addEventListener("click", function () {
+        fileInput.click();
+    });
+}
+
+/** 
+ * Non jquery replacement of jquery's $.ready function
+ */
+function ready(fn) {
+    if (document.readyState !== "loading") {
+        fn();
+    } else {
+        document.addEventListener("DOMContentLoaded", fn);
+    }
 }

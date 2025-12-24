@@ -2,40 +2,65 @@
 
 A text based adventure engine written in Javascript.
 
-Here's a basic example, that is included in this Repositroy:
-https://dak0r.github.io/TextAdventureJS/example.html
+Here's an example player, that is included in this Repositroy:
+https://dak0r.github.io/TextAdventureJS/player/
+
+This repo also provides a full editor including debugger functionality for creating your own games:
+https://dak0r.github.io/TextAdventureJS/editor/
 
 A different project, that uses TextAdventureJS can be found on my website:
 https://www.danielkorgel.com
 
+### Dependencies
+
+The library and the player are written in pure JavaScript.
+The Editor uses jquery for convinience.
+
 ## Usage
 
-See `example.html` for a working minimal example.
+A barebones example that uses jquery:
 
 ```js
 // Defines where to write output
 function witeLine(outputLine) {
-  $("#outputArea").append(outputLine);
+  $("#gameLog").append(outputLine + "<br />");
 }
-// Clears output area
+// Clears written output from the area
 function clearArea() {
-  $("#outputArea").val("");
+  $("#gameLog").html("");
+}
+// Read user input
+function readInput() {
+  const inputText = $("#inputField").val().trim();
+  writeLine(inputText);
+  textAdv.input(inputText);
+  $("#inputField").val("");
 }
 
-// Init engine and load a game
-var textAdv = new textAdventureEngine(witeLine, clearArea);
-textAdv.loadDatabaseFromFile("game.TADB.json");
+// Add event handler for reading user input:
+$("#submit").click(function() { readInput(); });
 
-// Send Input to game
-textAdv.input("look at cookie");
+// Init textAdventureJS and load a game
+var textAdvEngine = new textAdventureEngine(witeLine, clearArea);
+textAdvEngine.loadDatabaseFromFile("game.json");
 ```
+with this html:
+
+```html
+<div id="gameLog"></div>
+<input id="inputField" type="text"/>
+<button id="submit">Submit</button>
+```
+
+See [player/index.html](./player/index.html) for a more complex example.
 
 ## Game Database
 
-A Text Adventure Database (TADB) is JSON file which describes games that can run in the TextAdventureJS Engine.
+A Text Adventure Game Database is JSON file which describes games that can run in the TextAdventureJS Engine.
 
-`.tadb.json` files can be validated using the JSON schema in this repo: `textAdventureDatabase.schema.json`.
-The schema also includes descriptions for the properties. I recommend using the [JSON Schema Validator](https://marketplace.visualstudio.com/items?itemName=tberman.json-schema-validator) for this task.
+These game files can be validated using the JSON schema in this repo: [textAdventureGameDatabase.schema.json](./textAdventureGameDatabase.schema.json).
+
+ I recommend using the [JSON Schema Validator](https://marketplace.visualstudio.com/items?itemName=tberman.json-schema-validator), if editing the json files manually.
 
 ## Concept
 
@@ -97,11 +122,11 @@ Existing placeholders are:
 
 ### Commands
 
-Commands can be used in actions to modify the current location or the plazers inventory.
+Commands must be used for any logic that goes beyond outputting text. You can change locations, add and remove objects from location or the players inventory and more.
 
-#### 'this' in function parameters
+#### 'this' in command parameters
 
-If the function should affect the object that the action is defined on, you can refer to it using `this` instead of its nanme.
+If the command is supposed to affect the object that the action is defined on, you can refer to it using `this` instead of its unique nanme.
 
 #### objectRemoveFromLocation
 
@@ -169,7 +194,7 @@ Removes the item from users inventory
 
 ### Analytics
 
-TextAdventureJS does not come with any analytics. Though it allows to provide an a function which is called for pre-defined analytics related events related to the command parser.
+TextAdventureJS does not come with any analytics. Though it allows to provide a function which is then called for pre-defined analytics related events. The events are all related to the command parser, with the intention to improve the games based on player data.
 
 Defined events are:
 
