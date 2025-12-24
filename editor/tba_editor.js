@@ -421,11 +421,12 @@ function updatePreviewSideBar() {
     ) {
         inventoryList.append($("<li>(empty)</li>"));
     } else {
-        $.each(Object.keys(inv), function (i, objectName) {
+        $.each(inv, function (i, objectName) {
             const invObj = $("<li>" + objectName + "</li>");
             const removeButton = button("✖", "btn-error btn-ghost small-btn");
             removeButton.click(function () {
-                delete gameState.inventory[objectName];
+                const index = gameState.inventory.indexOf(objectName);
+                gameState.inventory.splice(index, 1);
                 updatePreviewSideBar();
             });
             invObj.append(removeButton);
@@ -435,7 +436,7 @@ function updatePreviewSideBar() {
     const addToInv = generateNewObjectForLocationButton(
         gameState.inventory,
         function (obj) {
-            gameState.inventory[obj] = TBA_DATABASE.objects[obj];
+            gameState.inventory.push(obj);
             updatePreviewSideBar();
         }
     );

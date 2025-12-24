@@ -5,7 +5,7 @@ class textAdventureEngine {
 
     #gameState = {
         locations: {},
-        inventory: {},
+        inventory: [],
         currentLocation: null,
     };
 
@@ -80,7 +80,7 @@ class textAdventureEngine {
         console.log("Stripped command of parser: '" + cmd + "'");
 
         if (cmd == "welcome") {
-            this.#gameState.inventory = {};
+            this.#gameState.inventory = [];
             if (this.#database.general.start.text.length > 0) {
                 this.#writeOutputLines(this.#database.general.start.text);
             }
@@ -122,12 +122,7 @@ class textAdventureEngine {
 
             const objectInfo = this.#checkForObject(words);
 
-            let object = undefined;
-            if (this.#gameState.inventory[objectInfo.id] != undefined) {
-                object = this.#gameState.inventory[objectInfo.id];
-            } else {
-                object = this.#database.objects[objectInfo.id];
-            }
+            const object = this.#database.objects[objectInfo.id];
 
             //no action
             if (verb == undefined && object != undefined) {
@@ -217,7 +212,7 @@ class textAdventureEngine {
                 location:
                     this.#gameState.locations[this.#gameState.currentLocation]
                         .objects,
-                inventory: Object.keys(this.#gameState.inventory), // TODO: Object.Keys not needed, once inventory only stores names
+                inventory: this.#gameState.inventory,
             };
             eventData = { ...eventData, ...additionalData };
             this.analyticsFunction(eventName, eventData);
@@ -237,10 +232,10 @@ class textAdventureEngine {
         }
         this.#writeOutputLines(fullLocationDescription);
 
-        if (Object.keys(this.#gameState.inventory).length > 0) {
-            for (var index in this.#gameState.inventory) {
-                let currentItemDescription =
-                    this.#gameState.inventory[index].locationDescription;
+        if (this.#gameState.inventory.length > 0) {
+            for (let i=0; i<this.#gameState.inventory.length; i++) {
+                const objectId = this.#gameState.inventory[i];
+                const currentItemDescription = this.#getObject(objectId).locationDescription;
                 if (currentItemDescription.length > 0) {
                     this.#writeOutputLines(currentItemDescription);
                 }
@@ -327,11 +322,13 @@ class textAdventureEngine {
             this.#writeLocationDescription(currentRoomState.objects);
         } else if (acts[0] == "inventoryAdd") {
             console.log("Add or replace inventory item: " + acts[1]);
-            this.#gameState.inventory[acts[1]] =
-                this.#database.objects[acts[1]]; //TODO: it would be enough to just store the name, just like with locations
+            this.#gameState.inventory.push(acts[1]);
         } else if (acts[0] == "inventoryRemove") {
             console.log("Remove inventory object, if it exists " + acts[1]);
-            delete this.#gameState.inventory[acts[1]];
+            const index = this.#gameState.inventory.indexOf(acts[1]);
+            if(index > 0) {
+                this.#gameState.inventory.splice(index, 1);
+            }
         }
     }
 
@@ -373,13 +370,13 @@ class textAdventureEngine {
         // Check room Items
         for (var i = 0; i < words.length; i++) {
             // Check inventory item
-            if (Object.keys(this.#gameState.inventory).length > 0) {
-                for (var name in this.#gameState.inventory) {
+            if (this.#gameState.inventory.length > 0) {
+                for (let invIndex=0; invIndex<this.#gameState.inventory.length; invIndex++) {
                     const test = this.#getObject(
-                        this.#gameState.inventory[name]
+                        this.#gameState.inventory[invIndex]
                     ).words.indexOf(words[i]);
                     if (test >= 0) {
-                        objectId = name;
+                        objectId = this.#gameState.inventory[invIndex];
                         usedWord = words[i];
                         return { id: objectId, word: usedWord };
                     }
@@ -434,13 +431,12 @@ class textAdventureEngine {
         for (var i = 0; i < words.length; i++) {
             let isInventoryItem = false;
             // Check inventory item
-            if (Object.keys(this.#gameState.inventory).length > 0) {
-                for (var index in this.#gameState.inventory) {
-                    const test = this.#getObject(
-                        this.#gameState.inventory[index]
-                    ).words.indexOf(words[i]);
+            if (this.#gameState.inventory.length > 0) {
+                for (let i; i<this.#gameState.inventory.length; i++) {
+                    const objectId = this.#gameState.inventory[i];
+                    const test = this.#getObject(objectId).words.indexOf(words[i]);
                     if (test >= 0) {
-                        value = this.#gameState.inventory[index];
+                        value = objectId;
                         founds++;
                         isInventoryItem = true;
                     }

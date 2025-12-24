@@ -1,7 +1,6 @@
 # TODO
 
-1. Inventory: Use ids instead of objects
-2. Progress Save Support: 
+1. Progress Save Support: 
     - Add parameter to GameDatabase if it supports saving 
     - Save current game state to browser on every change (also include name of database file, in case multiloading is supported)
     - Load saved state on init
