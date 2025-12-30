@@ -156,11 +156,34 @@
         }
       },
       "useableObjects": {}
+    },
+    "door_to_second_room": {
+      "words": ["door", "north", "up"],
+      "locationDescription": "A door is leading north.",
+      "actions": {
+        "go": {
+          "text": ["You walk through the door."],
+          "commands": ["gotoLocation second_room"]
+        }
+      }
+    },
+    "door_to_first_room": {
+      "words": ["door", "south", "down"],
+      "locationDescription": "A door is leading south.",
+      "actions": {
+        "go": {
+          "text": ["You walk through the door."],
+          "commands": ["gotoLocation first_room"]
+        }
+      }
     }
   },
   "locations": {
     "first_room": {
-      "objects": ["template_object"]
+      "objects": ["template_object", "door_to_second_room"]
+    },
+    "second_room": {
+      "objects": ["door_to_first_room"]
     }
   }
 }
