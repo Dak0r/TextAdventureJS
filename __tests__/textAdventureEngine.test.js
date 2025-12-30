@@ -58,6 +58,22 @@ describe('textAdventureEngine parser & action integration tests (using template)
     expect(stored).not.toBeNull();
   });
 
+  test('go north moves player to second_room and shows descriptions', () => {
+    engine.input('go north');
+    const gs = engine.devGetGameState();
+    expect(gs.currentLocation).toBe('second_room');
+    const walked = outputs.find((l) => l.includes('You walk through the door.'));
+    expect(walked).toBeDefined();
+    const desc = outputs.find((l) => l.includes('A door is leading south.'));
+    expect(desc).toBeDefined();
+  });
+
+  test('go unknown location shows failure', () => {
+    engine.input('go nowhere');
+    const found = outputs.find((l) => l.includes(sampleGame.verbs.go.failure));
+    expect(found).toBeDefined();
+  });
+
   // Additional parser edge-case tests
   test('ignored words like "at" are stripped', () => {
     engine.input('look at object');
