@@ -192,6 +192,15 @@ inventoryRemove this
 
 Removes the item from users inventory
 
+#### restartGame
+
+```
+restartGame
+```
+
+Restarts the game. If a game save exits, it is deleted.
+Can be used to restart the game on demand or when the game was finished.
+
 ### Analytics
 
 TextAdventureJS does not come with any analytics. Though it allows to provide a function which is then called for pre-defined analytics related events. The events are all related to the command parser, with the intention to improve the games based on player data.

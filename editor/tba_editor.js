@@ -21,6 +21,7 @@ const FUNCTIONS = {
     objectReplaceInLocation: ["object", "object"],
     inventoryAdd: ["object"],
     inventoryRemove: ["object"],
+    restartGame: [],
 };
 
 var type;
