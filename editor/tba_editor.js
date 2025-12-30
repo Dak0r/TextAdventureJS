@@ -1,6 +1,7 @@
 TBA_DATABASE = undefined;
 
 var filename = undefined;
+var fileHandle = undefined; // FileSystemFileHandle when available (File System Access API)
 
 var textAdv = undefined;
 
@@ -35,7 +36,11 @@ $(document).ready(function () {
         $("body").append(hiddenFileInput);
         hiddenFileInput.on("change", function () {
             const file = this.files && this.files[0];
-            if (file) importFile(file);
+            if (file) {
+                // when the hidden input is used, we don't have a FileSystem handle
+                fileHandle = undefined;
+                importFile(file);
+            }
             this.value = null;
         });
     }
@@ -61,12 +66,52 @@ $(document).ready(function () {
         $(".file-drop-area").removeClass("drag-active");
 
         var file = e.originalEvent.dataTransfer.files[0];
+        // drag/drop does not expose a FileSystem handle
+        fileHandle = undefined;
         importFile(file);
     });
 
     // allow clicking the area to open a file picker (hidden input appended below)
-    $(".file-drop-area").on("click", function () {
-        $("#fileInput").click();
+    $(".file-drop-area").on("click", async function (e) {
+        // prevent any default action (e.g., if this is inside a form or link)
+        if (e && typeof e.preventDefault === 'function') e.preventDefault();
+        if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+
+        // Prefer the File System Access API when available so we can keep a file handle
+        if (window.showOpenFilePicker) {
+            try {
+                const [handle] = await window.showOpenFilePicker({
+                    multiple: false,
+                    types: [
+                        {
+                            description: 'JSON',
+                            accept: { 'application/json': ['.json', '.tadb.json'] },
+                        },
+                    ],
+                });
+                try {
+                    const file = await handle.getFile();
+                    filename = file.name;
+                    fileHandle = handle;
+                    importFile(file);
+                } catch (fileErr) {
+                    console.error('Error reading file from handle:', fileErr);
+                    alert('Failed to read selected file.');
+                }
+            } catch (err) {
+                // If the user cancelled the native picker (AbortError) or the action is not allowed,
+                // do not automatically fall back to the hidden input (this was causing the second
+                // picker to appear). Only fall back for unexpected errors.
+                if (err && (err.name === 'AbortError' || err.name === 'NotAllowedError' || err.name === 'SecurityError')) {
+                    console.log('Open file picker cancelled by user.');
+                } else {
+                    // Unexpected failure, fall back to the classic input element
+                    $("#fileInput").click();
+                }
+            }
+        } else {
+            $("#fileInput").click();
+        }
     });
     // keyboard support: Enter or Space opens file picker when area is focused
     $(".file-drop-area").on("keypress", function (e) {
@@ -77,7 +122,12 @@ $(document).ready(function () {
             e.keyCode === 32
         ) {
             e.preventDefault();
-            $("#fileInput").click();
+            if (window.showOpenFilePicker) {
+                // mimic click handler behaviour but keep it simple for keyboard
+                $(".file-drop-area").click();
+            } else {
+                $("#fileInput").click();
+            }
         }
     });
     $("#btn-new").click(() => {
@@ -90,8 +140,8 @@ $(document).ready(function () {
             }
         });
     });
-    $("#btn-save").click(() => {
-        download(JSON.stringify(TBA_DATABASE, null, 2), filename, "text/plain");
+    $("#btn-save").click(async () => {
+        await download(JSON.stringify(TBA_DATABASE, null, 2), filename, "application/json");
     });
     $("#btn-close").click(() => {
         if (
@@ -117,6 +167,9 @@ $(document).ready(function () {
 });
 
 function importFile(file) {
+    // Clear any previously stored file handle when importing via drag or input
+    fileHandle = fileHandle && fileHandle.name === file.name ? fileHandle : undefined;
+
     reader = new FileReader();
 
     // Handle successful read and catch JSON/initialization errors
@@ -155,12 +208,88 @@ function importFile(file) {
     reader.readAsText(file);
 }
 
-function download(content, fileName, contentType) {
-    var a = document.createElement("a");
-    var file = new Blob([content], { type: contentType });
-    a.href = URL.createObjectURL(file);
-    a.download = fileName;
+async function download(content, fileName, contentType) {
+    const blob = new Blob([content], { type: contentType });
+
+    // If we have a FileSystemFileHandle (from showOpenFilePicker) or the browser supports
+    // showSaveFilePicker, prefer writing directly to disk.
+    if (window.showSaveFilePicker) {
+        try {
+            let handle = fileHandle;
+            if (!handle) {
+                handle = await window.showSaveFilePicker({
+                    suggestedName:
+                        fileName ||
+                        (TBA_DATABASE && TBA_DATABASE.general
+                            ? sanitizeFilename(TBA_DATABASE.general.title) + ".tadb.json"
+                            : "game.tadb.json"),
+                    types: [
+                        {
+                            description: "JSON",
+                            accept: { "application/json": [".json", ".tadb.json"] },
+                        },
+                    ],
+                });
+                fileHandle = handle;
+            }
+            const writable = await handle.createWritable();
+            await writable.write(blob);
+            await writable.close();
+
+            // Update filename so subsequent downloads use the same name
+            //if (handle && handle.name) filename = handle.name;
+
+            // Ensure we still have write permission to the handle — request if necessary.
+            try {
+                if (handle && typeof handle.queryPermission === 'function') {
+                    let perm = await handle.queryPermission({ mode: 'readwrite' });
+                    if (perm !== 'granted') {
+                        try {
+                            perm = await handle.requestPermission({ mode: 'readwrite' });
+                        } catch (permErr) {
+                            console.warn('Permission request for file handle failed:', permErr);
+                        }
+                    }
+                    if (perm !== 'granted') {
+                        console.warn('File handle is not writable after save; user may need to re-open the file to continue seamless saving.');
+                    }
+                }
+            } catch (permCheckErr) {
+                console.warn('Error while checking/requesting file handle permission:', permCheckErr);
+            }
+
+            console.log("File saved via File System Access API: " + filename);
+            return;
+        } catch (err) {
+            // If the user cancelled the save dialog, do not fall back to the classic download.
+            // showSaveFilePicker typically rejects with a DOMException with name 'AbortError'
+            if (err && (err.name === 'AbortError' || err.name === 'NotAllowedError' || err.name === 'SecurityError')) {
+                console.log('Save cancelled by user. No download started.');
+                return;
+            }
+            console.error("Save via File System Access API failed:", err);
+            // Fall back to classic download
+        }
+    }
+
+    // Fallback: create an anchor and trigger a download
+    const a = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    a.href = url;
+    a.download =
+        fileName ||
+        (TBA_DATABASE && TBA_DATABASE.general
+            ? sanitizeFilename(TBA_DATABASE.general.title) + ".tadb.json"
+            : "game.tadb.json");
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function sanitizeFilename(name) {
+    if (!name) return "game";
+    return name.replace(/[^a-z0-9_\-\.]/gi, "_").replace(/__+/g, "_");
 }
 
 function saveToDatabaseToStorage() {
