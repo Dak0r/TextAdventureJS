@@ -408,51 +408,6 @@ class textAdventureEngine {
         }
     }
 
-    // disabled for now:
-    #checkForSecondObject(words) {
-        const locationState = this.#getLocationState(
-            this.#gameState.currentLocation
-        );
-        console.log("checking for seconds object");
-        let value = undefined;
-        let founds = 0;
-
-        for (let i = 0; i < words.length; i++) {
-            let isInventoryItem = false;
-            // Check inventory item
-            if (this.#gameState.inventory.length > 0) {
-                for (let y = 0; y < this.#gameState.inventory.length; y++) {
-                    const objectId = this.#gameState.inventory[y];
-                    const test = this.#getObject(objectId).words.indexOf(
-                        words[i]
-                    );
-                    if (test >= 0) {
-                        value = objectId;
-                        founds++;
-                        isInventoryItem = true;
-                    }
-                }
-            }
-            if (!isInventoryItem) {
-                // check for objects in room
-                const that = this;
-                locationState.objects.forEach(function (val, index) {
-                    const test = that.#database.objects[val].words.indexOf(
-                        words[i]
-                    );
-                    if (test >= 0) {
-                        value = that.#database.objects[val];
-                        founds++;
-                        return;
-                    }
-                });
-            }
-            if (founds >= 2) {
-                break;
-            }
-        }
-        return value;
-    }
     #getGameId() {
         return (this.#database.author + "_" + this.#database.general.title)
             .replace(/\s+/g, "_")
