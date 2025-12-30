@@ -463,6 +463,7 @@ class textAdventureEngine {
             this.#getGameId(),
             JSON.stringify(this.#gameState)
         );
+        console.log("Game state saved to local storage.");
     }
     #loadToGameStateFromStorage() {
         const stored = localStorage.getItem(this.#getGameId());
