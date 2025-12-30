@@ -17,6 +17,7 @@ class textAdventureEngine {
     async loadDatabaseFromFile(gamedatabasePath, showGameInfo = true) {
         this.outputClear();
         this.#writeOutputLines("Initializing Text Adventure Engine...");
+        this.outputClear();
         const response = await fetch(gamedatabasePath);
         const json = await response.json();
         this.showGameInfo = showGameInfo;
@@ -26,6 +27,7 @@ class textAdventureEngine {
     loadDatabaseFromObject(json) {
         this.outputClear();
         this.#writeOutputLines("Initializing Text Adventure Engine...");
+        this.outputClear();
         this.#initDatbase(json);
     }
 

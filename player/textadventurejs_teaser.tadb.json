@@ -5,6 +5,7 @@
     "author": "Daniel Korgel",
     "version": "0.1",
     "request": ["", "What do you do?"],
+    "continue_enabled": true,
     "start": {
       "text": ["", "", "", "You wake up with a headache..."],
       "commands": ["gotoLocation start_chamber"]
@@ -28,6 +29,14 @@
       "standalone_action": {
         "text": ["You look around."],
         "commands": ["showLocationDescription"]
+      }
+    },
+    "restart": {
+      "failure": "Be careful! 'restart' will reset the game.",
+      "words": ["restart"],
+      "standalone_action": {
+        "text": [],
+        "commands": ["restartGame"]
       }
     },
     "pickup": {

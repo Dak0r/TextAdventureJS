@@ -528,7 +528,10 @@ function writeLine(output) {
 }
 
 function clearArea() {
-    previewLog.html("");
+    previewLog.delay(100).queue(function(next){
+        previewLog.html("");
+        next();
+    });
 }
 
 function readUserInput() {

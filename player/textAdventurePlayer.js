@@ -14,7 +14,7 @@ var messageQueueCount = 0;
  */
 function writeLine(output) {
     const gameLog = document.getElementById("gameLog");
-    // delay messages a bit. With jQuery messageQueueCount is not needed, as you could use $(...).delay(100).queue(...) 
+    // delay messages a bit. With jQuery messageQueueCount is not needed, as you could use $(...).delay(100).queue(...)
     messageQueueCount++;
     setTimeout(function () {
         gameLog.innerHTML += output + "<br />";
@@ -33,8 +33,13 @@ function writeLine(output) {
  */
 function clearArea() {
     const gameLog = document.getElementById("gameLog");
-    gameLog.innerHTML = "";
-    gameLog.scrollTop = gameLog.scrollHeight;
+    messageQueueCount++;
+    setTimeout(function () {
+        gameLog.innerHTML = "";
+        gameLog.scrollTop = gameLog.scrollHeight;
+        playerInput.focus();
+        messageQueueCount--;
+    }, 100 * messageQueueCount);
 }
 
 /**
@@ -136,7 +141,7 @@ function setupEventListenersForGameSelection() {
     });
 }
 
-/** 
+/**
  * Non jquery replacement of jquery's $.ready function
  */
 function ready(fn) {
