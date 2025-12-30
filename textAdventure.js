@@ -5,7 +5,7 @@ class textAdventureEngine {
         inventory: [],
         currentLocation: null,
     };
-    
+
     showGameInfo = true;
 
     constructor(outputFunction, clearOutputFunction, analyticsFunction = null) {
@@ -17,11 +17,10 @@ class textAdventureEngine {
     async loadDatabaseFromFile(gamedatabasePath, showGameInfo = true) {
         this.outputClear();
         this.#writeOutputLines("Initializing Text Adventure Engine...");
-        let base = this;
         const response = await fetch(gamedatabasePath);
         const json = await response.json();
         this.showGameInfo = showGameInfo;
-        base.#initDatbase(json);
+        this.#initDatbase(json);
     }
 
     loadDatabaseFromObject(json) {
@@ -44,7 +43,7 @@ class textAdventureEngine {
             this.#resetGame();
         } else {
             this.#writeOutputLines(["Resuming from previous session...", " "]);
-            var currentRoomState = this.#getLocationState(
+            const currentRoomState = this.#getLocationState(
                 this.#gameState.currentLocation
             );
             this.#writeLocationDescription(currentRoomState.objects);
@@ -56,8 +55,8 @@ class textAdventureEngine {
     }
 
     #removeFromString(arr, str) {
-        let regex = new RegExp("\\b" + arr.join("|") + "\\b", "gi");
-        let removed = str.replace(regex, "");
+        const regex = new RegExp("\\b" + arr.join("|") + "\\b", "gi");
+        const removed = str.replace(regex, "");
         return removed.replace(/\s\s+/g, " ");
     }
 
@@ -79,7 +78,7 @@ class textAdventureEngine {
             cmd == "how" ||
             cmd == "what do"
         ) {
-            var allVerbs = "";
+            let allVerbs = "";
             const that = this;
             Object.keys(this.#database.verbs).forEach(function (name, index) {
                 const val = that.#database.verbs[name];
@@ -149,10 +148,10 @@ class textAdventureEngine {
             if (verb != undefined && object != undefined) {
                 console.log("Action: " + verb.words);
                 console.log("Object: " + objectInfo.id);
-                var result = object.actions[verbInfo.id]
+                const result = object.actions[verbInfo.id];
 
                 if (result != undefined) {
-                    let objectVerbAction = object.actions[verbInfo.id];
+                    const objectVerbAction = object.actions[verbInfo.id];
                     this.#writeOutputLines(objectVerbAction.text, {
                         verb: verbInfo.word,
                         object: objectInfo.word,
@@ -202,9 +201,9 @@ class textAdventureEngine {
     }
 
     #writeLocationDescription(objectsInLocation) {
-        var fullLocationDescription = "";
-        for (var i = 0; i < objectsInLocation.length; i++) {
-            let thisObject = this.#database.objects[objectsInLocation[i]];
+        let fullLocationDescription = "";
+        for (let i = 0; i < objectsInLocation.length; i++) {
+            const thisObject = this.#database.objects[objectsInLocation[i]];
             if (thisObject.locationDescription.length > 0) {
                 if (fullLocationDescription.length !== 0) {
                     fullLocationDescription += " ";
@@ -231,7 +230,7 @@ class textAdventureEngine {
             return;
         }
         if (Array.isArray(actions)) {
-            for (var i = 0; i < actions.length; i++) {
+            for (let i = 0; i < actions.length; i++) {
                 this.#parseActionString(callingObjectName, actions[i]);
             }
         } else {
@@ -243,8 +242,8 @@ class textAdventureEngine {
         if (!actionString) {
             return;
         }
-        var acts = actionString.split(" ");
-        for (var i = 1; i < acts.length; i++) {
+        const acts = actionString.split(" ");
+        for (let i = 1; i < acts.length; i++) {
             if (acts[i].trim() == "this") {
                 if (callingObjectName != undefined) {
                     acts[i] = callingObjectName;
@@ -260,7 +259,7 @@ class textAdventureEngine {
         }
         if (acts[0] == "objectRemoveFromLocation") {
             console.log("removing Object from Location: " + acts[1]);
-            var index = this.#getLocationState(
+            const index = this.#getLocationState(
                 this.#gameState.currentLocation
             ).objects.indexOf(acts[1]);
             if (index > -1) {
@@ -277,7 +276,7 @@ class textAdventureEngine {
                 this.#gameState.currentLocation
             ).objects.push(acts[1]);
         } else if (acts[0] == "objectReplaceInLocation") {
-            var index = this.#getLocationState(
+            const index = this.#getLocationState(
                 this.#gameState.currentLocation
             ).objects.indexOf(acts[1]);
             if (index > -1) {
@@ -294,12 +293,12 @@ class textAdventureEngine {
         } else if (acts[0] == "gotoLocation") {
             console.log("SIWTCHING LOCATION TO:" + acts[1]);
             this.#gameState.currentLocation = acts[1];
-            var currentRoomState = this.#getLocationState(
+            const currentRoomState = this.#getLocationState(
                 this.#gameState.currentLocation
             );
             this.#writeLocationDescription(currentRoomState.objects);
         } else if (acts[0] == "showLocationDescription") {
-            var currentRoomState = this.#getLocationState(
+            const currentRoomState = this.#getLocationState(
                 this.#gameState.currentLocation
             );
             this.#writeLocationDescription(currentRoomState.objects);
@@ -334,7 +333,7 @@ class textAdventureEngine {
         let verbId = undefined;
         let usedWord = undefined;
         const that = this;
-        for (var i = 0; i < words.length && verbId === undefined; i++) {
+        for (let i = 0; i < words.length && verbId === undefined; i++) {
             Object.keys(this.#database.verbs).forEach(function (key, index) {
                 const test = that.#database.verbs[key].words.indexOf(words[i]);
                 if (test >= 0) {
@@ -348,13 +347,13 @@ class textAdventureEngine {
     }
 
     #checkForObject(words) {
-        var locationState = this.#getLocationState(
+        const locationState = this.#getLocationState(
             this.#gameState.currentLocation
         );
         let objectId = undefined;
         let usedWord = undefined;
         // Check room Items
-        for (var i = 0; i < words.length; i++) {
+        for (let i = 0; i < words.length; i++) {
             // Check inventory item
             if (this.#gameState.inventory.length > 0) {
                 for (
@@ -396,12 +395,12 @@ class textAdventureEngine {
         if (!Array.isArray(lines)) {
             lines = [lines];
         }
-        for (var i = 0; i < lines.length; i++) {
+        for (let i = 0; i < lines.length; i++) {
             let line = lines[i];
             // replace placeholders
             if (placeholderValues) {
                 Object.keys(placeholderValues).forEach(function (key, index) {
-                    let regex = new RegExp("\\{" + key + "\\}", "gi");
+                    const regex = new RegExp("\\{" + key + "\\}", "gi");
                     line = line.replace(regex, placeholderValues[key]);
                 });
             }
@@ -411,19 +410,19 @@ class textAdventureEngine {
 
     // disabled for now:
     #checkForSecondObject(words) {
-        var locationState = this.#getLocationState(
+        const locationState = this.#getLocationState(
             this.#gameState.currentLocation
         );
         console.log("checking for seconds object");
-        var value = undefined;
-        var founds = 0;
+        let value = undefined;
+        let founds = 0;
 
-        for (var i = 0; i < words.length; i++) {
+        for (let i = 0; i < words.length; i++) {
             let isInventoryItem = false;
             // Check inventory item
             if (this.#gameState.inventory.length > 0) {
-                for (let i; i < this.#gameState.inventory.length; i++) {
-                    const objectId = this.#gameState.inventory[i];
+                for (let y = 0; y < this.#gameState.inventory.length; y++) {
+                    const objectId = this.#gameState.inventory[y];
                     const test = this.#getObject(objectId).words.indexOf(
                         words[i]
                     );
@@ -436,7 +435,7 @@ class textAdventureEngine {
             }
             if (!isInventoryItem) {
                 // check for objects in room
-                var that = this;
+                const that = this;
                 locationState.objects.forEach(function (val, index) {
                     const test = that.#database.objects[val].words.indexOf(
                         words[i]
@@ -466,7 +465,7 @@ class textAdventureEngine {
         );
     }
     #loadToGameStateFromStorage() {
-        var stored = localStorage.getItem(this.#getGameId());
+        const stored = localStorage.getItem(this.#getGameId());
         if (stored == undefined) {
             return false;
         }
