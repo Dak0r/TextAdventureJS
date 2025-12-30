@@ -1,21 +1,23 @@
 # TextAdventureJS
 
 A text based adventure engine written in Javascript.
-
-Here's an example player, that is included in this Repositroy:
-https://dak0r.github.io/TextAdventureJS/player/
-
-This repo also provides a full editor including debugger functionality for creating your own games:
-https://dak0r.github.io/TextAdventureJS/editor/
-
-A different project, that uses TextAdventureJS can be found on my website:
-https://www.danielkorgel.com
-
-### Dependencies
+This repo comes with a player that uses the engine as well as an editor to create games for it.
 
 The library and the player are written in pure JavaScript.
-The Editor uses jquery for convinience.
-Running Unit Tests locally requires NodeJS and developer dependencies mentioned in the package.json
+The editor uses jquery.
+
+## Player
+<img src="./docs/player.gif" width="400" alt="Animated demo for the textAdventureJS player" />
+
+Try it here: https://dak0r.github.io/TextAdventureJS/player/
+
+## Editor
+
+This repo also provides a full editor including debugger functionality for creating your own games:
+
+<img src="./docs/editor.jpg" width="600" alt="Animated demo for the textAdventureJS player" />
+
+Try it here: https://dak0r.github.io/TextAdventureJS/editor/
 
 ## Usage
 
@@ -45,7 +47,7 @@ $("#submit").click(function() { readInput(); });
 var textAdvEngine = new textAdventureEngine(witeLine, clearArea);
 textAdvEngine.loadDatabaseFromFile("game.json");
 ```
-with this html:
+with this html elements:
 
 ```html
 <div id="gameLog"></div>

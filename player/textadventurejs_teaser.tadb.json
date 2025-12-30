@@ -3,7 +3,7 @@
   "general": {
     "title": "TextAdventureJS Teaser",
     "author": "Daniel Korgel",
-    "version": "0.1",
+    "version": "1.0",
     "request": ["", "What do you do?"],
     "continue_enabled": true,
     "start": {
