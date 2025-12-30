@@ -1,0 +1,126 @@
+:root {
+  --mono-font-stack: Menlo, Monaco, Lucida Console, Liberation Mono,
+    DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+  --background-color: #222225;
+  --font-color: #e8e9ed;
+  --invert-font-color: #222225;
+  --secondary-color: #a3abba;
+  --tertiary-color: #a3abba;
+  --primary-color: #62c4ff;
+  --error-color: #ff3c74;
+}
+
+body {
+  background-color: #222225;
+  color: #ffffff;
+  font-family: Consolas, monaco, monospace;
+}
+
+a {
+  color: #62c4ff;
+}
+
+main {
+  justify-content: center;
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+}
+
+#gameLog {
+  width: 600px;
+  height: 400px;
+  overflow-y: scroll;
+  overflow-x: wrap;
+  margin: auto;
+  text-align: left;
+  padding: 5px;
+}
+
+.modern-textarea {
+  min-height: 36px; /* single-line default */
+  max-height: 400px; /* sensible upper bound */
+  overflow: hidden; /* hide scrollbars, we'll auto expand */
+  resize: none;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  color: var(--font-color);
+  line-height: 1.4;
+  font-family: var(--mono-font-stack);
+  transition: box-shadow 0.12s ease, border-color 0.12s ease;
+}
+.modern-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 6px 18px rgba(98, 196, 255, 0.08);
+}
+
+.modern-input {
+  width: 100%;
+  height: 36px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  color: var(--font-color);
+  box-sizing: border-box;
+  line-height: 1.4;
+  font-family: var(--mono-font-stack);
+  transition: box-shadow 0.12s ease, border-color 0.12s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.modern-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 6px 18px rgba(98, 196, 255, 0.08);
+}
+
+input.modern-input,
+select.modern-input,
+textarea.modern-textarea {
+  -webkit-appearance: none;
+  appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+input.modern-input:focus,
+select.modern-input:focus,
+textarea.modern-textarea:focus,
+input.modern-input:focus-visible,
+select.modern-input:focus-visible,
+textarea.modern-textarea:focus-visible {
+  outline: none;
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 6px 18px rgba(98, 196, 255, 0.08) !important;
+}
+
+.button-in-input {
+  background: transparent;
+  border: 0px;
+  width: 30px;
+  position: relative;
+  top: -25px;
+  left: 560px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn {
+  background: transparent;
+  color: var(--font-color);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}

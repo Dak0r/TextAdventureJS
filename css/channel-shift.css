@@ -1,0 +1,22 @@
+.channel-shift {
+  position: relative;
+  padding: 0 0 0 0;
+  &:before,
+  &:after {
+    top: 0;
+    position: absolute;
+    left: 0;
+    padding: 0 0 0 0;
+    display: block;
+    mix-blend-mode: screen;
+    content: attr(data-text);
+  }
+  &:before {
+    color: #ff3c74;
+    transform: translate(-1px, 1px);
+  }
+  &:after {
+    transform: translate(1px, -1px);
+    color: #62c4ff;
+  }
+}
