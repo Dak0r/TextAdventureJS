@@ -1,0 +1,15 @@
+{
+  "name": "textadventurejs",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "jest --detectOpenHandles --runInBand"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
+  "devDependencies": {
+    "jest": "^29.6.1",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}

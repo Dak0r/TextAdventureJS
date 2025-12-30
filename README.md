@@ -15,6 +15,7 @@ https://www.danielkorgel.com
 
 The library and the player are written in pure JavaScript.
 The Editor uses jquery for convinience.
+Running Unit Tests locally requires NodeJS and developer dependencies mentioned in the package.json
 
 ## Usage
 
@@ -228,3 +229,17 @@ function analyticsFunction(eventName, eventData) {
   console.log(eventData);
 }
 ```
+
+## Testing
+
+## Running Editor and Player locally
+Running the editor and player html files locally requires a local webserver.
+I recommend the `ms-vscode.live-server` extension for vscode.
+
+### Unit Tests
+Quick steps to run tests locally:
+
+1. Install Node.js from https://nodejs.org/ if you don't already have it.
+2. From the project root run:
+   - `npm install` (installs dev dependencies like Jest)
+   - `npm test` (runs the test suite)

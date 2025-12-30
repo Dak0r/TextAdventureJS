@@ -82,12 +82,13 @@ $(document).ready(function () {
     });
     $("#btn-new").click(() => {
         // Load the inlined default database JSON
-        const defaultJson = getDefaultProjectJson();
-        if (defaultJson) {
-            tba_init(defaultJson);
-        } else {
-            alert("Default project JSON not available.");
-        }
+        getDefaultProjectJson().then(defaultJson => {
+            if (defaultJson) {
+                tba_init(defaultJson);
+            } else {
+                alert("Default project JSON not available.");
+            }
+        });
     });
     $("#btn-save").click(() => {
         download(JSON.stringify(TBA_DATABASE, null, 2), filename, "text/plain");
@@ -175,11 +176,11 @@ function deleteDatabaseFromStorage() {
     localStorage.removeItem("database");
 }
 
-function getDefaultProjectJson() {
+async function getDefaultProjectJson() {
     try {
-        const el = document.getElementById("default-db");
-        if (!el) return null;
-        return el.textContent.trim();
+        const response = await fetch("../templates/new_project.json");
+        const json = await response.json();
+        return JSON.stringify(json);
     } catch (err) {
         console.error("Failed to read default DB:", err);
         return null;
@@ -270,7 +271,7 @@ function onTypeChanged(typeParam) {
         }
 
         const elementSelector = $(
-            '<select id="element" onchange="onElementChanged()" size="30" class="w100"><select>'
+            '<select id="element" onchange="onElementChanged()" size="30" class="w100"></select>'
         );
         $.each(TBA_DATABASE[type], function (key, val) {
             elementSelector.append(
@@ -1280,7 +1281,7 @@ function getNewObject(name) {
 
 function getNewObjectAction() {
     var newAction = {};
-    newAction["text"] = "That worked!";
+    newAction["text"] = ["That worked!"];
     newAction["commands"] = [];
     return newAction;
 }

@@ -308,7 +308,7 @@ class textAdventureEngine {
         } else if (acts[0] == "inventoryRemove") {
             console.log("Remove inventory object, if it exists " + acts[1]);
             const index = this.#gameState.inventory.indexOf(acts[1]);
-            if (index > 0) {
+            if (index >= 0) {
                 this.#gameState.inventory.splice(index, 1);
             }
         } else if (acts[0] == "restartGame") {
@@ -474,4 +474,9 @@ class textAdventureEngine {
         ); // deep copy
         this.#praseCommand("look");
     }
+}
+
+// Export for Node.js (required for tests)
+if (typeof module !== "undefined" && module.exports) {
+    module.exports = textAdventureEngine;
 }
