@@ -590,7 +590,13 @@ function generateUiForVerbElement(verbName, verb) {
     nameOptions.append(" ");
     const duplicateButton = button("Duplicate");
     duplicateButton.click(function () {
-        TBA_DATABASE.verbs[getAvailableVerbName(verbName)] = clone(verb);
+        const availableName = getAvailableVerbName(verbName);
+        const newName = prompt("Enter name for duplicated verb:", availableName);
+        if (newName === null || newName.trim() === "" || TBA_DATABASE.verbs[newName] !== undefined) {
+            alert("Invalid or duplicate verb name.");
+            return;
+        }
+        TBA_DATABASE.verbs[newName] = clone(verb);
         onTypeChanged();
     });
     nameOptions.append(duplicateButton);
@@ -676,8 +682,13 @@ function generateUiForObjectElement(objectName, object) {
     nameOptions.append(" ");
     const duplicateButton = button("Duplicate");
     duplicateButton.click(function () {
-        TBA_DATABASE.objects[getAvailableObjectName(objectName)] =
-            clone(object);
+        const availableName = getAvailableObjectName(objectName);
+        const newName = prompt("Enter name for duplicated object:", availableName);
+        if (newName === null || newName.trim() === "" || TBA_DATABASE.objects[newName] !== undefined) {
+            alert("Invalid or duplicate object name.");
+            return;
+        }
+        TBA_DATABASE.objects[newName] = clone(object);
         onTypeChanged();
     });
     nameOptions.append(duplicateButton);
@@ -786,8 +797,13 @@ function generateUiForLocationElement(locationName, location) {
     nameOptions.append(" ");
     const duplicateButton = button("Duplicate");
     duplicateButton.click(function () {
-        TBA_DATABASE.locations[getAvailableLocationName(locationName)] =
-            clone(location);
+        const availableName = getAvailableLocationName(locationName);
+        const newName = prompt("Enter name for duplicated location:", availableName);
+        if (newName === null || newName.trim() === "" || TBA_DATABASE.locations[newName] !== undefined) {
+            alert("Invalid or duplicate location name.");
+            return;
+        }
+        TBA_DATABASE.locations[newName] = clone(location);
         onTypeChanged();
     });
     nameOptions.append(duplicateButton);
