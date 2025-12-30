@@ -1,4 +1,4 @@
-const sampleGame = require('../templates/new_project.json');
+const sampleGame = require('../templates/new_project.tadb.json');
 const TextAdventureEngine = require('../textAdventure.js');
 
 describe('textAdventureEngine parser & action integration tests (using template)', () => {
