@@ -1,13 +1,12 @@
 class textAdventureEngine {
-    TBA_DEBUG = false;
-
     #database = undefined;
-
     #gameState = {
         locations: {},
         inventory: [],
         currentLocation: null,
     };
+    
+    showGameInfo = true;
 
     constructor(outputFunction, clearOutputFunction, analyticsFunction = null) {
         this.outputAddLines = outputFunction;
@@ -15,47 +14,41 @@ class textAdventureEngine {
         this.analyticsFunction = analyticsFunction;
     }
 
-    async loadDatabaseFromFile(gamedatabasePath, showGameName = true) {
+    async loadDatabaseFromFile(gamedatabasePath, showGameInfo = true) {
         this.outputClear();
         this.#writeOutputLines("Initializing Text Adventure Engine...");
         let base = this;
         const response = await fetch(gamedatabasePath);
         const json = await response.json();
-        base.#initDatbase(json, showGameName);
+        this.showGameInfo = showGameInfo;
+        base.#initDatbase(json);
     }
 
-    loadDatabaseFromObject(json, showGameName = true) {
+    loadDatabaseFromObject(json) {
         this.outputClear();
         this.#writeOutputLines("Initializing Text Adventure Engine...");
-        this.#initDatbase(json, showGameName);
+        this.#initDatbase(json);
     }
 
     input(cmd) {
         this.#praseCommand(cmd);
     }
 
-    #initDatbase(gameDatabaseObject, showGameName = true) {
+    #initDatbase(gameDatabaseObject) {
         this.#database = gameDatabaseObject;
-        var that = this;
 
-        // init runtime locations
-        Object.keys(this.#database.locations).forEach(function (key, index) {
-            const val = that.#database.locations[key];
-            that.#gameState.locations[key] = JSON.parse(JSON.stringify(val)); // deep copy
-        });
-
-        if (showGameName) {
-            this.outputClear();
-            this.#writeOutputLines([
-                "Game: " + this.#database.general.title,
-                "Version: " + this.#database.general.version,
-                "Author: " + this.#database.general.author,
-                "",
-            ]);
+        if (
+            this.#database.general.continue_enabled === false ||
+            !this.#loadToGameStateFromStorage()
+        ) {
+            this.#resetGame();
         } else {
-            this.outputClear();
+            this.#writeOutputLines(["Resuming from previous session...", " "]);
+            var currentRoomState = this.#getLocationState(
+                this.#gameState.currentLocation
+            );
+            this.#writeLocationDescription(currentRoomState.objects);
         }
-        this.#praseCommand("welcome");
     }
 
     #showRequest() {
@@ -79,19 +72,7 @@ class textAdventureEngine {
         cmd = cmd.trim();
         console.log("Stripped command of parser: '" + cmd + "'");
 
-        if (cmd == "welcome") {
-            this.#gameState.inventory = [];
-            if (this.#database.general.start.text.length > 0) {
-                this.#writeOutputLines(this.#database.general.start.text);
-            }
-            this.#runActions(undefined, this.#database.general.start.commands);
-        } else if (cmd == "debug") {
-            if (this.TBA_DEBUG == true) {
-                this.TBA_DEBUG = true;
-            } else {
-                this.TBA_DEBUG = false;
-            }
-        } else if (
+        if (
             cmd == "help" ||
             cmd == "?" ||
             cmd == "what" ||
@@ -168,12 +149,7 @@ class textAdventureEngine {
             if (verb != undefined && object != undefined) {
                 console.log("Action: " + verb.words);
                 console.log("Object: " + objectInfo.id);
-                var result = object.actions[verbInfo.id];
-                if (this.TBA_DEBUG == true) {
-                    console.log(result);
-                    this.#writeOutputLines("Action: " + verbInfo.id);
-                    this.#writeOutputLines("Object: " + objectInfo.id);
-                }
+                var result = object.actions[verbInfo.id]
 
                 if (result != undefined) {
                     let objectVerbAction = object.actions[verbInfo.id];
@@ -185,6 +161,12 @@ class textAdventureEngine {
                     this.#analyticsEvent("command", {
                         input: cmd,
                     });
+                    if (verbInfo.id !== "look") {
+                        // Auto Save
+                        if (this.#database.general.continue_enabled == true) {
+                            this.#saveGameStateToStorage();
+                        }
+                    }
                 } else {
                     this.#writeOutputLines(verb.failure, {
                         verb: verbInfo.word,
@@ -233,9 +215,10 @@ class textAdventureEngine {
         this.#writeOutputLines(fullLocationDescription);
 
         if (this.#gameState.inventory.length > 0) {
-            for (let i=0; i<this.#gameState.inventory.length; i++) {
+            for (let i = 0; i < this.#gameState.inventory.length; i++) {
                 const objectId = this.#gameState.inventory[i];
-                const currentItemDescription = this.#getObject(objectId).locationDescription;
+                const currentItemDescription =
+                    this.#getObject(objectId).locationDescription;
                 if (currentItemDescription.length > 0) {
                     this.#writeOutputLines(currentItemDescription);
                 }
@@ -326,9 +309,12 @@ class textAdventureEngine {
         } else if (acts[0] == "inventoryRemove") {
             console.log("Remove inventory object, if it exists " + acts[1]);
             const index = this.#gameState.inventory.indexOf(acts[1]);
-            if(index > 0) {
+            if (index > 0) {
                 this.#gameState.inventory.splice(index, 1);
             }
+        } else if (acts[0] == "restartGame") {
+            console.log("Restarting game");
+            this.#resetGame();
         }
     }
 
@@ -371,7 +357,11 @@ class textAdventureEngine {
         for (var i = 0; i < words.length; i++) {
             // Check inventory item
             if (this.#gameState.inventory.length > 0) {
-                for (let invIndex=0; invIndex<this.#gameState.inventory.length; invIndex++) {
+                for (
+                    let invIndex = 0;
+                    invIndex < this.#gameState.inventory.length;
+                    invIndex++
+                ) {
                     const test = this.#getObject(
                         this.#gameState.inventory[invIndex]
                     ).words.indexOf(words[i]);
@@ -432,9 +422,11 @@ class textAdventureEngine {
             let isInventoryItem = false;
             // Check inventory item
             if (this.#gameState.inventory.length > 0) {
-                for (let i; i<this.#gameState.inventory.length; i++) {
+                for (let i; i < this.#gameState.inventory.length; i++) {
                     const objectId = this.#gameState.inventory[i];
-                    const test = this.#getObject(objectId).words.indexOf(words[i]);
+                    const test = this.#getObject(objectId).words.indexOf(
+                        words[i]
+                    );
                     if (test >= 0) {
                         value = objectId;
                         founds++;
@@ -461,6 +453,59 @@ class textAdventureEngine {
             }
         }
         return value;
+    }
+    #getGameId() {
+        return (this.#database.author + "_" + this.#database.general.title)
+            .replace(/\s+/g, "_")
+            .toLowerCase();
+    }
+    #saveGameStateToStorage() {
+        localStorage.setItem(
+            this.#getGameId(),
+            JSON.stringify(this.#gameState)
+        );
+    }
+    #loadToGameStateFromStorage() {
+        var stored = localStorage.getItem(this.#getGameId());
+        if (stored == undefined) {
+            return false;
+        }
+        this.#gameState = JSON.parse(stored);
+        return true;
+    }
+    #deleteGameStateFromStorage() {
+        localStorage.removeItem(this.#getGameId());
+    }
+    #resetGame() {
+        this.#deleteGameStateFromStorage();
+        this.#gameState = {
+            locations: {},
+            inventory: [],
+            currentLocation: null,
+        };
+        const that = this;
+        Object.keys(this.#database.locations).forEach(function (key, index) {
+            const val = that.#database.locations[key];
+            that.#gameState.locations[key] = JSON.parse(JSON.stringify(val)); // deep copy
+        });
+
+        this.outputClear();
+        if (this.showGameInfo) {
+            this.#writeOutputLines([
+                "Game: " + this.#database.general.title,
+                "Version: " + this.#database.general.version,
+                "Author: " + this.#database.general.author,
+            ]);
+            if (this.#database.general.continue_enabled == true) {
+                this.#writeOutputLines("This game saves automatically.");
+            }
+            this.#writeOutputLines(" ");
+        }
+        this.#gameState.inventory = [];
+        if (this.#database.general.start.text.length > 0) {
+            this.#writeOutputLines(this.#database.general.start.text);
+        }
+        this.#runActions(undefined, this.#database.general.start.commands);
     }
 
     devGetGameState() {

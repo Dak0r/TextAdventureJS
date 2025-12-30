@@ -43,6 +43,7 @@
           "title": "New TextAdventureJS Game",
           "author": "Your Name",
           "version": "0.1",
+          "continue_enabled": true,
           "request": ["", "What do you do?"],
           "start": {
             "text": ["Welcome to the textAdventureJS Mini Example"],
@@ -67,6 +68,14 @@
             "standalone_action": {
               "text": [],
               "commands": ["showLocationDescription"]
+            }
+          },
+          "restart": {
+            "failure": "Be careful 'restart' will reset the game.",
+            "words": ["restart"],
+            "standalone_action": {
+              "text": [],
+              "commands": ["restartGame"]
             }
           },
           "pickup": {

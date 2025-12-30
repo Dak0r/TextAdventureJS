@@ -39,6 +39,9 @@
         "version": {
           "type": "string"
         },
+        "continue_enabled": {
+          "type": "boolean"
+        },
         "request": {
           "anyOf": [
             {
@@ -74,6 +77,7 @@
         "title",
         "author",
         "version",
+        "continue_enabled",
         "request",
         "start",
         "parser_ignored_words",

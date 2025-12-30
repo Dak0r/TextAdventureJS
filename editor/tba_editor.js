@@ -1,5 +1,4 @@
 TBA_DATABASE = undefined;
-TBA_DEBUG = false;
 
 var filename = undefined;
 
@@ -335,7 +334,7 @@ function generateUiForPreview() {
         );
 
         const buttonBar = $("<p />");
-        previewRestartButton = button("Restart Game");
+        previewRestartButton = button("Reload Game");
         previewReloadButton = button("Reset Current Room");
         buttonBar.append(previewReloadButton);
         buttonBar.append(" ");
@@ -491,6 +490,11 @@ function generateUiForGeneral(general) {
     table.append(
         generateInput("Version", general.version, function (value) {
             general.version = value;
+        })
+    );
+    table.append(
+        generateCheckbox("Continue Enabled", general.continue_enabled, function (value) {
+            general.continue_enabled = value;
         })
     );
     table.append(tableH3("Game Settings"));
@@ -1187,6 +1191,29 @@ function generateInput(name, value, onChange) {
     });
     const valueTableField = $("<td/>");
     valueTableField.append(inputField);
+    inputFieldArea.append(valueTableField);
+    return inputFieldArea;
+}
+
+function generateCheckbox(name, value, onChange) {
+    const inputFieldArea = $("<tr/>");
+    inputFieldArea.append(
+        '<td><label for="' + name + '">' + name + "</label></td>"
+    );
+    const inputToggle = $(
+        '<input id="' +
+            name +
+            '" type="checkbox"/>'
+    );
+    if (value) {
+        inputToggle.prop("checked", true);
+    }
+    inputToggle.on("change", function () {
+        onChange(inputToggle.prop("checked"));
+        onDatabaseChanged();
+    });
+    const valueTableField = $("<td/>");
+    valueTableField.append(inputToggle);
     inputFieldArea.append(valueTableField);
     return inputFieldArea;
 }
