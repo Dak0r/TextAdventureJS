@@ -1,0 +1,29 @@
+/**
+* A css class that applies a RGB channel shift effect to text elements.
+* Usage:
+* <div><h1 class="channel-shift" data-text="Your Text Here">Your Text Here</h1></div>
+* Wrapper div is required. The data-text attribute describe the text that the effect is applied to.
+* If the text is longer, the effect will only be applied to the first part, which should match the data-text attribute.
+*/
+.channel-shift {
+  position: relative;
+  padding: 0 0 0 0;
+  &:before,
+  &:after {
+    top: 0;
+    position: absolute;
+    left: 0;
+    padding: 0 0 0 0;
+    display: block;
+    mix-blend-mode: screen;
+    content: attr(data-text);
+  }
+  &:before {
+    color: #ff3c74;
+    transform: translate(-1px, 1px);
+  }
+  &:after {
+    transform: translate(1px, -1px);
+    color: #62c4ff;
+  }
+}

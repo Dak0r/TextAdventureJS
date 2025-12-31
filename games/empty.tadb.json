@@ -1,6 +1,5 @@
 {
-  "$schema": "../textAdventureGameDatabase.schema.json",
-
+  "$schema": "https://dak0r.github.io/TextAdventureJS/textAdventureGameDatabase.schema.json",
   "general": {
     "title": "TextAdventureJS Empty Database Template",
     "author": "Your Name",
