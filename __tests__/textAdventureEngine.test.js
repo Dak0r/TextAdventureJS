@@ -3,12 +3,12 @@ const path = require("path");
 
 let sampleGame;
 let found = false;
-const p = path.join(__dirname, "..", "templates", "new_project.tadb.json");
+const p = path.join(__dirname, "..", "games", "new_project.tadb.json");
 if (fs.existsSync(p)) {
     sampleGame = JSON.parse(fs.readFileSync(p, "utf8"));
     found = true;
 } else {
-    throw new Error("Could not find templates/new_project.tadb.json.");
+    throw new Error("Could not find sample game at " + p);
 }
 const TextAdventureEngine = require("../textAdventure.js");
 
@@ -52,18 +52,18 @@ describe("textAdventureEngine parser & action integration tests (using template)
     test("take object moves it to inventory and removes from location", () => {
         engine.input("take object");
         const gs = engine.devGetGameState();
-        expect(gs.inventory).toContain("template_object_pickedUp");
+        expect(gs.inventory).toContain("demo_object_pickedUp");
         const objects = gs.locations[gs.currentLocation].objects;
-        expect(objects).not.toContain("template_object");
+        expect(objects).not.toContain("demo_object");
     });
 
     test("drop object returns it to location", () => {
         engine.input("take object");
         engine.input("drop object");
         const gs = engine.devGetGameState();
-        expect(gs.inventory).not.toContain("template_object_pickedUp");
+        expect(gs.inventory).not.toContain("demo_object_pickedUp");
         expect(gs.locations[gs.currentLocation].objects).toContain(
-            "template_object"
+            "demo_object"
         );
     });
 
@@ -156,7 +156,7 @@ describe("textAdventureEngine parser & action integration tests (using template)
         );
         engine2.loadDatabaseFromObject(sampleGame);
         expect(engine2.devGetGameState().inventory).toContain(
-            "template_object_pickedUp"
+            "demo_object_pickedUp"
         );
     });
 });

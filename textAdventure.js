@@ -15,20 +15,28 @@ class textAdventureEngine {
     }
 
     async loadDatabaseFromFile(gamedatabasePath, showGameInfo = true) {
-        this.outputClear();
-        this.#writeOutputLines("Initializing Text Adventure Engine...");
-        this.outputClear();
-        const response = await fetch(gamedatabasePath);
-        const json = await response.json();
         this.showGameInfo = showGameInfo;
-        this.#initDatbase(json);
+        try {
+            this.outputClear();
+            this.#writeOutputLines("Initializing Text Adventure Engine...");
+            const response = await fetch(gamedatabasePath);
+            const json = await response.json();
+            this.outputClear();
+            this.#initDatbase(json);
+        } catch (err) {
+            console.error(err);
+            this.#writeOutputLines("Error loading game database!");
+        }
     }
 
     loadDatabaseFromObject(json) {
-        this.outputClear();
-        this.#writeOutputLines("Initializing Text Adventure Engine...");
-        this.outputClear();
-        this.#initDatbase(json);
+        try {
+            this.outputClear();
+            this.#initDatbase(json);
+        } catch (err) {
+            console.error(err);
+            this.#writeOutputLines("Error loading game database!");
+        }
     }
 
     input(cmd) {

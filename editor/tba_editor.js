@@ -307,7 +307,7 @@ function deleteDatabaseFromStorage() {
 
 async function getDefaultProjectJson() {
     try {
-        const response = await fetch("../templates/new_project.tadb.json");
+        const response = await fetch("../games/new_project.tadb.json");
         const json = await response.json();
         return JSON.stringify(json);
     } catch (err) {

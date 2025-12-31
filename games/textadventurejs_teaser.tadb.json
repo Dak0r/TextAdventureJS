@@ -1,11 +1,11 @@
 {
-  "$schema": "../textAdventureGameDatabase.schema.json",
+  "$schema": "https://dak0r.github.io/TextAdventureJS/textAdventureGameDatabase.schema.json",
   "general": {
     "title": "TextAdventureJS Teaser",
     "author": "Daniel Korgel",
     "version": "1.0",
     "request": ["", "What do you do?"],
-    "continue_enabled": true,
+    "continue_enabled": false,
     "start": {
       "text": ["", "", "", "You wake up with a headache..."],
       "commands": ["gotoLocation start_chamber"]

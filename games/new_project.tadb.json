@@ -1,5 +1,5 @@
 {
-  "$schema": "../textAdventureGameDatabase.schema.json",
+  "$schema": "https://dak0r.github.io/TextAdventureJS/textAdventureGameDatabase.schema.json",
   "general": {
     "title": "New TextAdventureJS Game",
     "author": "Your Name",
@@ -121,7 +121,7 @@
     }
   },
   "objects": {
-    "template_object": {
+    "demo_object": {
       "words": ["object", "obj"],
       "locationDescription": "An object is lying on the floor.",
       "actions": {
@@ -129,7 +129,7 @@
           "text": ["Okay got it."],
           "commands": [
             "objectRemoveFromLocation this",
-            "inventoryAdd template_object_pickedUp"
+            "inventoryAdd demo_object_pickedUp"
           ]
         },
         "look": {
@@ -139,14 +139,14 @@
       },
       "useableObjects": {}
     },
-    "template_object_pickedUp": {
+    "demo_object_pickedUp": {
       "words": ["object", "obj"],
       "locationDescription": "You are holding an object in your hands.",
       "actions": {
         "drop": {
           "text": ["Okay dropped it."],
           "commands": [
-            "objectAddToLocation template_object",
+            "objectAddToLocation demo_object",
             "inventoryRemove this"
           ]
         },
@@ -180,7 +180,7 @@
   },
   "locations": {
     "first_room": {
-      "objects": ["template_object", "door_to_second_room"]
+      "objects": ["demo_object", "door_to_second_room"]
     },
     "second_room": {
       "objects": ["door_to_first_room"]

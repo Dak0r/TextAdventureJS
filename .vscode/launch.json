@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "type": "chrome",
+            "name": "Editor",
+            "request": "launch",
+            "url": "http://127.0.0.1:3000/editor/index.html"
+        },
+        {
+            "type": "chrome",
+            "name": "Player",
+            "request": "launch",
+            "url": "http://127.0.0.1:3000/player/index.html"
+        }
+    ]
+}

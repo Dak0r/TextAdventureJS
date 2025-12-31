@@ -1,13 +1,17 @@
 # TextAdventureJS
 
 A text based adventure engine written in Javascript.
-This repo comes with a player that uses the engine as well as an editor to create games for it.
+Allows you to create your own text adventure games and embed them into your website or share and play them with included demo player.
+
+- Games are json files, that follow the textAdventureGameDatabase schema (tadb).
+- Editor folder contains an editor that allows to create games with a GUI.
+- Player folder contains a demo player that shows how to integreate the engine
 
 The library and the player are written in pure JavaScript.
-The editor uses jquery.
+The editor uses jQuery.
 
 ## Player
-<img src="./docs/player.gif" width="400" alt="Animated demo for the textAdventureJS player" />
+<img src="./shared/player.gif" width="400" alt="Animated demo for the textAdventureJS player" />
 
 Try it here: https://dak0r.github.io/TextAdventureJS/player/
 
@@ -15,44 +19,63 @@ Try it here: https://dak0r.github.io/TextAdventureJS/player/
 
 This repo also provides a full editor including debugger functionality for creating your own games:
 
-<img src="./docs/editor.jpg" width="600" alt="Animated demo for the textAdventureJS player" />
+<img src="./shared/editor.jpg" width="600" alt="Animated demo for the textAdventureJS player" />
 
 Try it here: https://dak0r.github.io/TextAdventureJS/editor/
 
 ## Usage
-
-A barebones example that uses jquery:
-
+Usage is simple: the engine needs to be initilized with a JS functions that allows the engine to write output and to clear all written output. Then any compatible game file can be loaded:
 ```js
-// Defines where to write output
-function witeLine(outputLine) {
-  $("#gameLog").append(outputLine + "<br />");
-}
-// Clears written output from the area
-function clearArea() {
-  $("#gameLog").html("");
-}
-// Read user input
-function readInput() {
-  const inputText = $("#inputField").val().trim();
-  writeLine(inputText);
-  textAdv.input(inputText);
-  $("#inputField").val("");
-}
-
-// Add event handler for reading user input:
-$("#submit").click(function() { readInput(); });
-
-// Init textAdventureJS and load a game
-var textAdvEngine = new textAdventureEngine(witeLine, clearArea);
-textAdvEngine.loadDatabaseFromFile("game.json");
+  var textAdvEngine = new textAdventureEngine(writeLine, clearArea);
+  textAdvEngine.loadDatabaseFromFile(
+    "https://dak0r.github.io/TextAdventureJS/games/new_project.tadb.json"
+  );
 ```
-with this html elements:
+A minimalistic working example, which uses jquery to keep it short:
 
 ```html
-<div id="gameLog"></div>
-<input id="inputField" type="text"/>
-<button id="submit">Submit</button>
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://dak0r.github.io/TextAdventureJS/textAdventure.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Defines where to write output
+        function writeLine(outputLine) {
+          $("#gameLog").append(outputLine + "<br />");
+        }
+        // Clears written output from the area
+        function clearArea() {
+          $("#gameLog").html("");
+        }
+        // Read user input
+        function readInput() {
+          const inputText = $("#inputField").val().trim();
+          writeLine(inputText);
+          textAdvEngine.input(inputText);
+          $("#inputField").val("");
+        }
+
+        // Add event handler for reading user input:
+        $("#submitButton").click(function () {
+          readInput();
+        });
+
+        // Init textAdventureJS and load a game
+        var textAdvEngine = new textAdventureEngine(writeLine, clearArea);
+        textAdvEngine.loadDatabaseFromFile(
+          "https://dak0r.github.io/TextAdventureJS/games/new_project.tadb.json"
+        );
+      });
+    </script>
+  </head>
+  <body>
+    <div id="gameLog" style="width: 600px; height: 500px"></div>
+    <input id="inputField" style="width: 500px" type="text" />
+    <button id="submitButton">Submit</button>
+  </body>
+</html>
 ```
 
 See [player/index.html](./player/index.html) for a more complex example.
