@@ -28,7 +28,7 @@ Usage is simple: the engine needs to be initilized with a JS functions that allo
 ```js
   var textAdvEngine = new textAdventureEngine(writeLine, clearArea);
   textAdvEngine.loadDatabaseFromFile(
-    "https://dak0r.github.io/TextAdventureJS/templates/new_project.tadb.json"
+    "https://dak0r.github.io/TextAdventureJS/games/new_project.tadb.json"
   );
 ```
 A minimalistic working example, which uses jquery to keep it short:
@@ -65,7 +65,7 @@ A minimalistic working example, which uses jquery to keep it short:
         // Init textAdventureJS and load a game
         var textAdvEngine = new textAdventureEngine(writeLine, clearArea);
         textAdvEngine.loadDatabaseFromFile(
-          "https://dak0r.github.io/TextAdventureJS/templates/new_project.tadb.json"
+          "https://dak0r.github.io/TextAdventureJS/games/new_project.tadb.json"
         );
       });
     </script>
