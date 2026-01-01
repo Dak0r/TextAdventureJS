@@ -1,11 +1,11 @@
 # TextAdventureJS
 
-A text based adventure engine written in Javascript.
+A text based adventure engine written in JavaScript.
 Allows you to create your own text adventure games and embed them into your website or share and play them with included demo player.
 
-- Games are json files, that follow the textAdventureGameDatabase schema (tadb).
+- Games are json files, that follow the textAdventureGameDatabase-schema (tadb).
 - Editor folder contains an editor that allows to create games with a GUI.
-- Player folder contains a demo player that shows how to integreate the engine
+- Player folder contains a demo player that shows how to integrate the engine
 
 The library and the player are written in pure JavaScript.
 The editor uses jQuery.
@@ -24,7 +24,7 @@ This repo also provides a full editor including debugger functionality for creat
 Try it here: https://dak0r.github.io/TextAdventureJS/editor/
 
 ## Usage
-Usage is simple: the engine needs to be initilized with a JS functions that allows the engine to write output and to clear all written output. Then any compatible game file can be loaded:
+Usage is simple: the engine needs to be initialized with a JS functions that allows the engine to write output and to clear all written output. Then any compatible game file can be loaded:
 ```js
   var textAdvEngine = new textAdventureEngine(writeLine, clearArea);
   textAdvEngine.loadDatabaseFromFile(
@@ -96,7 +96,7 @@ Each game exists of `objects` which are either in the players inventory or in `l
 
 Locations are basically groups of `objects`.
 
-The description text of a location soley exists of the objects which can be found in it. This means an empty location has no description. Thus a location should always have at least one object, at any given moment.
+The description text of a location solely exists of the objects which can be found in it. This means an empty location has no description. Thus a location should always have at least one object, at any given moment.
 
 ### Verbs
 
@@ -135,7 +135,7 @@ To close the chest again, you can use `objectReplaceInLocation` again in `chest_
 
 #### Object specific failure texts
 
-If the player tries to do soemthing with an object and the action is not defined, the engine will output the default verb failure sentance. In some cases you might find it more immersive to have an object specfic failure text, though verbs have no object specifc failures, as they usually will vary by object.
+If the player tries to do something with an object and the action is not defined, the engine will output the default verb failure sentence. In some cases you might find it more immersive to have an object specific failure text, though verbs have no object specific failures, as they usually will vary by object.
 
 So In this case, you simply have to add the verb as an action to the object and add your failure message as text to the action.
 
@@ -152,7 +152,7 @@ Commands must be used for any logic that goes beyond outputting text. You can ch
 
 #### 'this' in command parameters
 
-If the command is supposed to affect the object that the action is defined on, you can refer to it using `this` instead of its unique nanme.
+If the command is supposed to affect the object that the action is defined on, you can refer to it using `this` instead of its unique name.
 
 #### objectRemoveFromLocation
 
@@ -235,8 +235,8 @@ Defined events are:
 
 - `command`: a command was successfully parsed
 - `unknown_verb`: the user tried to use a verb that is not defined
-- `unknwon_object`: the user tried to use an object that is not present in the players current location or inventory.
-- `unkown_verb_for_object`: the user tried to do something with an object that is not defined
+- `unknown_object`: the user tried to use an object that is not present in the players current location or inventory.
+- `unknown_verb_for_object`: the user tried to do something with an object that is not defined
 - `unknown_command`: other parsing error
 
 Each event contains a body, that includes:
