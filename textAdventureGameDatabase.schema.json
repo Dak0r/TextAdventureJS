@@ -111,7 +111,7 @@
       }
     },
     "objects": {
-      "description": "List of objecs that are available throughout the game",
+      "description": "List of objects that are available throughout the game",
       "type": "object",
       "additionalProperties": {
         "type": "object",
@@ -129,13 +129,6 @@
           },
           "actions": {
             "description": "List of verbs that can be used with this object and what should happen",
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/action_definition"
-            }
-          },
-          "useableObjects": {
-            "description": "List of possible combinations",
             "type": "object",
             "additionalProperties": {
               "$ref": "#/definitions/action_definition"

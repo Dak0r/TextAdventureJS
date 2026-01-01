@@ -1,16 +1,17 @@
 # TextAdventureJS
 
-A text based adventure engine written in Javascript.
-Allows you to create your own text adventure games and embed them into your website or share and play them with included demo player.
+A text based adventure engine written in JavaScript.
+Create your own text adventure games and embed them into your website, or share and play them with the included demo player.
 
-- Games are json files, that follow the textAdventureGameDatabase schema (tadb).
+- Games are json files, that follow the textAdventureGameDatabase-schema (tadb).
 - Editor folder contains an editor that allows to create games with a GUI.
-- Player folder contains a demo player that shows how to integreate the engine
+- Player folder contains a demo player that shows how to integrate the engine
 
 The library and the player are written in pure JavaScript.
 The editor uses jQuery.
 
 ## Player
+
 <img src="./shared/player.gif" width="400" alt="Animated demo for the textAdventureJS player" />
 
 Try it here: https://dak0r.github.io/TextAdventureJS/player/
@@ -24,13 +25,16 @@ This repo also provides a full editor including debugger functionality for creat
 Try it here: https://dak0r.github.io/TextAdventureJS/editor/
 
 ## Usage
-Usage is simple: the engine needs to be initilized with a JS functions that allows the engine to write output and to clear all written output. Then any compatible game file can be loaded:
+
+Usage is simple: the engine needs to be initialized with a JS functions that allows the engine to write output and to clear all written output. Then any compatible game file can be loaded:
+
 ```js
-  var textAdvEngine = new textAdventureEngine(writeLine, clearArea);
-  textAdvEngine.loadDatabaseFromFile(
-    "https://dak0r.github.io/TextAdventureJS/games/new_project.tadb.json"
-  );
+var textAdvEngine = new textAdventureEngine(writeLine, clearArea);
+textAdvEngine.loadDatabaseFromFile(
+  "https://dak0r.github.io/TextAdventureJS/games/new_project.tadb.json"
+);
 ```
+
 A minimalistic working example, which uses jquery to keep it short:
 
 ```html
@@ -80,13 +84,13 @@ A minimalistic working example, which uses jquery to keep it short:
 
 See [player/index.html](./player/index.html) for a more complex example.
 
-## Game Database
+## Game Databases
 
-A Text Adventure Game Database is JSON file which describes games that can run in the TextAdventureJS Engine.
+A Text Adventure Game Database is JSON file which describes a game that can run in the TextAdventureJS Engine.
 
-These game files can be validated using the JSON schema in this repo: [textAdventureGameDatabase.schema.json](./textAdventureGameDatabase.schema.json).
+Game files are expected to match this JSON schema: [textAdventureGameDatabase.schema.json](./textAdventureGameDatabase.schema.json). The engine is not validating the schema as this would cause external dependencies. If desired, I suggest to handle it in the player, before passing the file or object to the engine.
 
- I recommend using the [JSON Schema Validator](https://marketplace.visualstudio.com/items?itemName=tberman.json-schema-validator), if editing the json files manually.
+In VSCode I can recommend using the [JSON Schema Validator](https://marketplace.visualstudio.com/items?itemName=tberman.json-schema-validator) Addon, if editing the JSON files manually. Alternatively [this browser based solution](https://www.jsonschemavalidator.net/) works well, too.
 
 ## Concept
 
@@ -96,7 +100,7 @@ Each game exists of `objects` which are either in the players inventory or in `l
 
 Locations are basically groups of `objects`.
 
-The description text of a location soley exists of the objects which can be found in it. This means an empty location has no description. Thus a location should always have at least one object, at any given moment.
+The description text of a location solely exists of the objects which can be found in it. This means an empty location has no description. Thus a location should always have at least one object, at any given moment.
 
 ### Verbs
 
@@ -135,14 +139,16 @@ To close the chest again, you can use `objectReplaceInLocation` again in `chest_
 
 #### Object specific failure texts
 
-If the player tries to do soemthing with an object and the action is not defined, the engine will output the default verb failure sentance. In some cases you might find it more immersive to have an object specfic failure text, though verbs have no object specifc failures, as they usually will vary by object.
+If the player tries to do something with an object and the action is not defined, the engine will output the default verb failure sentence. In some cases you might find it more immersive to have an object specific failure text, though verbs have no object specific failures, as they usually will vary by object.
 
 So In this case, you simply have to add the verb as an action to the object and add your failure message as text to the action.
 
 ### Placeholders
+
 When adding a text to an action, you can use predefined placeholders which will be filled in automatically when the text is written. If the placeholder does not apply in the given context, the value is not replaced.
 
 Existing placeholders are:
+
 - `{verb}` is replaced with the word the player used to describe the verb / action
 - `{object}` is replaced with the word the player used to describe the object
 
@@ -152,7 +158,7 @@ Commands must be used for any logic that goes beyond outputting text. You can ch
 
 #### 'this' in command parameters
 
-If the command is supposed to affect the object that the action is defined on, you can refer to it using `this` instead of its unique nanme.
+If the command is supposed to affect the object that the action is defined on, you can refer to it using `this` instead of its unique name.
 
 #### objectRemoveFromLocation
 
@@ -235,8 +241,8 @@ Defined events are:
 
 - `command`: a command was successfully parsed
 - `unknown_verb`: the user tried to use a verb that is not defined
-- `unknwon_object`: the user tried to use an object that is not present in the players current location or inventory.
-- `unkown_verb_for_object`: the user tried to do something with an object that is not defined
+- `unknown_object`: the user tried to use an object that is not present in the players current location or inventory.
+- `unknown_verb_for_object`: the user tried to do something with an object that is not defined
 - `unknown_command`: other parsing error
 
 Each event contains a body, that includes:
@@ -258,10 +264,12 @@ function analyticsFunction(eventName, eventData) {
 ## Testing
 
 ## Running Editor and Player locally
+
 Running the editor and player html files locally requires a local webserver.
 I recommend the `ms-vscode.live-server` extension for vscode.
 
 ### Unit Tests
+
 Quick steps to run tests locally:
 
 1. Install Node.js from https://nodejs.org/ if you don't already have it.
