@@ -123,7 +123,7 @@ $(document).ready(function () {
         ) {
             e.preventDefault();
             if (window.showOpenFilePicker) {
-                // mimic click handler behaviour but keep it simple for keyboard
+                // mimic click handler behavior but keep it simple for keyboard
                 $(".file-drop-area").click();
             } else {
                 $("#fileInput").click();
@@ -319,10 +319,10 @@ async function getDefaultProjectJson() {
 function updateEditorState() {
     if (TBA_DATABASE !== undefined) {
         $("#drop-area").hide();
-        $("#editor-aera").show();
+        $("#editor-area").show();
     } else {
         $("#drop-area").show();
-        $("#editor-aera").hide();
+        $("#editor-area").hide();
     }
 }
 
@@ -1414,7 +1414,7 @@ function generateTextArea(name, value, onChange) {
 
 function getNewVerb(name) {
     var newVerb = {};
-    newVerb["failure"] = "That didnt work.";
+    newVerb["failure"] = "That didn't work.";
     newVerb["words"] = [name];
     return newVerb;
 }

@@ -121,30 +121,6 @@
     }
   },
   "objects": {
-    "template_object": {
-      "words": ["desk", "desktop", "workingplace"],
-      "locationDescription": "",
-      "actions": {
-        "pickup": {
-          "text": ["okay got it"],
-          "commands": ["inventoryAdd template_object"]
-        },
-        "look": {
-          "text": ["soft and comfy"],
-          "commands": []
-        }
-      },
-      "useableObjects": {
-        "bedroom_desk": {
-          "text": ["soft and comfy"],
-          "commands": []
-        },
-        "test": {
-          "text": ["works"],
-          "commands": []
-        }
-      }
-    },
     "plaster_wall_door_unidentified": {
       "words": ["wall", "walls", "plaster", "metal"],
       "locationDescription": "Plaster is crumbling from the WALLS.",
@@ -165,8 +141,7 @@
           "text": ["Why would you do that?"],
           "commands": []
         }
-      },
-      "useableObjects": {}
+      }
     },
     "plaster_wall_door_door_visible": {
       "words": ["wall", "walls"],
@@ -187,8 +162,7 @@
             "objectRemoveFromLocation metal_behind_plaster"
           ]
         }
-      },
-      "useableObjects": {}
+      }
     },
     "plaster_wall_door_door_found": {
       "words": ["wall", "rusty", "door"],
@@ -206,8 +180,7 @@
           "text": ["You open the rusty door and enter a hallway."],
           "commands": ["gotoLocation long_hallway"]
         }
-      },
-      "useableObjects": {}
+      }
     },
     "metal_behind_plaster": {
       "words": ["rust", "rusty", "metal", "plaster"],
@@ -234,8 +207,7 @@
             "objectRemoveFromLocation metal_behind_plaster"
           ]
         }
-      },
-      "useableObjects": {}
+      }
     },
     "room_start_chamber_dark": {
       "words": ["room"],
@@ -253,10 +225,9 @@
           "text": ["If only you'd had something to enlighten the room with..."],
           "commands": []
         }
-      },
-      "useableObjects": {}
+      }
     },
-    "room_start_chamber_enlighted": {
+    "room_start_chamber_enlightened": {
       "words": ["room"],
       "locationDescription": "The room is slightly lit.",
       "actions": {
@@ -268,8 +239,7 @@
           "text": ["The room is already slightly illuminated."],
           "commands": []
         }
-      },
-      "useableObjects": {}
+      }
     },
     "box_matches_unidentified": {
       "words": ["box"],
@@ -288,8 +258,7 @@
           ],
           "commands": []
         }
-      },
-      "useableObjects": {}
+      }
     },
     "box_matches_pickedUp": {
       "words": ["box", "matches", "matchbox", "match"],
@@ -297,22 +266,22 @@
       "actions": {
         "use": {
           "text": [
-            "You light the last match. The room is now slightly illumanted."
+            "You light the last match. The room is now slightly illuminated."
           ],
           "commands": [
             "objectReplaceInLocation plaster_wall_door_unidentified plaster_wall_door_door_visible",
-            "objectReplaceInLocation room_start_chamber_dark room_start_chamber_enlighted",
+            "objectReplaceInLocation room_start_chamber_dark room_start_chamber_enlightened",
             "objectAddToLocation metal_behind_plaster",
             "inventoryRemove box_matches_pickedUp"
           ]
         },
         "light": {
           "text": [
-            "You light the last match. The room is now slightly illumanted."
+            "You light the last match. The room is now slightly illuminated."
           ],
           "commands": [
             "objectReplaceInLocation plaster_wall_door_unidentified plaster_wall_door_door_visible",
-            "objectReplaceInLocation room_start_chamber_dark room_start_chamber_enlighted",
+            "objectReplaceInLocation room_start_chamber_dark room_start_chamber_enlightened",
             "objectAddToLocation metal_behind_plaster",
             "inventoryRemove box_matches_pickedUp"
           ]
@@ -328,8 +297,7 @@
           "text": ["An almost empty box of matches."],
           "commands": []
         }
-      },
-      "useableObjects": {}
+      }
     },
     "box_matches_dropped": {
       "words": ["box", "matches", "matchbox"],
@@ -346,8 +314,7 @@
           "text": ["A small box of matches, that you dropped here..."],
           "commands": []
         }
-      },
-      "useableObjects": {}
+      }
     },
     "room_hallway": {
       "words": ["room", "hallway"],
@@ -357,8 +324,7 @@
           "text": [""],
           "commands": []
         }
-      },
-      "useableObjects": {}
+      }
     },
     "exit_light": {
       "words": ["light", "exit"],
@@ -376,8 +342,7 @@
           ],
           "commands": []
         }
-      },
-      "useableObjects": {}
+      }
     },
     "exit_light_without_leaflet": {
       "words": ["light", "exit"],
@@ -395,8 +360,7 @@
           ],
           "commands": []
         }
-      },
-      "useableObjects": {}
+      }
     },
     "dev_leaflet_on_ground": {
       "words": ["leaflet", "notice", "paper"],
@@ -416,8 +380,7 @@
             "inventoryAdd dev_leaflet_pickedUp"
           ]
         }
-      },
-      "useableObjects": {}
+      }
     },
     "dev_leaflet_pickedUp": {
       "words": ["leaflet", "notice", "paper"],
@@ -438,8 +401,7 @@
             "inventoryRemove dev_leaflet_pickedUp"
           ]
         }
-      },
-      "useableObjects": {}
+      }
     }
   },
   "locations": {

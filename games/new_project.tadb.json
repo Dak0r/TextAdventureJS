@@ -136,8 +136,7 @@
           "text": ["A mysterious object."],
           "commands": []
         }
-      },
-      "useableObjects": {}
+      }
     },
     "demo_object_pickedUp": {
       "words": ["object", "obj"],
@@ -154,8 +153,7 @@
           "text": ["A mysterious object."],
           "commands": []
         }
-      },
-      "useableObjects": {}
+      }
     },
     "door_to_second_room": {
       "words": ["door", "north", "up"],

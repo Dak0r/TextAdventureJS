@@ -14,15 +14,15 @@ class textAdventureEngine {
         this.analyticsFunction = analyticsFunction;
     }
 
-    async loadDatabaseFromFile(gamedatabasePath, showGameInfo = true) {
+    async loadDatabaseFromFile(gameDatabasePath, showGameInfo = true) {
         this.showGameInfo = showGameInfo;
         try {
             this.outputClear();
             this.#writeOutputLines("Initializing Text Adventure Engine...");
-            const response = await fetch(gamedatabasePath);
+            const response = await fetch(gameDatabasePath);
             const json = await response.json();
             this.outputClear();
-            this.#initDatbase(json);
+            this.#initDatabase(json);
         } catch (err) {
             console.error(err);
             this.#writeOutputLines("Error loading game database!");
@@ -32,7 +32,7 @@ class textAdventureEngine {
     loadDatabaseFromObject(json) {
         try {
             this.outputClear();
-            this.#initDatbase(json);
+            this.#initDatabase(json);
         } catch (err) {
             console.error(err);
             this.#writeOutputLines("Error loading game database!");
@@ -43,7 +43,7 @@ class textAdventureEngine {
         this.#praseCommand(cmd);
     }
 
-    #initDatbase(gameDatabaseObject) {
+    #initDatabase(gameDatabaseObject) {
         this.#database = gameDatabaseObject;
 
         if (
@@ -301,7 +301,7 @@ class textAdventureEngine {
                 this.#gameState.currentLocation
             ).objects.push(acts[2]);
         } else if (acts[0] == "gotoLocation") {
-            console.log("SIWTCHING LOCATION TO:" + acts[1]);
+            console.log("SWITCHING LOCATION TO:" + acts[1]);
             this.#gameState.currentLocation = acts[1];
             const currentRoomState = this.#getLocationState(
                 this.#gameState.currentLocation
