@@ -1,7 +1,7 @@
 # TextAdventureJS
 
 A text based adventure engine written in JavaScript.
-Allows you to create your own text adventure games and embed them into your website or share and play them with included demo player.
+Create your own text adventure games and embed them into your website, or share and play them with the included demo player.
 
 - Games are json files, that follow the textAdventureGameDatabase-schema (tadb).
 - Editor folder contains an editor that allows to create games with a GUI.
